@@ -1,0 +1,85 @@
+< Web Crawling  - 8/3 ~ 8/5 >
+
+Ch 0. 개념
+1) URL(Uniform Resource Locator)
+- 구성
+	- Protocol + Domain(Sub Do+ Do) + port + path + page + query + fragment
+ex)	https:// + news.naver.com + :80 + /main/ : + read.nhn + ?mode=LSD&mid=shm&sid1=105&oid=001&aid=0009847211 + #da_727145
+
+2) GET & POST
+- GET 방식 : URL에 데이터가 포함되어 있으며 길이제한이 있다. 데이터가 노출되어 있다는 단점이 있음.
+
+- POST 방식 : body에 데이터가 포함되어 있어 데이터가 숨겨져 있음.	
+
+3) OSI 7계층
+- Application + Presentation + Session + Transport + Network + Data Link + Physical
+
+4) Cookie & Session & Cache
+- Cookie : Client에 저장하는 문자열 데이터로, 도메인 별로 따로 저장
+- Session : Server에 저장하는 객체 데이터로, 브라우저와 연결시 Session ID 생성
+- Cache : Client나 Server의 메모리에 저장하여 빠르게 데이터를 가져오는 목적의 저장소
+
+5) HTTP Status Code
+- 서버와 클라이언트가 데이터를 주고 받으면 주고 받은 결과를 상태코드를 통해 확인할 수 있다.
+	- 2xx : success
+	- 3xx : redirection(browser cache)
+	- 4xx : request error
+	- 5xx : server error
+
+6) Web Language & Framwork 
+- Client
+	- HTML / CSS / JavaScript(vue.js/react.js/angelar.js/backborn.js)
+- Server
+	- Python(Django/Flask) / Java(Spring) / Ruby(Rails) / Javascript(Node.js) / Scala(Play)
+ 
+7) Scraping & Crawling & Spider or Web crawler & Bot
+
+Ch1. Request_JSON
+- 웹 페이지의 종류
+	- 정적 페이지 : 페이지의 데이터가 변경될 때 URL이 변경 -> HTML ( 나중에... )
+	- 동적 페이지 : 페이지의 데이터가 변경될 때 URL이 고정 -> JSON ( 지금 )
+
+- request package
+	: 브라우저에서 URL 입력하면 서버에서 데이터를 다운받아 화면에 출력하듯이, request 패키지 또한 같은 역할을 함 ( URL -> DATA )
+
+- 과정
+	#1. 웹서비스를 분석 : chrome 개발자 도구 사용 -> URL 알아내기
+	#2. request(url) -> response : JSON(str)
+	#3. JSON(str) -> list, dict -> DataFrame
+	ex)
+	url='~~~'
+	response=requests.get(url)
+	data=response.json()
+	df=pd.DataFrame(data)
+	
++) 데이터 분석
+	- 상관관계분석 : 두 데이터 집합 사이에 어떤 관계가 있는지 확인하는 분석방법
+	ex) 피어슨 상관계수 : df.corr() 
+		- 1과 가까울수록 강한 양의 상관관계 / -1과 가까울수록 강한 음의 상관관계
+
+★ docstring : 함수를 사용하는 방법을 문자열로 작성
+	- 함수 설명 / parameters / return 에 대한 설명을 포함
+	- hlep() or shift+tab 사용
+
+☆copy() & apply() & lambda
+
+Ch2. Request_API
+- API(Application Programming Interface)를 사용하여 데이터를 수집하는 것으로, 서비스에 데이터를 제공하는 공식적인 방법
+
+- 과정 
+	# 1. App 등록 -> app_key(==request token) 얻기
+	# 2. Document 확인하여 요청 URL과 POST방식 parameters이 확인
+	# 3. request(url, app_key) -> response(json) : JSON(str)
+	# 4. JSON(str) -> list, dict -> DataFrame
+	ex)
+	CLIENT_ID, CLIENT_SECRET = "id", "key"
+	url
+	param={}
+	header={}
+	response=requests.post(url, json.dumps(params), headers=headers)
+	data=response.json()
+	df=pd.DataFrame(data)
+
+☆
+-  json.dump() : 인터넷 트래픽에서는 영문, 숫자, 특수문자만 사용가능하지만 한글과 같은 문자를 인코딩(영문,숫자,특수문자)해줌
+- ascii : 영문 숫자 특수문자 & euc-kr : + 한글 & utf-8 : + 모든 언어
