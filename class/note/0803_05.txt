@@ -68,7 +68,7 @@ Ch2. Request_API
 
 - 과정 
 	# 1. App 등록 -> app_key(==request token) 얻기
-	# 2. Document 확인하여 요청 URL과 POST방식 parameters이 확인
+	# 2. Document 확인하여 요청 URL과 POST방식 parameters이 확인( 문서 확인 or payload 확인 )
 	# 3. request(url, app_key) -> response(json) : JSON(str)
 	# 4. JSON(str) -> list, dict -> DataFrame
 	ex)
@@ -83,3 +83,58 @@ Ch2. Request_API
 ☆
 -  json.dump() : 인터넷 트래픽에서는 영문, 숫자, 특수문자만 사용가능하지만 한글과 같은 문자를 인코딩(영문,숫자,특수문자)해줌
 - ascii : 영문 숫자 특수문자 & euc-kr : + 한글 & utf-8 : + 모든 언어
+
+Ch3. HTML & CSS_Selector
+- HTML
+	- 웹문서를 작성하는 언어
+	- 구성요소 
+		1) Document : 한 페이지를 나타내는 코드
+		2) Element : 하나의 레이아웃 ( Element가 모여 Document를 만듦)
+		3) Tag : Element의 종류를 정의 ( 시작태그 + 끝태그 = Element)
+		4) Attribute : 속성값 ( 시작태그에서 태그의 기능 정의)
+			- id : element를 지정하는 페이지 내에서 유일한 값
+			- class : element를 지정하는 값으로 페이지 내에서 여러 개 사용 가능
+			- attr :  id와 class를 제외한 나머지 속성 값
+		5) Text : 시작태그와 끝태그 사이의 문자열
+	- Element는 계층적 구조를 갖음.
+
+- HTML 태그 종류
+	- p : 한줄의 문자열 출력 
+	- span : 한 블럭의 문자열 출력
+	- ul, li : 리스트 문자열 출력 ex) <ul> <li></li> <li></li> </ul>
+	- a: 링크를 나타내는 태그 ex) <a href="url">
+	- img : 이미지를 출력하는 태그 ex) <img src="url">
+	- iframe : 외부 url 링크에 해당하는 웹페이지를 출력 ex) <iframe src="url">
+	- div : 레이아웃을 나타내는 태그
+	- table : 행열 데이터를 출력 ex) <thead><tr><th></th></tr></thead><tbody><tr><td></td><td></td></tr></tbody><tfoot><tr><td></td></tr></tfoot>
+
+- CSS Selector
+	- CSS 스타일을 적용시킬 HTML Element를 선택하는 방법 ( code 참고 )
+		1) Element tag 이름으로 선택 ex) span
+		2) tag의 id 값으로 선택	ex) #"id"
+		3) tag의 class 값으로 선택	ex) ."class"
+		4) tag의 attr 값으로 선택	ex) [value="name"]
+	- 여러 개의 Element를 선택
+		1) not selector ex) .c1:not(.c2) : c1 class 중 c2 class 빼고 모두 선택
+		2) n번째 element 선택 ex) .c1:nth-child(2) : 2번째 element 중에서 c1 class 모두 선택 ( 주의!!! c1 class 중 2번째가 아님 )
+		3) 계층적으로 Element 선택 ex) .c1 > p : c1 class 한 계층 아래 모든 p tag 선택 vs .c1 p : c1 clss 아래 모든 p tag 선택 
+		4) 여러개 Element 선택 ex) .c1 .c2 : c1, c2 class 선택
+
+Ch4. 정적 페이지 데이터 수집
+- from bs4 import BeautifulSoup : HTML(str)을 CSS Selector를 이용하여 Element 선택!
+- 과정
+	# 1. 웹서비스 분석 : URL
+	# 2. request(url) -> response(html) : HTML(str)
+	# 3. HTML(str) -> BeautifulSoup Object 
+	# 4. BeautifulSoup Object  - (CSS Selector) -> Data or DataFrame
+		- dom.select() & dom.select_one()
+
+
+★ requests 요청 시, 403 error가 난다면 headers(user-agent, referer, cookie 등...)가 필요할 수 있다. ( 시행착오로 알아가야함ㅠㅠ )
+
+★ list comprehension : 간단한 for, if문을 사용하여 리스트 데이터를 만들 때 사용하는 방법 ex) arr = [ num**2 for num in range(10) if num%2==0 ]
+
++) 크롤링 정책
+- robots.txt : 웹사이트에 크롤러와 같은 로봇이 접근하는 것을 방지하기 위한 규약 ex) https://www.ted.com/robots.txt
+- 크롤링에 대한 법적 제재는 없으나 과도한 크롤링으로 서비스에 영향을 주었을 때는 영업방해, 지적재산권 침해 등 문제가 될 수 있다.
+- 따라서, api를 통해 크롤링을 하도록....
