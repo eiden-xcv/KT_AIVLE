@@ -34,7 +34,7 @@ ex)	https:// + news.naver.com + :80 + /main/ : + read.nhn + ?mode=LSD&mid=shm&si
  
 7) Scraping & Crawling & Spider or Web crawler & Bot
 
-Ch1. Request_JSON
+Ch 1. Request_JSON
 - 웹 페이지의 종류
 	- 정적 페이지 : 페이지의 데이터가 변경될 때 URL이 변경 -> HTML ( 나중에... )
 	- 동적 페이지 : 페이지의 데이터가 변경될 때 URL이 고정 -> JSON ( 지금 )
@@ -63,7 +63,7 @@ Ch1. Request_JSON
 
 ☆copy() & apply() & lambda
 
-Ch2. Request_API
+Ch 2. Request_API
 - API(Application Programming Interface)를 사용하여 데이터를 수집하는 것으로, 서비스에 데이터를 제공하는 공식적인 방법
 
 - 과정 
@@ -84,7 +84,7 @@ Ch2. Request_API
 -  json.dump() : 인터넷 트래픽에서는 영문, 숫자, 특수문자만 사용가능하지만 한글과 같은 문자를 인코딩(영문,숫자,특수문자)해줌
 - ascii : 영문 숫자 특수문자 & euc-kr : + 한글 & utf-8 : + 모든 언어
 
-Ch3. HTML & CSS_Selector
+Ch 3. HTML & CSS_Selector
 - HTML
 	- 웹문서를 작성하는 언어
 	- 구성요소 
@@ -120,14 +120,15 @@ Ch3. HTML & CSS_Selector
 		3) 계층적으로 Element 선택 ex) .c1 > p : c1 class 한 계층 아래 모든 p tag 선택 vs .c1 p : c1 clss 아래 모든 p tag 선택 
 		4) 여러개 Element 선택 ex) .c1 .c2 : c1, c2 class 선택
 
-Ch4. 정적 페이지 데이터 수집
+Ch 4. 정적 페이지 데이터 수집
 - from bs4 import BeautifulSoup : HTML(str)을 CSS Selector를 이용하여 Element 선택!
 - 과정
 	# 1. 웹서비스 분석 : URL
 	# 2. request(url) -> response(html) : HTML(str)
 	# 3. HTML(str) -> BeautifulSoup Object 
+		-dom = BeatutifulSoup(response.txt, 'html.parser')	<- ☆
 	# 4. BeautifulSoup Object  - (CSS Selector) -> Data or DataFrame
-		- dom.select() & dom.select_one()
+		- dom.select() & dom.select_one()			<- ☆
 
 
 ★ requests 요청 시, 403 error가 난다면 headers(user-agent, referer, cookie 등...)가 필요할 수 있다. ( 시행착오로 알아가야함ㅠㅠ )
@@ -138,3 +139,53 @@ Ch4. 정적 페이지 데이터 수집
 - robots.txt : 웹사이트에 크롤러와 같은 로봇이 접근하는 것을 방지하기 위한 규약 ex) https://www.ted.com/robots.txt
 - 크롤링에 대한 법적 제재는 없으나 과도한 크롤링으로 서비스에 영향을 주었을 때는 영업방해, 지적재산권 침해 등 문제가 될 수 있다.
 - 따라서, api를 통해 크롤링을 하도록....
+
+Ch 5. Selenium
+- 브라우저의 자동화 목적으로 만들어진 다양한 브라우저와 언어를 지원하는 라이브러리
+- 브라우저를 파이썬 코드로 컨트롤하여 브라우저에 있는 데이터 수집
+- ex) 
+	driver =driver.Chrome()
+	driver.get(url)
+	elements = driver.find_elements(By.CSS_SELECTOR, selector)
+	....
+- Headless
+	- 브라우저를 화면에 띄우지 않고 메모리 상에서만 브라우저를 실행하여 크롤링하는 방법
+
+Ch 6. Scrapy
+- 웹사이트에서 데이터 수집을 위한 오픈소스 파이썬 프레임워크로, 멀티스레딩으로 데이터 수집
+- xpath : HTML에서 element를 선택하는 방법으로, scrapy에서 기본적으로 사용하는 selector
+- from scrapy.http import TextResponse 
+- 과정
+	# 1. 스크래피 프로젝트 생성 ( !scrapy startproject gmarket )
+	# 2. xpath 찾기 
+	# 3. items.py : 코드 작성 -> model ( 데이터 구조 : 수집할 데이터의 칼럼을 정의 )
+	# 4. spider.py : 코드 작성 -> 크롤링 절차 정의
+	# 5. 스크래피 프로젝트 실행
+│  scrapy.cfg
+│  
+└─gmarket
+    │  items.py : 수집할 데이터의 구조 정의
+    │  middlewares.py : 데이터를 수집할 때 headers 정보와 같은 내용 설정
+    │  pipelines.py : 데이터를 수집한 후에 코드 실행 정의
+    │  settings.py : 크롤링 설정 ( 크롤링 시간 간격, robots.txt 규칙 등 )
+    │  __init__.py
+    │  
+    └─spiders ( 크롤링 절차 정의 )
+            __init__.py
+	spdier.py ( 크롤링 절차 정의 )
+
+
++) with 문법
+-with {Experssion} as {Variable} :
+		Block
+- 자원을 획득하고 사용 후 반납해야 하는 경우 주로 사용함 ( 자원 획득 -> 사용 -> 반납 프로세스 )
+ex) with open(f'{path}/test.png', 'wb') as file :
+    	file.write(response.content)
+- 컨텍스트 매니저
+	- __enter__(self) : with문 진입 시 자동으로 호출
+	- __exit__(self, type, value, traceback ) : with문 끝나기 직전에 자동으로 호출
+
++) yield
+- iterator : next()를 호출할 때 다음 값을 생성해내는 상태를 가진 헬퍼 객체
+- genartor : iterator를 간단하게 구현한 문법 ( ex. def fib() : )
+- yield : 일반 함수를 generator로 만들어주는 명령어로, next 함수를 실행해서 yield를 만나면 코드 실행 중단
