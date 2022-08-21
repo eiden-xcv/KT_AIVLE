@@ -112,14 +112,38 @@
 
 ## 5. Selenium
 > * 브라우저의 자동화 목적으로 만들어진 다양한 브라우저와 언어를 지원하는 라이브러리
-> * 브라우저를 파이썬 코드로 컨트롤하여 브라우저에 있는 데이터 수집\
+> * 브라우저를 파이썬 코드로 컨트롤하여 브라우저에 있는 데이터 수집
 > * ex)
 ```   
-   driver =driver.Chrome()
+   driver = driver.Chrome()
    driver.get(url)
    elements = driver.find_elements(By.CSS_SELECTOR, selector)
 ```
+> * Headless : 브라우저를 화면에 띄우지 않고 메모리 상에서만 브라우저를 실행하여 크롤링하는 방법
 
+## 6. Scrapy
+> * 웹사이트에서 데이터 수집을 위한 오픈소스 파이썬 프레임워크로, 멀티스레딩으로 데이터 수집
+> * xpath : HTML에서 element를 선택하는 방법으로, scrapy에서 기본적으로 사용하는 selector
+> * from scrapy.http import TextResponse 
+> * 과정
+>    1) 스크래피 프로젝트 생성 (!scrapy startproject gmarket)
+>    2) xpath 찾기
+>    3) items.py : 코드 작성 -> model (데이터 구조 : 수집할 데이터의 칼럼을 정의)
+>    4) spider.py : 코드 작성 -> 크롤링 절차 정의
+>    5) 스크래피 프로젝트 실행   
+>    │  scrapy.cfg   
+>    │     
+>    └─gmarket   
+>    │ - items.py : 수집할 데이터의 구조 정의   
+>    │ - middlewares.py : 데이터를 수집할 때 headers 정보와 같은 내용 설정   
+>    │ - pipelines.py : 데이터를 수집한 후에 코드 실행 정의   
+>    │ - settings.py : 크롤링 설정 (크롤링 시간 간격, robots.txt 규칙 등)   
+>    │ - __init__.py   
+>    │     
+>    └─spiders (크롤링 절차 정의)   
+>    | - __init__.py   
+>    | - spdier.py (크롤링 절차 정의)   
+ 
 ## 참고
 > ### 1. docstring : 함수를 사용하는 방법을 문자열로 작성
 >  * 함수 설명 / parameters / return 에 대한 설명을 포함
@@ -133,3 +157,14 @@
 > * robots.txt : 웹사이트에 크롤러와 같은 로봇이 접근하는 것을 방지하기 위한 규약 ex) https://www.ted.com/robots.txt
 > * 크롤링에 대한 법적 제재는 없으나 과도한 크롤링으로 서비스에 영향을 주었을 때는 영업방해, 지적재산권 침해 등 문제가 될 수 있다.
 > * 따라서, api를 통해 크롤링을 하도록....
+> ### 5. with 문법
+>    * with {Experssion} as {Variable} : Coed Block
+>    * 자원을 획득하고 사용 후 반납해야 하는 경우 주로 사용함 (자원 획득 -> 사용 -> 반납 프로세스)   
+>    ex) `with open(f'{path}/test.png', 'wb') as file : file.write(response.content)`
+>    * 컨텍스트 매니저
+>	     * __enter__(self) : with문 진입 시 자동으로 호출
+>	     * __exit__(self, type, value, traceback ) : with문 끝나기 직전에 자동으로 호출
+> ### 6. yield
+>    * iterator : next()를 호출할 때 다음 값을 생성해내는 상태를 가진 헬퍼 객체
+>    * genartor : iterator를 간단하게 구현한 문법 ( ex. def fib() : )
+>    * yield : 일반 함수를 generator로 만들어주는 명령어로, next 함수를 실행해서 yield를 만나면 코드 실행 중단
