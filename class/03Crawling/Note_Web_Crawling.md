@@ -160,11 +160,15 @@
 > ### 5. with 문법
 >    * with {Experssion} as {Variable} : Coed Block
 >    * 자원을 획득하고 사용 후 반납해야 하는 경우 주로 사용함 (자원 획득 -> 사용 -> 반납 프로세스)   
->    ex) `with open(f'{path}/test.png', 'wb') as file : file.write(response.content)`
+>    ex) 
+```
+     with open(f'{path}/test.png', 'wb') as file : 
+          file.write(response.content)
+```
 >    * 컨텍스트 매니저
 >	     * __enter__(self) : with문 진입 시 자동으로 호출
 >	     * __exit__(self, type, value, traceback ) : with문 끝나기 직전에 자동으로 호출
 > ### 6. yield
 >    * iterator : next()를 호출할 때 다음 값을 생성해내는 상태를 가진 헬퍼 객체
->    * genartor : iterator를 간단하게 구현한 문법 ( ex. def fib() : )
+>    * genartor : iterator를 간단하게 구현한 문법 (ex. def fib() :)
 >    * yield : 일반 함수를 generator로 만들어주는 명령어로, next 함수를 실행해서 yield를 만나면 코드 실행 중단
