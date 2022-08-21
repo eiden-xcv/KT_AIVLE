@@ -71,12 +71,17 @@
 ## 3. seaborn 라이브러리
 > * seaborn은 Matplotlib을 기반으로 다양한 색상 테마와 통계용 차트 등의 기능을 추가한 시각화 패키지
 > * histplot / kdeplot / boxplot
-> * distplot : histogram + density plot -> `sns.distplot(데이터, bins , hist_kws=dict())`
-> * jointplot : scatter + histogram(density plot) -> `sns.jointplot(x, y, data, hue)`
-> * pairplot : scatter + histogram(density plot) 확장, 모든 숫자형 변수들에 대해서 서로 비교하는 산점도 표시 -> `sns.pairplot(data, hue)`
-> * countplot : 집계 + bar plot -> `sns.countplot(x, data, hue)`
-> * barplot : 평균비교 bar plot + error bar -> `sns.barplot(x, y, data)`
-> * heatmap :  두 범주 집계 시각화, 집계(groupby)와 피봇(pivot)을 먼저 만들어줘야함.
+> * distplot : histogram + density plot
+> 	* `sns.distplot(데이터, bins , hist_kws=dict())`
+> * jointplot : scatter + histogram(density plot)
+> 	* `sns.jointplot(x, y, data, hue)`
+> * pairplot : scatter + histogram(density plot) 확장, 모든 숫자형 변수들에 대해서 서로 비교하는 산점도 표시
+> 	* `sns.pairplot(data, hue)`
+> * countplot : 집계 + bar plot
+>  	* `sns.countplot(x, data, hue)`
+> * barplot : 평균비교 bar plot + error bar
+> 	* `sns.barplot(x, y, data)`
+> * heatmap :  두 범주 집계 시각화, 집계(groupby)와 피봇(pivot)을 먼저 만들어줘야함
 
 ## 4. 이변량 분석 :  EDA & CDA
 > | | | | Y | | |
