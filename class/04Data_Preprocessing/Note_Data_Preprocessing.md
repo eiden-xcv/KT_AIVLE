@@ -1,4 +1,4 @@
-# Data Preprocessing - 8/8-8/9
+# Data Preprocessing - 8/8~8/9
 
 ## 1. Pandas : 결합 및 집계
 > ### 1) 결합
