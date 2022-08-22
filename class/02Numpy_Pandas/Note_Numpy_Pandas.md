@@ -2,7 +2,7 @@
 
 ## 0. 분석을 위한 데이터 구조
 > * 데이터 분석 큰 그림 : CRISP-DM(Cross-Industry Standard Process for Data Mining)   
-> <img src="https://user-images.githubusercontent.com/110445149/185781416-4e07c61e-de9c-4b12-8180-891d0d6f572f.PNG" width="200" height="200"></img>   
+> <img src="https://user-images.githubusercontent.com/110445149/185781416-4e07c61e-de9c-4b12-8180-891d0d6f572f.PNG" width="300" height="300"></img>   
 > * 분석 대상 : 수치형 & 범주형 데이터 -> 2차원 구조(행렬)
 >   * 행 : 분석단위
 >   * 열 : 변수(Target, Feature)   
