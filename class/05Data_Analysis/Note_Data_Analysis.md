@@ -4,7 +4,7 @@
 * **EDA 2단계 이변량 분석 - seaborn / 이변량 분석 : 숫자->숫자 & 범주->숫자 & 범주->범주  & 숫자->범주**
 
 ## 0. CRISP-DM ★★
-<img src="https://user-images.githubusercontent.com/110445149/185815282-dd1ed38a-60bd-4ba9-b214-b27dcc43a3cb.PNG" width="200" height="200"></img>
+<img src="https://user-images.githubusercontent.com/110445149/185815282-dd1ed38a-60bd-4ba9-b214-b27dcc43a3cb.PNG" width="300" height="300"></img>
 > ### 1) Business Understanding
 > * 비즈니스 문제 정의
 > * 데이터분석 방향 및 목표 결정
@@ -46,7 +46,7 @@
 > | |mode|밀도함수그래프|
 > | |4분위수|Boxplot|
 > |범주형|범주별 빈도수|Barplot|
-> | |범주별 비율|Piechar|
+> | |범주별 비율|Piechart|
 > ### 1) 단변량분석_숫자형변수
 > * 수치화
 >   * 대푯값( 평균 / 중앙값 / 최빈값 / 4분위수 )
