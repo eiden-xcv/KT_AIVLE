@@ -154,7 +154,12 @@ mape = mean_absolute_percentage_error(y_val, pred)
 >       * (2 * Precision * Recall) / (Precision + Recall)
 > * Cut-off에 따른 모델의 성능 변화 그래프
 >   * Precision-Recall Curve
->   * Precision-Recall Curve
+>   * AUC - ROC Curve
+>     * ROC(Receiver Operating Characteristic) : 모든 임계깞에서 분류 모델의 성능을 보여주는 그래프
+>     * AUC(Area Under Curve) : ROC Curve 아래 영역   
+>     * x축은 FPR(False Positive Rate), y축은 TPR(True Positive Rate)
+<img src="https://user-images.githubusercontent.com/110445149/186140929-03a5dc17-213a-44e3-902a-32857ede5de4.PNG" height="300" width="700"></img>
+
 
 ## 참고
 > ### 1. Data Understading & Preparation
