@@ -72,21 +72,21 @@ SST= np.sum(np.power(y_val - y_val.mean(), 2))
 SSE = np.sum(np.power(y_val - pred, 2))
 # SSR=np.sum(np.power(pred-y_val.mean(),2))
 # R2 Score = 1- SSE/SST
-1 - (SSE/SST)
+r2_score_1 = 1 - (SSE/SST)
+#R2 SCORE
+r2_score_2 = r2_score(y_val, pred)
 ```
 > * 오차의 양과 비율로 평가하기
 <img src="https://user-images.githubusercontent.com/110445149/186132150-483ea03b-b8e3-4ff4-8dd1-16080e0fd572.png" height="300" width="500"></img>
 ```
-#R2 SCORE
-r2_score(y_val, pred)
 #MSE
-mean_squared_error(y_val, pred) 
+mse = mean_squared_error(y_val, pred) 
 #RMSE
-mean_squared_error(y_val, pred, squared = False)
+rmse = mean_squared_error(y_val, pred, squared = False)
 #MAE
-mean_absolute_error(y_val, pred)
+mae = mean_absolute_error(y_val, pred)
 # MAPE
-mean_absolute_percentage_error(y_val, pred)
+mape = mean_absolute_percentage_error(y_val, pred)
 ```
 > ### 4) 참고
 > * 공선성(Colinearity)
@@ -99,3 +99,79 @@ mean_absolute_percentage_error(y_val, pred)
 >     * VIF = 1 / (1-R^2)
 >     * 5 이상이면 다중 공선성이 존재, 10 이상이면 강한 다중 공선성이 있다고 봄
 >     * 그러나 다중 공선성이 항상 성능에 문제가 되는 것은 아닐 수 있음
+
+## 3. K-Nearest Neighbors(KNN)
+> ### 1) 원리
+> 1. 예측해야할 데이터(x_val)와 주어진 데이터(x_train)의 모든 거리를 계산
+> 2. 가까운 거리의 데이터를 k개 찾기
+> 3. k개 값(y_train)의 평군을 계산하여 예측
+> ### 2) 장단점
+> * 장점
+>   * 데이터의 분포 형태와 상관이 없음
+>   * 설명변수의 개수가 많아도 무리없이 사용 가능
+> * 단점
+>   * 계산 시간이 오래걸림
+>   * 훈련데이터를 모델에 함께 저장
+>   * 해석하기 어려움
+> ### 3) Scaling - KNN을 위한 전처리
+>	* Normalization : MinMaxScaler()
+>   * X=(x-a)/(b-a)
+> * Standardization : StandardScaler()
+>   * X=(x-mean)/std
+> ### 4) 성능
+> * Hyperparameter, 복잡도 결정 요인
+>   *	k값이 클수록 단순한 모델, 작을수록 복잡한 모델
+>   *	보통 k의 값은 데이터 건수의 제곱근 근처로 잡음
+>   *	거리계산법에 의해서도 성능이 달라짐(Euclidean vs Manhattan)
+
+## 4. Logistic Regression
+> ### 1) 로지스틱 함수(Sigmoid fucntion)
+> * 선형 판별식을 찾고(선형회귀분석과 동일), 선형 판별식으로부터의 거리를 (0, 1)로 변환
+> * p(x)=1/(1+e^(-f(x))) 	# f(x)는 선형 판별식
+> * 실제 f(x)의 범위는 (-inf, inf)이지만 실제 Y는 0과 1이기에 값을 (-inf, inf) => (0, 1)로 변환할 필요가 있다.
+>   * (-inf, inf) => (0, inf) => (0, 1) 
+>     * 아래의 과정을 반대로 생각하면 됨
+>     * Odds Ratio(승산) : 사건이 일어날 가능성 대 사건이 일어나지 않을 가능성의 비
+>     * Log Odds(로그 승산) : (0, inf)에 로그를 취하면 (-inf, inf)로 변환가능
+> ### 2) 분류모델 평가
+> * Confusion Matrix   
+<img src="https://user-images.githubusercontent.com/110445149/186136389-1c19d941-c86a-4a86-be45-134875119b1b.PNG" height="300" width="400"></img>
+> ###### 출처 : https://en.wikipedia.org/wiki/Confusion_matrix
+> * 성능지표
+>   * 전체관점
+>     * Accuracy(정분류율, 정확도)
+>       * 전체 중에 맞춘 비율
+>       * (TP + TN) / Total   
+>   * 특정 class 관점
+>     * Precision(정밀도)
+>       * 해당 class라고 예측한 것 중에 맞춘 비율
+>       * TP / ( TP + FP )
+>     * Recall(재현율) / Sensitivity(민감도)
+>       * 실제 해당 class 중 맞춘 비율
+>       * TP / ( TP + FN )
+>     * F1-score
+>       * Precision과 Recall의 조화평균
+>       * (2 * Precision * Recall) / (Precision + Recall)
+> * Cut-off에 따른 모델의 성능 변화 그래프
+>   * Precision-Recall Curve
+>   * Precision-Recall Curve
+
+## 참고
+> ### 1. Data Understading & Preparation
+> * 과정
+>   1. 데이터 수집*
+>   2. test 데이터 분할*
+>   3. EDA & CDA
+>   4. 불필요한 변수 제거
+>   5. NaN 조치 : 행 drop**
+>   6. X, y 데이터 분할**
+>   7. feature engineering
+>   8. 가변수화
+>   9. train & val 데이터 분할***
+>   10. NaN 조치 : 추정해서 채우기
+>   11. 스케일링***
+> ### 2. 회귀와 분류
+> | | 선형회귀 | KNN | 로지스틱 | DT | SVM |
+> |:---:|:---:|:---:|:---:|:---:|:---:|
+> | 회귀 | O | O | X | O | O |
+> | 분류 | X | O | O(이진분류) | O  | O |
