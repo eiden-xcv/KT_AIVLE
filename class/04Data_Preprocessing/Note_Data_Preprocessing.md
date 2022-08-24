@@ -33,7 +33,7 @@
 > * diff() :  행 간 증감 
 
 ## 4. 데이터 준비
-> <img src="https://user-images.githubusercontent.com/110445149/186397958-a4b5bf57-60a5-430d-ac05-072203a36dd9.PNG" width="500" height="300"></img>
+> <img src="https://user-images.githubusercontent.com/110445149/186397958-a4b5bf57-60a5-430d-ac05-072203a36dd9.PNG" width="900" height="300"></img>
 > ### 1) 변수 확인 및 정리
 > * data.dtypes / data.info() / data.describe()
 > ### 2) NaN 처리
