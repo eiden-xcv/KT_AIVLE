@@ -136,7 +136,7 @@ mape = mean_absolute_percentage_error(y_val, pred)
 > ### 2) 분류모델 평가
 > * Confusion Matrix   
 <img src="https://user-images.githubusercontent.com/110445149/186136389-1c19d941-c86a-4a86-be45-134875119b1b.PNG" height="300" width="400"></img>
-> ###### 출처 : https://en.wikipedia.org/wiki/Confusion_matrix
+> ###### [출처](https://en.wikipedia.org/wiki/Confusion_matrix)
 > * 성능지표
 >   * 전체관점
 >     * Accuracy(정분류율, 정확도)
