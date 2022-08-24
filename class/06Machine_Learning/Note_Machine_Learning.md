@@ -75,7 +75,8 @@ SSE = np.sum(np.power(y_val - pred, 2))
 r2_score_1 = 1 - (SSE/SST)
 #R2 SCORE
 r2_score_2 = r2_score(y_val, pred)
-```
+```   
+
 > * 오차의 양과 비율로 평가하기
 <img src="https://user-images.githubusercontent.com/110445149/186132150-483ea03b-b8e3-4ff4-8dd1-16080e0fd572.png" height="300" width="500"></img>
 ```
@@ -159,6 +160,67 @@ mape = mean_absolute_percentage_error(y_val, pred)
 >     * AUC(Area Under Curve) : ROC Curve 아래 영역   
 >     * x축은 FPR(False Positive Rate), y축은 TPR(True Positive Rate)
 <img src="https://user-images.githubusercontent.com/110445149/186140929-03a5dc17-213a-44e3-902a-32857ede5de4.PNG" height="300" width="700"></img>
+
+## 5. Decision Tree
+> ### 1) Decision Tree
+> * Tree 기반 알고리즘으로, 특정 항목(변수)에 대한 의사 결정(분류) 규칙을 나무의 가지가 뻗는 형태로 분류해 나가는 분석기법
+> ### 2) 속성의 불순도
+> * 해당 범주에 다양한 class들의 개체들이 얼마나 포함되어 있는가를 의미하는 복잡성으로, 분류 후 얼마나 잘 분류했는지 평가하는 지표
+> * 지니 계수   
+> <img src="https://user-images.githubusercontent.com/110445149/186391923-27960022-ee63-4278-8aff-3d0b5511de4b.png" height="60" width="200"></img>
+> * 엔트로피   
+> <img src="https://user-images.githubusercontent.com/110445149/186392052-da292c2f-21dc-4049-be78-dc33ecd8ec47.png" height="60" width="200"></img>
+> ### 3) Information Gain(정보 증가량)
+> * 지니계수나 엔트로피는 단지 속성의 불순도를 표현
+> * 이를 활용하여 어떤 변수가 많은 정복를 제공하는가를 확인하기 위한 지표   
+> <img src="https://user-images.githubusercontent.com/110445149/186392128-46838839-9959-4aeb-9d9d-c0e038b48140.png" height="60" width="200"></img>
+> * 정보증가량이 가장 높은 속성을 분할 기준으로 삼음
+> ### 4) 성능
+> * Hyperparameter에 따라 달라짐
+>   * max_depth : 클수록 모델이 복잡
+>   * min_samples_leaf : 작을수록 모델이 복잡
+```
+from sklearn.tree import DecisionTreeClassifier
+
+model = DecisionTreeClassifier(max_depth = ' ', min_samples_leaf = ' ')
+```
+> ### 5) 의사 결정 나무 시각화
+```
+from sklearn.tree import plot_tree
+
+plot_tree(model,                                    #만든 모델 이름
+               feature_names = list(x_train),       #Feature 이름, list(x_train)
+               class_names = ['class1', 'class2'],  #Target(Class) 이름 
+               filled = True);
+
+plt.show()
+```
+> ### 6) 변수중요도 그래프 그리기 함수
+```
+def plot_feature_importance(importance, names):
+    feature_importance = np.array(importance)
+    feature_names = np.array(names)
+
+    data={'feature_names':feature_names,'feature_importance':feature_importance}
+    fi_df = pd.DataFrame(data)
+
+    fi_df.sort_values(by=['feature_importance'], ascending=False,inplace=True)
+    fi_df.reset_index(drop=True, inplace = True)
+
+    plt.figure(figsize=(10,8))
+    sns.barplot(x='feature_importance', y='feature_names', data = fi_df)
+
+    plt.xlabel('FEATURE IMPORTANCE')
+    plt.ylabel('FEATURE NAMES')
+    plt.grid()
+
+    return fi_df
+
+result = plot_feature_importance(model.feature_importances_, list(x_train))
+result
+```
+
+
 
 
 ## 참고
