@@ -75,9 +75,8 @@ SSE = np.sum(np.power(y_val - pred, 2))
 r2_score_1 = 1 - (SSE/SST)
 #R2 SCORE
 r2_score_2 = r2_score(y_val, pred)
-```   
-
-> * 오차의 양과 비율로 평가하기
+```
+> * 오차의 양과 비율로 평가하기   
 <img src="https://user-images.githubusercontent.com/110445149/186132150-483ea03b-b8e3-4ff4-8dd1-16080e0fd572.png" height="300" width="500"></img>
 ```
 #MSE
@@ -173,7 +172,7 @@ mape = mean_absolute_percentage_error(y_val, pred)
 > ### 3) Information Gain(정보 증가량)
 > * 지니계수나 엔트로피는 단지 속성의 불순도를 표현
 > * 이를 활용하여 어떤 변수가 많은 정복를 제공하는가를 확인하기 위한 지표   
-> <img src="https://user-images.githubusercontent.com/110445149/186392128-46838839-9959-4aeb-9d9d-c0e038b48140.png" height="60" width="200"></img>
+> <img src="https://user-images.githubusercontent.com/110445149/186392128-46838839-9959-4aeb-9d9d-c0e038b48140.png" height="60" width="400"></img>
 > * 정보증가량이 가장 높은 속성을 분할 기준으로 삼음
 > ### 4) 성능
 > * Hyperparameter에 따라 달라짐
@@ -220,7 +219,67 @@ result = plot_feature_importance(model.feature_importances_, list(x_train))
 result
 ```
 
+## 6. Support Vector Machine(SVM)
+> ### 0) 전제조건
+> * 스케일링
+> ### 1) 용어
+> * 결정 경계(Decision Boundary)
+>   * 클래스를 구분하는 경계선으로, 바로 모델임!
+>   * Hyperplane이라고도 함
+> * 벡터(Vector)
+>   * 모든 데이터 포인트
+> * 서포트 벡터(Support Vector)
+>   * 결정 경계와 가까운 데이터 포인트(벡터)
+>   * 마진의 크기와 결정경계에 영향을 끼침
+> * 마진(Margin)
+>   * 서포트벡터와 결정경계 사이의 거리
+>   * 마진이 클수록 새로운 데이터에 대한 안정적인 분류가 가능해짐
+> ### 2) 마진과 오류
+> * SVM의 최적화 : 마진은 크게, 오류는 작게
+> * 마진의 크기와 오류에 대한 허용 정도는 Trade-off 관계
+> * 비용(C : 오류를 허용하지 않으려는 비용)를 조절함으로써 최적의 모델을 만들어감
+>   * C가 클수록 오류를 허용하지 않으려는 마진과 결정경계를 찾음(Overfitting)
+>   * C가 작을수록 오류를 허용해도 되는 마진과 결정경계를 찾음(Underfitting)
+> ### 3) 커널 트릭
+> * SVM은 직선 or 초평면으로 분류하는 선형 분류기이지만, 선형적으로 분류할 수 없는 데이터셋이 더 많음
+> * 매핑함수
+>   * 비선형 데이터 문제를 해결하기 위해 고차원 데이터로 변환하는 함수
+>   * But, feature 수가 과도하게 증가하여 연산 시간이 길어짐 
+> * 커널 트릭
+>   * 실제 고차원 feature를 생성하지 않고, 추가한 것과 같은 효과를 얻음
+>   * 종류 : poly / rbf(Radial Basis Function) / sigmoid
+> ### 4) 비선형 SVM에서 Hyperparameter
+> * Cost(C)
+>   * C가 증가할수록 마진의 폭이 줄어들고 오차를 줄이기 위한 복잡한 모델 생성	
+> * Gamma
+>   * 곡률(반경)의 크기
+>   * 값이 클수록 곡률(반경)이 작아지며 복잡한 모델 생성
+```
+from sklearn.svm import SVC, SVR # SVC : classification & SVR : Regression 
 
+model = SVC(C=' ', kernel=' ', gamma=' ')
+```
+
+## 7. 성능 튜닝
+> ### 1) 변수 선택법
+> * 선형 모델(선형회귀, 로지스틱회귀)의 성능은 변수 선택에 따라 차이가 발생함
+> * 전진 선택법(or 후진 소거법)
+>   * AIC 값이 가장 작은 모델을 단계별, 순차적으로 탐색
+>     1. feature 별로 각각 단순회귀모델을 생성하고 AIC 값을 비교하여 제일 작은 변수 선정
+>     2. 과정 1에서 선정된 변수+나머지 변수 하나씩 추가해서 AIC 값이 가장 작은 모델으리 변수 선정(단, 과정 1보다 AIC 값이 더 낮아져야 함)
+>     3. 더이상 AIC 값이 낮아지지 않을 때까지 반복
+>   * 후진 소거법은 전진 선택법의 반대로 진행
+> * AIC(Akaike Information Criterion)
+>   * 모델은 train set을 얼마나 잘 설명하지는지가 중요함
+>   * 모델이 과적합 되지 않도록, 선형모델에서의 적합도와 feature가 과도하게 늘어나는 것을 방지하도록 설계된 통계량이 AIC이다
+>   * AIC 값이 작을수록 좋은 모델 
+>   * 변수의 개수(적절한 복잡도) - 모델의 적합도(적절한 성능)
+> ### 2) Hyperparameter Tuning
+> * Parameter vs Hyperparameter
+>   * Parameter : 모델 내부에서 결정되는 변수로, 그 값은 데이터로부터 결정됨
+>   * Hyperparameter : 사용자가 직접 세팅해주는 값으로, 모델링할 때 최적하기 위한 파라미터
+> * Random Search
+> * Grid Search
 
 
 ## 참고
