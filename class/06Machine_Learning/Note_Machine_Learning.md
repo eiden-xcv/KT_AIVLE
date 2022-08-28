@@ -278,8 +278,150 @@ model = SVC(C=' ', kernel=' ', gamma=' ')
 > * Parameter vs Hyperparameter
 >   * Parameter : 모델 내부에서 결정되는 변수로, 그 값은 데이터로부터 결정됨
 >   * Hyperparameter : 사용자가 직접 세팅해주는 값으로, 모델링할 때 최적하기 위한 파라미터
-> * Random Search
-> * Grid Search
+> * #### Random Search
+>   * 절차
+>     1. 딕셔너리로 값의 범위 지정
+>     2. *시도 횟수를 지정!*
+>     3. *값의 범위 내에서 시도 횟수만큼 랜덤하게 선택해서 시도*
+>     4. 가장 성능이 좋은 값을 선정
+```
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import RandomizedSearchCV
+
+model = KNeighborsClassifier()	# 기본모델
+
+# dictionary형태로 선언
+params = { 'n_neighbors' : range(1,51), 'metric' : ['euclidean', 'manhattan']  }
+
+# Random Search 설정.
+model_rs = RandomizedSearchCV(model, params, cv=5 , n_iter=5 )
+
+model_rs.fit(x_train_s, y_train)	# 학습
+
+model_rs.cv_results_		# 튜닝 결과
+model_rs.best_params_		# 최적의 파라미터
+model_rs.best_score_		# 그때의 성능
+
+pred = model_rs.predict(x_val_s)	# best 모델로 예측 및 평가
+```
+> * #### Grid Search
+>   * 절차
+>     1. 값의 범위를 지정
+>     2. *값의 조합을 모두 시도!*
+>     3. 가장 성능이 좋은 값을 선정
+```
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+
+model = KNeighborsClassifier()		# 기본모델
+
+# dictionary형태로 선언
+params = { 'n_neighbors' : range(3,31,2), 'metric' : ['euclidean', 'manhattan']  }
+
+# Random Search 설정.
+model_gs = GridSearchCV(model, params, cv=5)
+
+model_gs.fit(x_train_s, y_train)	# 학습
+
+model_gs.cv_results_		# 튜닝 결과
+model_gs.best_params_		# 최적의 파라미터
+model_gs.best_score_		# 그때의 성능
+
+pred = model_gs.predict(x_val_s)	# best 모델로 예측 및 평가
+```
+> * 주의할 점
+>   * 주어진 데이터에서 최고의 성능을 얻었어도, 운영환경에서 그 성능이 보장되지 않는다.
+>   * 모델링의 목표 : 적절한 복잡도 + 적절한 예측력
+
+## 8. 일반화 성능
+> * 모델링의 목표
+>   * 부분집합(Training data)을 학습해서 모집단을 적절히 예측하는 것!
+> * 성능 향상을 위한 노력
+>   * 믿을만한 성능 얻기(Low Variance) - 편차 줄이기
+>   * 성능 높이기(Low Bias) - 오차 줄이기
+> * 1)성능의 평균으로 계산
+>   * Random Sampling
+>   * 데이터를 무작위로 train & val로 분할하고 성능 측정을 반복적으로 하여 평균 성능으로 평가
+>   * K-fold Cross Validation
+>     * train data의 모든 data가 한번씩 validation용으로 사용되도록, k등분하여 k번 수행하고 평균 성능으로 평가
+>     * 튜닝 시 옵션으로 cv 값 지정   
+>       * RandomizedSearchCv( , , cv=10)
+>       * GridSearchCV( , , cv=10)
+>     * 개별 모델의 cross validation 성능 측정
+```
+# 필요한 패키지, 함수 로딩
+from sklearn.model_selection import cross_val_score
+
+model = DecisionTreeClassifier(max_depth = 3)
+
+# train + validation set을 이용하여 학습, 예측, 평가를 한번에. (여기서는 .fit 이 아님!)
+dt_result = cross_val_score(model, x, y, cv=10)
+print(dt_result)
+print(dt_result.mean(), dt_result.std()) 
+```
+> * 2)데이터 늘리기
+>   * Variance 감소 & Bias 감소
+>   * Learning  Curves
+>     * 데이터가 많을 수록 성능이 개선되다가 어느 지점부터 성능향상도가 꺾인다.
+>     * 꺾인 이후는 데이터 증가에 따라 성능개선 효과는 급격히 줄어든다
+>   * Elbow Method
+>     * Trade-off 관계에서 적절한 지점을 찾기 위한 휴리스틱 방법
+> * 3)튜닝하기 -> Bias 감소, 과적합 피하기
+
+## 9. 모델의 복잡도와 과적합
+> * 모델의 복잡도
+>   * train data의 패턴을 반영하는 정도
+>   * Underfitting & Overfitting
+> * 해결책
+>   * 하이퍼파라미터 튜닝을 통해 해결 가능(Grid Search & Random Search)
+>   * 하이퍼파라미터 변화에 따른 성능 추세 확인 필요
+> * 적절한 복잡도 지점 찾기
+>   * 적합도 그래프(Fitting Graph)
+>   * 복잡도를 조금씩 조절해가면서 Train error와 Validation error를 측정하고 비교
+>     * train과 val의 성능이 급격히 벌어지는 지점
+>     * validation 성능의 고점!
+>     * 가능한 단순한 모델
+> * 과적합이 문제가 되는 이유
+>   * 모델이 복잡해지면 학습데이터에만 존재하는 특이성까지 학습하게 됨
+>   * 이는 모집단 전체의 특성이 아니기에 학습 데이터 이외의 데이터셋에서는 성능이 떨어짐
+
+## 10. Ensemble
+> ### 1) Bagging
+>   * Bagging = Bootstrap sample + Aggregating
+>   * Random Forest
+>     * 두가지 Random
+>       * 1. Row : 랜덤하게 샘플링, 복원추출(Bootstrap Sample)
+>         * 여러 Decision Tree들이 서로 다른 train data를 사용하기에 상관성을 줄여준다.
+>       * 2. Feature : 각 Tree에서 가지를 나눌때 기준이 되는 Feature를 랜덤하게 선정
+>         * 1) 모든 Feature가 아닌 무작위로 n개 뽑힌 Feature들에 대해
+>         * 2) 불순도로부터 정보전달량 계싼
+>         * 3) 가장 정보전달량이 큰 Feature 선정
+>     * 여러 개의 Decision Tree로 평균 or 투표로 예측
+>     * 트리가 많아진다고 모델이 복잡해지지 않는다. 즉 과적합되지 않는다.
+>     * 하나의 Decision Tree는 이상치에 민감하지만, 상관성이 적은 여러 개의 Desicion Tree들의 평균 or 투표로 계산하기에 이상치에 강인해져 트리가 많으면 과적합을 회피할 수 있다.
+>     * 트리 개수는 default 값인 100개 정도도 충분하다.
+```
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+
+model = RandomForestClassifier(n_estimators = 5, max_depth = 3)
+model.fit(x_train, y_train)
+pred = model.predict(x_val)
+print(classification_report(y_val, pred))
+
+# 5개 decision tree
+model.estimators_
+``` 
+> ### 2) Boosting
+> * 여러 트리 모델을 결합해서 오차를 줄이는 모델을 구성하는 방식
+> * 트리 모델의 개수에 따라 성능 및 예측결과가 달라짐
+> * Gradient Boost : xgboost
+>   * 파라미터
+>     * learning_rate : 가중치 조절 비율
+>     * max_depth : tree의 depth 제한
+>     * n_esitmators : iteration 횟수
+>     * XGBRegressor 사용시 objective='reg:squarederror' 옵션 필요
+
+
 
 
 ## 참고
@@ -301,3 +443,7 @@ model = SVC(C=' ', kernel=' ', gamma=' ')
 > |:---:|:---:|:---:|:---:|:---:|:---:|
 > | 회귀 | O | O | X | O | O |
 > | 분류 | X | O | O(이진분류) | O  | O |
+> | 전제조건(NaN&가변수화) | Feature 간 독립 | Feature 간 독립 | 스케일링 | | 스케일링 |
+> | 성능 | 변수 선택 & Feature 가 많을수록 복잡 | 변수 선택 & Feature 가 많을수록 복잡 | K가 작을수록 복잡 & 거리계산법 | max_depth & min_samples_leaf | C & gamma|
+> ### +. target이 범주형일 때
+>   * sklearn은 가변수화가 필요 없지만 statsmodels, tensorflow 등에서는 필요함
