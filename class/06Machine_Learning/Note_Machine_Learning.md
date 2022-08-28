@@ -114,9 +114,9 @@ mape = mean_absolute_percentage_error(y_val, pred)
 >   * 훈련데이터를 모델에 함께 저장
 >   * 해석하기 어려움
 > ### 3) Scaling - KNN을 위한 전처리
->	* Normalization : MinMaxScaler()
+> * Normalization : MinMaxScaler()   
 >   * X=(x-a)/(b-a)
-> * Standardization : StandardScaler()
+> * Standardization : StandardScaler()   
 >   * X=(x-mean)/std
 > ### 4) 성능
 > * Hyperparameter, 복잡도 결정 요인
@@ -125,6 +125,8 @@ mape = mean_absolute_percentage_error(y_val, pred)
 >   *	거리계산법에 의해서도 성능이 달라짐(Euclidean vs Manhattan)
 
 ## 4. Logistic Regression
+> ### 0) 전제조건
+> * 스케일링
 > ### 1) 로지스틱 함수(Sigmoid fucntion)
 > * 선형 판별식을 찾고(선형회귀분석과 동일), 선형 판별식으로부터의 거리를 (0, 1)로 변환
 > * p(x)=1/(1+e^(-f(x))) 	# f(x)는 선형 판별식
@@ -159,6 +161,12 @@ mape = mean_absolute_percentage_error(y_val, pred)
 >     * AUC(Area Under Curve) : ROC Curve 아래 영역   
 >     * x축은 FPR(False Positive Rate), y축은 TPR(True Positive Rate)
 <img src="https://user-images.githubusercontent.com/110445149/186140929-03a5dc17-213a-44e3-902a-32857ede5de4.PNG" height="300" width="700"></img>
+> * 분류 성능 결과 확인
+```
+confusion_matrix(y_val, pred)
+accuracy_score(y_val, pred)
+print(classification_report(y_val,pred))
+```
 
 ## 5. Decision Tree
 > ### 1) Decision Tree
@@ -420,6 +428,8 @@ model.estimators_
 >     * max_depth : tree의 depth 제한
 >     * n_esitmators : iteration 횟수
 >     * XGBRegressor 사용시 objective='reg:squarederror' 옵션 필요
+> * 그외 여러 Boosting Algorithm
+>   * AdaBoost / GBM(Gradient Boosting Machine) / LightBoost
 
 
 
@@ -444,6 +454,6 @@ model.estimators_
 > | 회귀 | O | O | X | O | O |
 > | 분류 | X | O | O(이진분류) | O  | O |
 > | 전제조건(NaN&가변수화) | Feature 간 독립 | Feature 간 독립 | 스케일링 | | 스케일링 |
-> | 성능 | 변수 선택 & Feature 가 많을수록 복잡 | 변수 선택 & Feature 가 많을수록 복잡 | K가 작을수록 복잡 & 거리계산법 | max_depth & min_samples_leaf | C & gamma|
+> | 성능 | 변수 선택 & Feature 가 많을수록 복잡 | 변수 선택 & Feature 가 많을수록 복잡 | K & 거리계산법 | max_depth & min_samples_leaf | C & gamma|
 > ### +. target이 범주형일 때
 >   * sklearn은 가변수화가 필요 없지만 statsmodels, tensorflow 등에서는 필요함
