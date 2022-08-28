@@ -125,8 +125,6 @@ mape = mean_absolute_percentage_error(y_val, pred)
 >   *	거리계산법에 의해서도 성능이 달라짐(Euclidean vs Manhattan)
 
 ## 4. Logistic Regression
-> ### 0) 전제조건
-> * 스케일링
 > ### 1) 로지스틱 함수(Sigmoid fucntion)
 > * 선형 판별식을 찾고(선형회귀분석과 동일), 선형 판별식으로부터의 거리를 (0, 1)로 변환
 > * p(x)=1/(1+e^(-f(x))) 	# f(x)는 선형 판별식
