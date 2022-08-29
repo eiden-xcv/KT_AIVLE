@@ -287,8 +287,8 @@ model = SVC(C=' ', kernel=' ', gamma=' ')
 > * #### Random Search
 >   * 절차
 >     1. 딕셔너리로 값의 범위 지정
->     2. *시도 횟수를 지정!*
->     3. *값의 범위 내에서 시도 횟수만큼 랜덤하게 선택해서 시도*
+>     2. **시도 횟수를 지정!**
+>     3. **값의 범위 내에서 시도 횟수만큼 랜덤하게 선택해서 시도**
 >     4. 가장 성능이 좋은 값을 선정
 ```
 from sklearn.neighbors import KNeighborsClassifier
@@ -313,7 +313,7 @@ pred = model_rs.predict(x_val_s)	# best 모델로 예측 및 평가
 > * #### Grid Search
 >   * 절차
 >     1. 값의 범위를 지정
->     2. *값의 조합을 모두 시도!*
+>     2. **값의 조합을 모두 시도!**
 >     3. 가장 성능이 좋은 값을 선정
 ```
 from sklearn.neighbors import KNeighborsClassifier
@@ -324,7 +324,7 @@ model = KNeighborsClassifier()		# 기본모델
 # dictionary형태로 선언
 params = { 'n_neighbors' : range(3,31,2), 'metric' : ['euclidean', 'manhattan']  }
 
-# Random Search 설정.
+# Random Search 설정
 model_gs = GridSearchCV(model, params, cv=5)
 
 model_gs.fit(x_train_s, y_train)	# 학습
@@ -429,7 +429,9 @@ model.estimators_
 > * 그외 여러 Boosting Algorithm
 >   * AdaBoost / GBM(Gradient Boosting Machine) / LightBoost
 
-
+## 11. 비지도 학습
+> 비지도학습은 데이터를 묶어낸 후, 후속 분석작업이 반드시 필요하다!
+>
 
 
 ## 참고
@@ -451,7 +453,7 @@ model.estimators_
 > |:---:|:---:|:---:|:---:|:---:|:---:|
 > | 회귀 | O | O | X | O | O |
 > | 분류 | X | O | O(이진분류) | O  | O |
-> | 전제조건(NaN&가변수화) | Feature 간 독립 | Feature 간 독립 | 스케일링 | | 스케일링 |
-> | 성능 | 변수 선택 & Feature 가 많을수록 복잡 | 변수 선택 & Feature 가 많을수록 복잡 | K & 거리계산법 | max_depth & min_samples_leaf | C & gamma|
+> | 전제조건(NaN&가변수화) | Feature 간 독립 | 스케일링 | Feature 간 독립 | | 스케일링 |
+> | 성능 | 변수 선택 & Feature 가 많을수록 복잡 | K & 거리계산법  | 변수 선택 & Feature 가 많을수록 복잡 | max_depth & min_samples_leaf | C & gamma|
 > ### +. target이 범주형일 때
 >   * sklearn은 가변수화가 필요 없지만 statsmodels, tensorflow 등에서는 필요함
