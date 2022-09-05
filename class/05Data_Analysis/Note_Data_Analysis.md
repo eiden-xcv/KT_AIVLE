@@ -4,7 +4,8 @@
 * **EDA 2단계 이변량 분석 - seaborn / 이변량 분석 : 숫자->숫자 & 범주->숫자 & 범주->범주  & 숫자->범주**
 
 ## 0. CRISP-DM ★★
-<img src="https://user-images.githubusercontent.com/110445149/185815282-dd1ed38a-60bd-4ba9-b214-b27dcc43a3cb.PNG" width="300" height="300"></img>
+> <img src="https://user-images.githubusercontent.com/110445149/186396226-6c0e2044-279b-4bba-9031-6a195895ed30.PNG" width="300" height="300"></img>
+> ###### [출처](https://www.ibm.com/docs/ko/spss-modeler/saas?topic=dm-crisp-help-overview)
 > ### 1) Business Understanding
 > * 비즈니스 문제 정의
 > * 데이터분석 방향 및 목표 결정
