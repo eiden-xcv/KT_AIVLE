@@ -52,6 +52,29 @@
 > * [2] PDP(Partail Dependence Plot)
 >   * 관심 feature의 값이 변할 때, 모델에 미치는 영향을 시각화
 >   * ```plot_partial_dependence(model, feature=[], X=x_train, kind='both')```
-> * [3] SHAP
+> * [3] SHAP(SHapley Additie exPlanations)
+>   * Shapley Value : 모든 가능한 조합에서 하나의 feature에 대한 평균 기여도로, 특정 변수가 예측력에 얼마나 기여하는지 파악하기 위해 이 특정 변수와 관련된 모든 변수 조합들을 입력시켰을 때 나온 결과값과 비교를 하면서 변수의 평균 기여도를 계산한 값
+>   * TreeExplainer / DeepExplainer / KernelExplainer / Explainer
+```
+import shap
+
+explainer = shap.TreeExplainer(model)
+shap_values1 = explainer.shap_values(x_train)
+```
 
 ## 2. 모델 평가하기
+> * 평가 전 질문
+>   * 어떤 문제를 해결하기 위한 모델인가?
+>   * 실제 목적에 맞게 모델의 결과를 평가하고 있는가?
+>   * 모델의 예측 결과에 대한 비즈니스 프로세스는 어떻게 정의되어 있는가?
+> * **비즈니스 가치로 평가!!!**
+> ### 1) Classification
+> * ML Metric
+>   * Confusion Matrix / accuracy 
+> ### 2) Regresson
+> * ML Metric
+>   * SSE / MSE / RMSE/ MAE / MAPE
+> * 회귀모델에 대한 비즈니스 평가는 일반화가 쉽지 않음...
+> * 예측결과를 가지고 어떤 action이 있는지 파악하고, 그에 맞는 평가체계를 만들어야함
+> ### 3) 비지도학습
+> *
