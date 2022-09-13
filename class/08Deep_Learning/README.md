@@ -72,7 +72,7 @@
 > # 3. input, output layer 지정
 > model=keras.models.Model(inputs=il, outputs=ol)
 > # 4. 컴파일
-> model.compile(loss = 'mse', optimizer = 'adam', metrics=['accuracy'])
+> model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics=['accuracy'])
 > # 5, 학습
 > model.fit(x,y, epochs=10, verbose=1)
 > # 6. 모델 예측
@@ -86,3 +86,4 @@
 > y = to_categorical(y, 3)
 > ```
 > * activation function을 softmax로 설정
+> * loss는 categorical_crossentropy로 설정
