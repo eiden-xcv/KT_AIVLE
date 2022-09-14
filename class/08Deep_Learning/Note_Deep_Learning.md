@@ -101,8 +101,29 @@
 
 ## +. 기타
 > * Loss Fuction
+>   * Logistic Regression loss function
+>     * 로지스틱 회귀 비용함수는 볼록함수이므로 경사하강법이 전역 최소값을 찾는 것을 보장함
+>     * <img src="https://user-images.githubusercontent.com/110445149/190160525-f70bdd6c-5a5e-4136-b52c-5f72dbb0b08f.JPG" height="50" width="300"></img>    
 >   * Cross-entropy loss function
->      <img>
+>     * <img src="https://user-images.githubusercontent.com/110445149/190157066-b3f90707-ad88-4024-9127-c17a13253485.JPG" height="50" width="300"></img>    
 >     * Cross-entropy
 >       * 실제 분포 q에 대해 알지 못하는 상태에서, 모델링을 통해 구한 분포 p를 통해 q를 예측하는 것
->       * <img>
+>         * <img src="https://user-images.githubusercontent.com/110445149/190157394-d3575290-5dd2-4fd8-8a3f-4fdd6539c3dc.JPG" height="40" width="200"></img>   
+> * Activation Function
+>   * sigmoid
+>     * 로지스틱회귀에 사용되는 활성화 함수로, 0 ~ 1 의 값을 출력함
+>     * <img src="https://user-images.githubusercontent.com/110445149/190160635-0223b23e-7416-4c4e-9711-71370759d830.JPG" height="35" width="200"></img> 
+>   * softmax  
+>     * 다중분류에서 사용되는 활성화 함수로, 각 클래스에 속할 확률을 추정함
+>     * s(x) : 샘플 x에 대한 각 클래스의 점수를 담으 벡터
+>     * <img src="https://user-images.githubusercontent.com/110445149/190160679-3bb4788c-a849-4450-bfa7-2183fb5c4815.JPG" height="50" width="300"></img> 
+>   * relu  
+>     * z=0에서 미분 가능하지 않음(기울기가 갑자기 변해서 경사하강법이 엉뚱한 곳으로 튈 수 있음)
+>     * 그러나 실제로 잘 작동하고 계산속도가 빠르다느 장점
+>     * <img src="https://user-images.githubusercontent.com/110445149/190161053-64705a39-e0ea-4c86-bd1a-12e9810dec03.JPG" height="25" width="200"></img> 
+>   * tanh
+>     * 로지스틱 홤수와 같이 s자 모양이며 연속적이고 미분가능함
+>     * 출력값의 범위가 -1 ~ 1 임
+>     * <img src="https://user-images.githubusercontent.com/110445149/190162385-ed67f0c7-b255-47e9-af31-e8ba958ce2a1.JPG" height="20" width="200"></img> 
+
+
