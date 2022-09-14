@@ -88,8 +88,21 @@
 > ```
 > * activation function을 softmax로 설정
 > * loss는 categorical_crossentropy로 설정
+>
+> |   |선형회귀|로지스틱회귀|멀티클래스 분류|
+> |------|---|---|---|
+> |output layer activation|default(linear)|sigmoid|softmax|
+> |loss|mse|binary_crossentropy|categorical_crossentropy|
+>
+> ### 4) Artificial Neural Network
+> * 기계학습과 인지과학에서 생물학의 신경망에서 영감을 얻은 통계학적 학습 알고리즘
+> * 은닉층(hidden layer) 추가
+>   * ```keras.layers.Dense(n, activation='relu')```
 
-|   |선형회귀|로지스틱회귀|멀티클래스 분류|
-|------|---|---|---|
-|output layer activation|default(linear)|sigmoid|softmax|
-|loss|mse|binary_crossentropy|categorical_crossentropy|
+## +. 기타
+> * Loss Fuction
+>   * Cross-entropy loss function
+>      <img>
+>     * Cross-entropy
+>       * 실제 분포 q에 대해 알지 못하는 상태에서, 모델링을 통해 구한 분포 p를 통해 q를 예측하는 것
+>       * <img>
