@@ -35,7 +35,8 @@
 > model.add(keras.layers.Dense(1, activation='sigmoid'))  # 분류이기에 activation function 추가
 > # 4. 컴파일
 > model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']) 
-> # 분류에서 loss를 'binary_crossentropy'로 두고, 직관적으로 보기 위해 metrics=['accuracy'] 추가
+>
+> # 이진분류에서 loss를 'binary_crossentropy'로 두고, 직관적으로 보기 위해 metrics=['accuracy'] 추가
 > # threshold를 0.5가 아닌 다른 값으로 설정하려면 
 > # metrics=keras.metrics.BinaryAccuracy(threshold='원하는 값')
 > 
@@ -87,3 +88,8 @@
 > ```
 > * activation function을 softmax로 설정
 > * loss는 categorical_crossentropy로 설정
+
+|   |선형회귀|로지스틱회귀|멀티클래스 분류|
+|------|---|---|---|
+|output layer activation|default(linear)|sigmoid|softmax|
+|loss|mse|binary_crossentropy|categorical_crossentropy|
