@@ -113,6 +113,13 @@
 >                  restore_best_weights=True # 학습이 종료됐을 때, 최적의 가중치로 전환
 >                  )
 > ```
+> * categorical_crossentropy vs sparse_categorical_crossentropy
+>   * categorical_crossentropy
+>     * 다중분류 손실함수로써, y label이 one-hot encoding임
+>     * multiclass single-label classification, multiclass multilabel classification 사용 가능
+>   * sparse_categorical_crossentropy
+>     * 다중분류 손실함수로써, y label이 integer type임
+>     * multiclass single-label classification만 가능
 
 ## +. 기타
 > * **Loss Fuction**
@@ -160,7 +167,7 @@
 > * **배치 학습 vs 미니배치 학습**
 >   * 머신러닝 시스템을 분류하는 데 사용하는 기준으로, 입력 데이터의 스트림부터 점진적으로 학습할 수 있는지 여부가 있음
 >   * 배치 학습
->     * 가용한 데이털르 모두 사용해 훈련시키는 것으로, 시스템이 점진적으로 학습할 수 없음 
+>     * 가용한 데이터를 모두 사용해 훈련시키는 것으로, 시스템이 점진적으로 학습할 수 없음 
 >     * 일반적으로 이 방식은 시간과 자원을 많이 소모하므로 보통 오프라인에서 수행되기에 오프라인 학습이라고도 함
 >   * 미니배치 학습
 >     * 데이터를 순차적으로 한 개씩 또는 작은 묶음 단위인 미니배치로 주입하여 시스템을 훈련시키는 방식
