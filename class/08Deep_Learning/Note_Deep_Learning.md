@@ -120,6 +120,12 @@
 >   * sparse_categorical_crossentropy
 >     * 다중분류 손실함수로써, y label이 integer type임
 >     * multiclass single-label classification만 가능
+> ### 5) Connection
+> * Functional API
+> * Concatenate
+>   * ``` keras.layers.Concatenate()() ```
+> * Add
+>   * ``` keras.layers.Add()() ```  
 
 ## +. 기타
 > * **Loss Fuction**
@@ -132,21 +138,21 @@
 >       * 실제 분포 q에 대해 알지 못하는 상태에서, 모델링을 통해 구한 분포 p를 통해 q를 예측하는 것
 >         * <img src="https://user-images.githubusercontent.com/110445149/190157394-d3575290-5dd2-4fd8-8a3f-4fdd6539c3dc.JPG" height="40" width="200"></img>   
 > * **Activation Function**
->   * sigmoid
+>   * logistic(sigmoid)
 >     * 로지스틱회귀에 사용되는 활성화 함수로, 0 ~ 1 의 값을 출력함
->     * <img src="https://user-images.githubusercontent.com/110445149/190160635-0223b23e-7416-4c4e-9711-71370759d830.JPG" height="35" width="200"></img> 
+>     * <img src="https://user-images.githubusercontent.com/110445149/190575549-dc29b7ba-9499-4dc9-8039-e31bfb01ccb5.JPG" height="35" width="150"></img> 
 >   * softmax  
 >     * 다중분류에서 사용되는 활성화 함수로, 각 클래스에 속할 확률을 추정함
 >     * s(x) : 샘플 x에 대한 각 클래스의 점수를 담으 벡터
->     * <img src="https://user-images.githubusercontent.com/110445149/190160679-3bb4788c-a849-4450-bfa7-2183fb5c4815.JPG" height="50" width="300"></img> 
+>     * <img src="https://user-images.githubusercontent.com/110445149/190576357-3f26af0e-9fee-4dfa-90b0-c4902f0aec51.JPG" height="50" width="200"></img> 
 >   * relu  
 >     * z=0에서 미분 가능하지 않음(기울기가 갑자기 변해서 경사하강법이 엉뚱한 곳으로 튈 수 있음)
 >     * 그러나 실제로 잘 작동하고 계산속도가 빠르다느 장점
->     * <img src="https://user-images.githubusercontent.com/110445149/190161053-64705a39-e0ea-4c86-bd1a-12e9810dec03.JPG" height="25" width="200"></img> 
+>     * <img src="https://user-images.githubusercontent.com/110445149/190161053-64705a39-e0ea-4c86-bd1a-12e9810dec03.JPG" height="25" width="150"></img> 
 >   * tanh
 >     * 로지스틱 홤수와 같이 s자 모양이며 연속적이고 미분가능함
 >     * 출력값의 범위가 -1 ~ 1 임
->     * <img src="https://user-images.githubusercontent.com/110445149/190162385-ed67f0c7-b255-47e9-af31-e8ba958ce2a1.JPG" height="20" width="200"></img>
+>     * <img src="https://user-images.githubusercontent.com/110445149/190162385-ed67f0c7-b255-47e9-af31-e8ba958ce2a1.JPG" height="20" width="150"></img>
 > * **경사하강법(Gradient Descent)** 
 >   * 개념
 >     * 여러 종류의 문제에서 최적의 해법을 찾을 수 있는 일반적인 최적화 알고리즘으로, 비용 함수를 최소화하기 위해 반복해서 파라미터를 조정하는 알고리즘
