@@ -1,108 +1,30 @@
-# Deep Learning  - 9/13~9/16
+# Visual Intellgence - 9/19~9/23
 
-## 1. Neural Network 구조 이해 및 코드 구현
-> ### 0) 라이브러리
-> ```
-> import tensorflow as tf
-> from tensorflow import keras
-> ```
-> 
-> ### 1) Sequential API
-> * 선형회귀
-> ```
-> # 1. 세션 클리어
-> keras.backend.clear_session()
-> # 2. 레이어 기초 생성
-> model=keras.models.Sequential()
-> # 3. 레이어 쌓기
-> model.add(keras.layers.Input(shape=(n,)))     # n = feature 수
-> model.add(keras.layers.Dense(1))              # activation의 default가 linear임
-> # 4. 컴파일
-> model.compile(loss='mse', optimizer='adam')
-> # 5. 학습
-> model.fit(x, y, epochs=10, verbose=1)
-> # 6. 모델 예측
-> y_pred = model.predict(x)
-> ```
-> * 로지스틱 회귀 
-> ```
-> > # 1. 세션 클리어
-> keras.backend.clear_session()
-> # 2. 레이어 기초 생성
-> model=keras.models.Sequential()
-> # 3. 레이어 쌓기
-> model.add(keras.layers.Input(shape=(n,)))               # n = feature 수
-> model.add(keras.layers.Dense(1, activation='sigmoid'))  # 분류이기에 activation function 추가
-> # 4. 컴파일
-> model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']) 
->
-> # 이진분류에서 loss를 'binary_crossentropy'로 두고, 직관적으로 보기 위해 metrics=['accuracy'] 추가
-> # threshold를 0.5가 아닌 다른 값으로 설정하려면 
-> # metrics=keras.metrics.BinaryAccuracy(threshold='원하는 값')
-> 
-> # 5. 학습
-> model.fit(x, y, epochs=10, verbose=1)
-> # 6. 모델 예측
-> y_pred = model.predict(x)
-> ```
-> 
-> ### 2) Functional API
-> * 선형회귀
-> ```
-> # 1. 세션 클리어
-> keras.backend.clear_session()
-> # 2. 레이어끼리 연결
-> il=keras.layers.Input(shape=(n,))               # 각 레이어 변수명에 저장
-> ol=keras.layers.Dense(1)(il)                    # 앞레이어와 연결
-> # 3. input, output layer 지정
-> model=keras.models.Model(inputs=il, outputs=ol) # inputs, outputs 각각 지정
-> # 4. 컴파일
-> model.compile(loss = 'mse', optimizer = 'adam')
-> # 5, 학습
-> model.fit(x,y, epochs=10, verbose=1)
-> # 6. 모델 예측
-> y_pred = model.predict(x).reshape(-1)
-> ```
-> * 로지스틱 회귀
-> ```
-> # 1. 세션 클리어
-> keras.backend.clear_session()
-> # 2. 레이어끼리 연결
-> il=keras.layers.Input(shape=(n,))
-> ol=keras.layers.Dense(1, activation='sigmoid')(il)
-> # 3. input, output layer 지정
-> model=keras.models.Model(inputs=il, outputs=ol)
-> # 4. 컴파일
-> model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics=['accuracy'])
-> # 5, 학습
-> model.fit(x,y, epochs=10, verbose=1)
-> # 6. 모델 예측
-> y_pred = model.predict(x).reshape(-1)
-> ```
-> 
-> ### 3) 멀티 클래스 분류
-> * One-Hot Encoding
-> ```
-> from tensorflow.keras.utils import to_categorical
-> y = to_categorical(y, 3)
-> ```
-> * activation function을 softmax로 설정
-> * loss는 categorical_crossentropy로 설정
->
-> |   |선형회귀|로지스틱회귀|멀티클래스 분류|
-> |------|---|---|---|
-> |output layer activation|default(linear)|sigmoid|softmax|
-> |loss|mse|binary_crossentropy|categorical_crossentropy|
->
-> ### 4) Artificial Neural Network
-> * 기계학습과 인지과학에서 생물학의 신경망에서 영감을 얻은 통계학적 학습 알고리즘
-> * 은닉층(hidden layer) 추가
->   * ```keras.layers.Dense(n, activation='relu')```
+## 1. Review
+> ### 1) Batch Normalization
+> * 2015년 Sergey loffe & Christian Szegedy의 논문 Batch Normalization : Accelerating Deep Network Training by Reducing Internal Covariate Shift에서 그레디언트 소실과 폭주 문제를 해결하기 위한 배치 정규화(Batch Normalization)기법 제안
+> * 단순히 입력을 원점에 맞추고 정규화한 다음, 각 층에서 두개의 새로운 파라미터로 결과값의 스케일을 조정하고 이동시킴
+> * 배치 정규화 알고리즘
+>   *
+> * 장점 : 배치 정규화는 규제와 같은 역할을 하여 다른 규제 기법의 필요성을 줄여줌
+>   * 배치 정규화는 전체 데이터셋이 아니고 미니배치마다 평균과 표준편차를 계산하므로 훈련 데이터에 일종의 잡음을 넣는 것으로 볼 수 있고, 이 잡음은 훈련 세트에 과대적합되는 것을 방지하는 규제의 효과를 가짐
+> * 단점 : 모델의 복잡도를 키우며, 층마다 추가되는 계산이 신경망의 예측을 느리게 하기에 실행 시간 면에서도 손해
+> * Internal Covariate Shift
+>   * 
+> ### 2) 규제를 통한 과적합 방지
+> * L1 규제 & L2 규제
+>   * ``` layer = keras.layers.Dense(256, activation='elu', kernel_initailizer='he_normal', kernel_regularizer=keras.regularizer.l2(0.01)```
+>   * keras.regularizer.l1(), keras.regularizer.l2(), keras.regularizer.l1_l2()
+> * Dropout
+>   * 매 훈련 스텝에서 각 뉴런은 임시적으로 드롭아웃될 학률 p를 가지는데, 이번 훈련 스텝에는 완전히 무시되지만 다음 스텝에서는 활성화 될 수 있음
+>   * 각 훈련 스텝에서 고유한 네트워크가 생성된다고 생각할 수 있으며, 결과적으로 만들어진 신경망은 이 모든 신경망을 평균한 앙상블로 볼 수 있음
+>   * Dropout은 훈련하는 동안에만 활성화 됨
+>   * ``` layer=keras.layers.Dropout(rate=0.2) ```
+> * Max-Norm 규제
+> * 과적합 방지
+> * 451
 
-## +. 기타
-> * Loss Fuction
->   * Cross-entropy loss function
->      <img>
->     * Cross-entropy
->       * 실제 분포 q에 대해 알지 못하는 상태에서, 모델링을 통해 구한 분포 p를 통해 q를 예측하는 것
->       * <img>
+## 2. CNN Basics
+> ### 1) Convolution Layer
+> *
+> ### 2) Pooling Layer
