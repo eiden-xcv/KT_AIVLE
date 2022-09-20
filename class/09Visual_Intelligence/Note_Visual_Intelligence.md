@@ -45,3 +45,29 @@
 > ### 2) Pooling Layer
 > * 계산량과 메모리 사용량, 과적합 위험을 줄여주기 위한 파라미터 수를 줄이기 위해 입력이미지의 부표본을 만드는 층
 > * MaxPool2D, AvgPool2D
+
+## 3. Object Detection
+> ### 1) Object Detection
+> * Classification(분류) + Localization(위치) = Multi-Labeled Classification + Bounding Box Regression
+> * Segmentation
+>   * Object Detection 보다 발전된 형태로, pixel 단위로 detection 수행
+>     * Semantic Segmentation : 같은 class의 object는 같은 영역/색으로 표현
+>     * Instance Segmentation : 같은 class의 object여도 서로 다른 영역/색으로 표현
+> * Dataset 
+>   * Pascal VOC Dataset
+>   * COCO Dataset
+>   * Open Images Dataset
+>   * Udacity Dataset
+>   * KITTI-360 Dataset
+> * History
+>   * Two-stage Object Detection
+>     * Faster R-CNN
+>   * One-stage Object detection
+>     * YOLO v1(15.06)
+>     * SSD(15.12)
+>     * YOLO v2(16.12)
+>     * RetinaNet(17.08)
+>     * YOLO v3(18.04)
+>     * YOLO v4(20.04)
+>     * YOLO v5(20.06)
+>    
