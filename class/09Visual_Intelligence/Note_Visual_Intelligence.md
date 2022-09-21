@@ -70,4 +70,12 @@
 >     * YOLO v3(18.04)
 >     * YOLO v4(20.04)
 >     * YOLO v5(20.06)
->    
+> * 구성요소
+>   * Bounding Box : 하나의 object가 포함된 최소 크기의 box (x, y, w, h 포함)
+>   * Class Classification
+>   * Confidence Score : Object가 Bounding Box안에 있는지에 대한 확신의 정도
+
+## 3-1. YOLO v1 논문정리
+> *
+
+## 4. UltraLytics YOLO
