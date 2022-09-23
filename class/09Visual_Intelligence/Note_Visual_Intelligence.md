@@ -74,8 +74,70 @@
 >   * Bounding Box : 하나의 object가 포함된 최소 크기의 box (x, y, w, h 포함)
 >   * Class Classification
 >   * Confidence Score : Object가 Bounding Box안에 있는지에 대한 확신의 정도
+> * YOLO 논문정리
+>   * Sketch에... :)
+> * Metrics
+>   * IoU(Intersection over Union)
+>     * Ground-truth Bounding Box와 Prediction Bounding Box에 대하여 연산
+>     * = Area of Intersection / Area of Union
+>   * Counfusion Matrix with Object Detection
+>     * TP : 실제 Object를 모델이 Object라 예측 -> IoU >= threshold
+>     * FP : Object가 아닌데 모델이 Object라 예측 -> IoU < threshold
+>     * FN : 실제 Object를 모델이 Object가 아니라 예측 -> 모델이 예측을 못함
+>     * TN : Object가 아닌데 모델이 Object가 아니라 예측 -> 모델이 예측을 못함
+>     * Precsion : TP / (TP+FP) -> 모델이 Object라 예측한 것 중 실제 Object의 비율
+>     * Recall : TP / (TP+FN) -> 실제 Object 중 모델이 정확히 예측한 Object이 비율
+>     * **Precision - Recall Curve**
+>       * **AP(Average Precision)** : Precision-Recall Curve 그래프 면적
+>       * **mAP(mean AP)** : 각 클래스 별 AP를 합산하여 평균을 낸 것
+>     * **설정한 threshold 값에 따라 Precision과 Recall이 변함!!**
 
-## 3-1. YOLO v1 논문정리
-> *
-
-## 4. UltraLytics YOLO
+## 4. UltraLytics package
+> * DarkNet Framework기반 YOLO v3를 pytorch로 변환 & YOLO v5 개발
+> ### 1) Pretrained YOLO 모델 사용해보기
+> * 과정
+>  * 0. UltraLytics github에서 yolov3 다운받기
+>  * 1. Pretrained weights 다운받기
+>  * 2. detect.py 실행하기
+>    ```
+>    !cd yolov3; python detect.py \
+>      --weights 'yolov3.pt 경로' \ # pretrained 가중치
+>      --source 'detect할 이미지 경로' \
+>      --project 'detect 후 이미지 저장할 경로' \
+>      --name '저장폴더명 지정' \
+>      --img 640 \ # 이미지 크기
+>      --conf-thres 0.5 \ # confidence threshold
+>      --iou-thres 0.5 \ # NMS IoU threshold
+>      --line-thickness 2 \ 
+>      --exist-ok \ # existing project/name ok, do not increment (덮어쓰기)
+>      --device DEVICEE # cuda device, i.e. 0,1,2,3 or cpu
+>    ```
+>  * 3. detected image 확인하기
+>    ```
+>    from IPython.display import Image
+>    from google.colab import files
+>
+>    Image(filename='경로', width=640)
+>    ```
+> ### 2) Custom Data를 사용하여 train하고 평가하기
+> * 과정
+>   * 0. UltraLytics github에서 yolov5 다운받기
+>   * 1. Custom_Data.yaml 만들기 
+>   * 2. Pretrained weights 다운받기
+>   * 3. train.py 실행하기
+>     ```
+>     !cd yolov5; python train.py \
+>       --data 'Custom_Data.yaml 경로' \
+>       --cfg 'model.yaml 경로' \
+>       --weights 'yolov5.pt 경로' \ # pretrained 가중치
+>       --epochs 1000 \
+>       --patinece 5 \
+>       --img 640 \
+>       --project 'train 저장 경로' \
+>       --name '저장폴더명' \
+>       --exist-ok \ # existing project/name ok, do not increment (덮어쓰기)
+>       --device Device # cuda device, i.e. 0,1,2,3 or cpu
+>     ```
+>   * 4. detect.py 실행하기
+>   * 5. detected image 확인하기
+>  
