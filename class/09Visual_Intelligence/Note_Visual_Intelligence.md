@@ -20,7 +20,6 @@
 
 > ### 2) 규제를 통한 과적합 방지
 > * L1 규제 & L2 규제
->   *
 >    ``` 
 >   layer = keras.layers.Dense(256, activation='elu', kernel_initailizer='he_normal', 
 >                                 kernel_regularizer=keras.regularizer.l2(0.01))
@@ -96,39 +95,71 @@
 > * DarkNet Framework기반 YOLO v3를 pytorch로 변환 & YOLO v5 개발
 > ### 1) Pretrained YOLO 모델 사용해보기
 > * 과정
->  * 0. UltraLytics github에서 yolov3 다운받기
->  * 1. Pretrained weights 다운받기
->  * 2. detect.py 실행하기
->    ```
->    !cd yolov3; python detect.py \
->      --weights 'yolov3.pt 경로' \ # pretrained 가중치
->      --source 'detect할 이미지 경로' \
->      --project 'detect 후 이미지 저장할 경로' \
->      --name '저장폴더명 지정' \
->      --img 640 \ # 이미지 크기
->      --conf-thres 0.5 \ # confidence threshold
->      --iou-thres 0.5 \ # NMS IoU threshold
->      --line-thickness 2 \ 
->      --exist-ok \ # existing project/name ok, do not increment (덮어쓰기)
->      --device DEVICEE # cuda device, i.e. 0,1,2,3 or cpu
->    ```
->  * 3. detected image 확인하기
->    ```
->    from IPython.display import Image
->    from google.colab import files
->
->    Image(filename='경로', width=640)
->    ```
-> ### 2) Custom Data를 사용하여 train하고 평가하기
-> * 과정
->   * 0. UltraLytics github에서 yolov5 다운받기
->   * 1. Custom_Data.yaml 만들기 
+>   * 1. UltraLytics github에서 yolov3 다운받기
 >   * 2. Pretrained weights 다운받기
->   * 3. train.py 실행하기
+>   * 3. detect.py 실행하기
+>     ```
+>     !cd yolov3; python detect.py \
+>       --weights 'yolov3.pt 경로' \ # pretrained 가중치
+>       --source 'detect할 이미지 경로' \
+>       --project 'detect 후 이미지 저장할 경로' \
+>       --name '저장폴더명 지정' \
+>       --img 640 \ # 이미지 크기
+>       --conf-thres 0.5 \ # confidence threshold
+>       --iou-thres 0.5 \ # NMS IoU threshold
+>       --line-thickness 2 \ 
+>       --exist-ok \ # existing project/name ok, do not increment (덮어쓰기)
+>       --device DEVICEE # cuda device, i.e. 0,1,2,3 or cpu
+>     ```
+>   * 4. detected image 확인하기
+>     ```
+>     from IPython.display import Image
+>     from google.colab import files
+>
+>     Image(filename='경로', width=640)
+>     ```
+> ### 2) Custom Data를 사용하여 train하고 평가하기
+> * Custom Data yaml 구조
+>   * Dataset directory 구조
+>     ```
+>     root_directory
+>     L images
+>       L train
+>       L val
+>     L labels
+>       L train
+>       L val
+>     ```
+>   * Custom Data yaml 구조
+>   ```
+>   # Dataset
+>   path: /root_directory/ # 'dataset root directory'
+>   train: images/train # 'relative to path'
+>   val: images/val # 'relatvie' to path
+>   test: # 'relative' to path (optional)
+>   # Classes
+>   nc: 3 # number of classes
+>   names: ['class_A', 'class_B', 'class_C']
+>   # Dataset Download script/url (optional)
+>   download: url주소
+>   ```
+> * CVAT & Annotation 
+>   * 이미지의 detection 정보를 **Annotation**이라는 별도의 설명파일로 제공
+>   * Object의 Bounding Box위치나 Object class 등 특정 포맷을 가짐
+>   * VOC(.xml) / COCO(.json) / ImageNet(.xml) / Open Images(.csv)
+>   * CVAT(Computer Vision Annotation Tool)
+>     * YOLO 특징
+>       * obj.data : 클래스 수 / obj.names : 클래스 이름 / train.txt : 이미지 파일 경로
+>       * 각 이미지별 Annotation.txt 파일 존재
+> * 과정
+>   * 1. UltraLytics github에서 yolov5 다운받기
+>   * 2. Custom_Data.yaml 만들기 
+>   * 3. Pretrained weights 다운받기
+>   * 4. train.py 실행하기
 >     ```
 >     !cd yolov5; python train.py \
 >       --data 'Custom_Data.yaml 경로' \
->       --cfg 'model.yaml 경로' \
+>       --cfg 'model.yaml 경로' \ # 모델 아키텍처 구조만 가짐
 >       --weights 'yolov5.pt 경로' \ # pretrained 가중치
 >       --epochs 1000 \
 >       --patinece 5 \
@@ -138,6 +169,6 @@
 >       --exist-ok \ # existing project/name ok, do not increment (덮어쓰기)
 >       --device Device # cuda device, i.e. 0,1,2,3 or cpu
 >     ```
->   * 4. detect.py 실행하기
->   * 5. detected image 확인하기
->  
+>   * 5. detect.py 실행하기
+>   * 6. detected image 확인하기
+
