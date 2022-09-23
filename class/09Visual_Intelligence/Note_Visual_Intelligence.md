@@ -147,7 +147,7 @@
 >   * 이미지의 detection 정보를 **Annotation**이라는 별도의 설명파일로 제공
 >   * Object의 Bounding Box위치나 Object class 등 특정 포맷을 가짐
 >   * VOC(.xml) / COCO(.json) / ImageNet(.xml) / Open Images(.csv)
->   * CVAT(Computer Vision Annotation Tool)
+>   * **CVAT(Computer Vision Annotation Tool)**
 >     * YOLO 특징
 >       * obj.data : 클래스 수 / obj.names : 클래스 이름 / train.txt : 이미지 파일 경로
 >       * 각 이미지별 Annotation.txt 파일 존재
@@ -171,4 +171,3 @@
 >     ```
 >   * 5. detect.py 실행하기
 >   * 6. detected image 확인하기
-
