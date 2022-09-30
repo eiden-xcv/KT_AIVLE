@@ -54,4 +54,41 @@
 > * 21세기 세종계획, 모두의 말뭉치, 공공 인공지능 오픈 API/DATA, AI 허브
 
 ## 2. 기계학습 기반 자연어처리
-> 
+> * 자연어처리 기술 및 응용 문제
+>   * 자동 띄어쓰기, 형태소분석, 개채명인식, 굼누분석, 의미분석 
+>   * 문서분류, 감성분석, 언어모델, 키워드 추출, 요약, 기계번역, 질의응답, 챗봇
+> * 자연어처리와 기계학습
+>   * 대부분의 자연어처리 문제들은 분류문제로 해결 가능
+> ### 1) 문서 벡터화 & 문서 유사성
+> * 문서의 표현
+>   * Bag of Words : 문서를 단어의 집합으로 간주, 문서에 나타나는 각 단어는 feature로 간주되고 단어의 출현 빈도에 따른 가중치를 얻음
+>   * Feature Selection : 학습 문서에 출현한 term의 부분집합을 선택하는 것, 사전의 크기를 줄여서 학습에 더 효율적인 분류기를 만듦
+>   * From Text To Weight Vector
+> * **Term Extraction**
+>   * 추출 단위 : 어절, 형태소, N-gram
+> * **Vocabulary Generation**
+>   * Document 집합에 있는 Term들을 사전화
+>   * Filtering, Document Frequency Count(DF), Ordering, Term ID 부여
+>   * Stop Word List : 너무 자주 출현되기에 문서를 변별하는 feature로서 쓸모없는 단어 제외
+> * **Document Transformation**
+>   * Term Frequency Vector
+>     * Term -> ID / Out of Vocabulary Term 제거 / 각 Term의 문서 내 Frequency를 Count(TF)
+> * **Document Weighting**
+>   * 가중치 벡터로 문서를 표현
+>     * Weighting 기법 : TF or TF x IDF / Probabiliyt
+>   * IDF(Inverse Document Frequency)
+>     * idf_t = log(N/df_t)   [N:문서집합의 총 문서수, df:문서빈도, tf:용어빈도]
+>   * TF-IDF 값
+>     * TF와 IDF를 결합하여 각 용어의 가중치를 계산
+>     * 문서 D에 나타난 용어 t에 부여되는 가중치
+>     * TF-IDF(t,D) = TF x IDF
+>     * 적은 수의 문서에서 용어t가 많이 나타날 때 가장 높은 값을 가짐(높은 식별렬)
+>     * 한 문서나 많은 문서들에서 그 용어가 적게 나타나면 낮은 값을 가짐(뚜렷하지 않은 적합성)
+> * 문서 유사성
+>   * Term Vector Model
+>     * Document Vector간 유사도를 계산하여 유사성 비교
+> ### 2) 문서 분류
+> * 대량의 문서를 자동 분류, 컨텐츠 필터링, 의도분석, 감성 분류, 이메일 분류 등
+> * 문서 분류 알고리즘
+>   * KNN / Naive Bayes Classifier/ Support Vector Machine / CNN, RNN, BERT 등 딥러닝 기반 알고리즘
+
