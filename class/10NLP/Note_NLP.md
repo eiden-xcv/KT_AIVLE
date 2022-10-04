@@ -142,3 +142,31 @@
 > * Sentiment(감성) vs Emotion(감정)
 >   * Emotion - complex psychological state such as happiness, anger, jealousy, grief, etc.
 >   * Sentiment - mental attitude that is created through the existence of the emotion.
+
+## 4. 워드 임베딩
+> ### 0) 개요
+> * Word Representation
+>   * Bag of Word : A vector with one 1 and a lot of zeors, 전통적인 방법
+>   * Distributed Semantics
+>   * 문맥정보(Context)를 사용한 단어 표현
+>     * co-occurrence matrix
+>     * 단어-문서 행렬(Term-Document matrix)
+>       * 벡터가 빗스하면 두 단어가 유사, 벡터가 비슷하면 두 문서가 유사
+>     * 단어-단어 행렬(Term-Term matrix, Word-Word co-occurrence matrix)
+>       * 단어가 늘어날수록 차원이 커지기에 저장공간이 많이 필요하며, 희소 벡터이다.
+> * Word Embedding
+>   * 중요한 정보만 남기고 적은 차원에서 단어를 표현
+>   * 단어를 d차원의 실수벡터로 표현(usually 50<=d<=300)
+>   * Predictive-Based
+> ### 1) **word2vec**
+> * Continuous Bag-Of-Word - predict a word given its bag-of-words context
+>   * 구조?!?!
+> * Skip-gram - predict a context word (position-independent) from the center word
+>   * 구조?!?!
+> ### 2) Word Analogy
+> * Distributed Representation
+> * word2vec 평가
+>   * Task-based evaluation
+>   * Intrinsic evaluation
+> * word2vec for Data Augmentation
+> * word2vec for recommendation
