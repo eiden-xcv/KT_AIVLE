@@ -55,8 +55,8 @@
 
 ## 2. 기계학습 기반 자연어처리
 > * 자연어처리 기술 및 응용 문제
->   * 자동 띄어쓰기, 형태소분석, 개채명인식, 굼누분석, 의미분석 
->   * 문서분류, 감성분석, 언어모델, 키워드 추출, 요약, 기계번역, 질의응답, 챗봇
+>   * 자동 띄어쓰기, 형태소분석, 개채명인식, 구문분석, 의미분석 
+>   * 문서분류, 감성 분석, 언어모델, 키워드 추출, 요약, 기계번역, 질의응답, 챗봇
 > * 자연어처리와 기계학습
 >   * 대부분의 자연어처리 문제들은 분류문제로 해결 가능
 > ### 1) 문서 벡터화 & 문서 유사성
@@ -87,8 +87,58 @@
 > * 문서 유사성
 >   * Term Vector Model
 >     * Document Vector간 유사도를 계산하여 유사성 비교
+>     * Cosine Similarity
+>     
 > ### 2) 문서 분류
 > * 대량의 문서를 자동 분류, 컨텐츠 필터링, 의도분석, 감성 분류, 이메일 분류 등
 > * 문서 분류 알고리즘
 >   * KNN / Naive Bayes Classifier/ Support Vector Machine / CNN, RNN, BERT 등 딥러닝 기반 알고리즘
 
+## 3. 텍스트 마이닝
+> ### 1) 상용 텍스트마이닝 서비스
+> * Text Mining : 대규모 텍스트 자료를 분석하여 "가치 있는" 새로운 정보를 찾아내는 것
+> * 소셜미디어 분석 서비스 : pulseK & 바이브 컴퍼니(썸트렌드, 에이셉 뷰티)
+> ### 2) 문서 클러스터링
+> * 문서 분류 vs 문서 클러스터링
+>   * 문서 분류
+>     * NLP에서 가장 중요한 분야 중 하나로 다양한 NLP 응용 시스템에서 텍스트 분류 기술을 사용
+>     * 스팸  메일 분류 / 문서 카테고리 분류 / 감성 분석 / 의도 분석
+>   * **문서 클러스터링**
+>     * 문서 분류와는 다르게 비지도학습으로, K-means clustering, DBSCAN 등 클러스터링 알고리즘 사용
+> * K-means clustering
+> * DBSCAN(Density-Based Spatial Clustering of Application with Noise)
+>   * 노이즈가 있는 대규모 데이터에 적용할 수 있는 밀도 기반의 클러스터링 알고리즘
+>   * 데이터 포인트 P를 중심으로 eps 반경 내에 min_samples 이상의 데이터 포인트가 존재하면 클러스터로 인식하고, P는 중심점이 됨
+>   * 클러스터의 개수를 미리 지정할 필요가 없으며, noise를 효과적으로 제외할 수 있다는 장점
+>   * 밀도가 다른 양상을 보일 때 군집 분석을 잘 못함
+> ### 3) 키워드 추출
+> * 문서 내용을 요약하는 기술
+> * 추출 요약(Extractive Summarization)
+>   * 주어진 문서 내에서 이를 대표할 수 있는 키워드들이나 핵심 문장들을 선택하여 문서를 요약하는 기술
+>   * 통계 기반으로 작동하므로 학습데이터 불필요
+> * 추상 요약(Abstractvie Summarization)
+>   * 같은 의미의 다른 표현(paraphrasing)을 사용하거나 새로운 단어를 사용함으로써 새로운 문장으로 된 요약문을 생성하는 기술
+>   * 학습데이터를 기반으로 한 supervised learning이라는 것이 단점
+> * PageRank 알고리즘
+>   * 많은 유입 링크(backlinks)를 지니는 페이지가 중요한 페이지라 가정
+>   * 각 웹페이지는 다른 웹페이지에게 자신의 점수를 1/n을 분배(n:outbound 링크수)
+>   * backlinks가 많은 페이지는 점수가 높아짐
+> * TextRank 기반 키워드 추출
+>   * 그래프 기반의 text summarization 기법
+>   * PageRank를 사용하여 문서 내의 키워드 또는 핵심 문장을 추출
+>   * 문서 집합의 핵심 단어를 선택하기 위해 단어 그래프(co-occurrence graph)를 생성
+>   * 생성된 그래프에 PageRank를 학습하여 각 노드(단어 or 문장)의 랭킹을 계산하고, 랭킹이 높은 순서대로 문서를 대표하는 키워드 또는 핵심문장으로 선택
+>   * 단어 그래프 생성
+>     * Vertex 생성
+>       * 주어진 문서 집합을 품사태깅한 후, 최소 빈도수 이상 등장한 단어를 대상으로 명사, 고유명사, 동사, 형용사 등을 vertex로 생성
+>     * Edge 생성
+>       * 두 단어가 co-occurrence(window size 내에 두 단어가 동시에 출현) 관계가 있을 경우, vertex간 edge를 생성
+>     * vertex의 초기 중요도 1로 설정, 수렴할 때까지 알고리즘 반복 실행
+>     * <img src="https://user-images.githubusercontent.com/110445149/193722760-fe370ff1-ea87-400d-bc85-a4415a7a9c75.JPG" height="60" width="400"></img>
+> ### 4) 감성 분석(Sentiment Analysis)
+> * 사전기반 감성 분석 툴
+>   * VADER(Valence Aware Dictionary and sEntiment Reasoner)
+>     * 사전과 규칙 기반의 감성 분석 툴로써, 소셜미디어 텍스트 분석에 강점
+> * Sentiment(감성) vs Emotion(감정)
+>   * Emotion - complex psychological state such as happiness, anger, jealousy, grief, etc.
+>   * Sentiment - mental attitude that is created through the existence of the emotion.
