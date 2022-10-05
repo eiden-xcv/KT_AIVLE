@@ -26,7 +26,7 @@
 > * 품사 태깅(Parts-of-Speech Tagging)
 >   * 품사태그 : 형태소 분석의 기준이 되는 세분화된 품사 체계
 >   * 형태소 분석의 모호성을 해결 & 해당 문맥에 맞는 품사태그를 선택하는 문제
->   * Hidden Markov Model(HMM) 기반 품사 태깅
+>   * **Hidden Markov Model(HMM) 기반 품사 태깅**
 >     * W_i : i번째 단어, P_i는 W_i의 품사태그
 >     * Pr(W_i | P_i) = freq(W_i, P_i) / freq(P_i)
 >     * Pr(P_i | P_i-1) = freq(P_i-1, P_i) / freq(P_i)
@@ -34,7 +34,7 @@
 > * 형태소 분석의 이슈
 >   * 전처리 / 형태소 분석의 모호성 / 미등록어 처리 / 지속적인 사전 업데이트
 > ### 2) 규칙 & 패턴 기반 자연어처리
-> * 개채명 인식(Named Entity Recognition, NER)
+> * 개체명 인식(Named Entity Recognition, NER)
 >   * 누가, 무엇(누구)을, 언제, 어디서, 얼마나 등과 같은 정보
 > * 개체명 카테고리
 >   * OntoNotes
@@ -44,32 +44,62 @@
 >   * 언어별 grammar와 lexicon(어휘의 품사/속성 정보를 담은 사전)에 기반하여 문장의 구문 구조를 분석
 >   * 구문 분석의 모호성 : 하나의 입력문장이 여러가지 구조로 분석 가능한 문제
 > * 패턴 매칭
->   * 패턴 매칭 기반 의도 분석 : 사용자 입력 문장을 분석하여 사용자 의도를 분석\
+>   * 패턴 매칭 기반 의도 분석 : 사용자 입력 문장을 분석하여 사용자 의도를 분석
 >   * 형태소 분석 -> 패턴 매칭(Intent 분석) -> Intent+Context(Context 분석) -> 응답문 조회&생성
 > * 기존 자연어처리
->   * 언어자원(형태소 사전, 기분석 삿전, 감성어 사전, 개채명 사전) + 규칙&패턴(패턴, 형태소 결합 규칙)
+>   * 언어자원(형태소 사전, 기분석 사전, 감성어 사전, 개채명 사전) + 규칙&패턴(패턴, 형태소 결합 규칙)
 > * 장단점
 >   * 장점 : 좋은 성능을 보여줌, 즉각 반영이 가능함
 >   * 단점 : 리소스 구축 비용, 새로운 도메인에 적용이 힘듦, 패턴 유지관리 이슈
 > * 21세기 세종계획, 모두의 말뭉치, 공공 인공지능 오픈 API/DATA, AI 허브
+> ### 3) MeCab
+> * MeCab은 형태소 분석기로, 한국어 형태소 분석에도 유용하게 쓰임
+> * 간단한 사용법
+> ```
+> import MeCab
+> 
+> tagger = MeCab.Tagger()
+> sentence = '안녕하세요. 오늘은 수요일입니다.'
+> print (tagger.parse(sentence))
+> ### output ###
+> 오늘	NNG,*,T,오늘,*,*,*,*
+> 은	JX,*,T,은,*,*,*,*
+> 수요일	NNG,*,T,수요일,Compound,*,*,수/NNG/*+요일/NNG/*
+> 입니다	VCP+EC,*,F,입니다,Inflect,VCP,EC,이/VCP/*+ᄇ니다/EC/*
+> EOS
+> ##############
+> * 사용자 사전 추가하기
+>   * user-dic에서 nnp.csv(고유명사), nng.csv(일반명사) 등 파일 수정
+> ### 4) Hannanum
+> * 한국어 형태소 분석기
+> ```
+> from konlpy.tag import Hannanum
+> hannanum = Hannanum()
+> hannanum.nouns('sentence')
+> ```
 
 ## 2. 기계학습 기반 자연어처리
 > * 자연어처리 기술 및 응용 문제
 >   * 자동 띄어쓰기, 형태소분석, 개채명인식, 구문분석, 의미분석 
 >   * 문서분류, 감성 분석, 언어모델, 키워드 추출, 요약, 기계번역, 질의응답, 챗봇
 > * 자연어처리와 기계학습
->   * 대부분의 자연어처리 문제들은 분류문제로 해결 가능
+>   * 대부분의 자연어처리 문제들은 **분류문제**로 해결 가능
 > ### 1) 문서 벡터화 & 문서 유사성
 > * 문서의 표현
 >   * Bag of Words : 문서를 단어의 집합으로 간주, 문서에 나타나는 각 단어는 feature로 간주되고 단어의 출현 빈도에 따른 가중치를 얻음
->   * Feature Selection : 학습 문서에 출현한 term의 부분집합을 선택하는 것, 사전의 크기를 줄여서 학습에 더 효율적인 분류기를 만듦
->   * From Text To Weight Vector
+>   * Feature Selection
+>     * 학습 문서에 출현한 term의 부분집합을 선택하는 것
+>     * 사전의 크기를 줄여서 학습에 더 효율적인 분류기를 만듦
+>     * Noise feature를 제거하여 분류의 정확도를 높임
+>     * WordNet 등 어휘 리소스를 활용하여 동의어, 상위어로 단어를 확장
+>   * From Text To Weight Vector(가중치 벡터)
 > * **Term Extraction**
 >   * 추출 단위 : 어절, 형태소, N-gram
 > * **Vocabulary Generation**
 >   * Document 집합에 있는 Term들을 사전화
 >   * Filtering, Document Frequency Count(DF), Ordering, Term ID 부여
 >   * Stop Word List : 너무 자주 출현되기에 문서를 변별하는 feature로서 쓸모없는 단어 제외
+> * **Term Vocabulary**
 > * **Document Transformation**
 >   * Term Frequency Vector
 >     * Term -> ID / Out of Vocabulary Term 제거 / 각 Term의 문서 내 Frequency를 Count(TF)
@@ -88,11 +118,32 @@
 >   * Term Vector Model
 >     * Document Vector간 유사도를 계산하여 유사성 비교
 >     * Cosine Similarity
->     
 > ### 2) 문서 분류
 > * 대량의 문서를 자동 분류, 컨텐츠 필터링, 의도분석, 감성 분류, 이메일 분류 등
 > * 문서 분류 알고리즘
 >   * KNN / Naive Bayes Classifier/ Support Vector Machine / CNN, RNN, BERT 등 딥러닝 기반 알고리즘
+> * Naive Bayes Classifier
+> ```
+> C = argmax P(c|x) = argmax (P(x|c) * P(c))/P(x) = argmax P(x|c) * P(c)
+> { x:분류될 문장, C:분류 클래스, 사후확률 P(c|x)는 계산하기 어렵기에 Bayes' Rule를 적용 } 
+> ``` 
+> * CountVectorizer
+>   * 문서를 토큰 리스트로 변환하여, 각 문서의 토큰의 빈도를 세어 BoW 벡터로 변환 
+> ```
+> from sklearn.feature_extraction.text import CountVectorizer
+> vec = CountVectorizer(max_features = 1000).fit(train_docs_X) # .fit() : Term Vocabulary 생성
+> train_X = vec.transform(train_docs_X).toarray() # .transform() : BoW로 변환
+> ```
+> * KNN & Naive Bayes Classifier
+> ```
+> from sklearn.naive_bayes import GaussianNB
+> from sklearn.neighbors import KNeighborsClassifier
+> 
+> gnb = GaussianNB()
+> gnb.fit(train_X, train_Y)
+> knn = KNeighborsClassifier()
+> knn.fit(train_X, train_Y)
+> ```
 
 ## 3. 텍스트 마이닝
 > ### 1) 상용 텍스트마이닝 서비스
@@ -102,15 +153,29 @@
 > * 문서 분류 vs 문서 클러스터링
 >   * 문서 분류
 >     * NLP에서 가장 중요한 분야 중 하나로 다양한 NLP 응용 시스템에서 텍스트 분류 기술을 사용
->     * 스팸  메일 분류 / 문서 카테고리 분류 / 감성 분석 / 의도 분석
+>     * 스팸 메일 분류 / 문서 카테고리 분류 / 감성 분석 / 의도 분석
 >   * **문서 클러스터링**
 >     * 문서 분류와는 다르게 비지도학습으로, K-means clustering, DBSCAN 등 클러스터링 알고리즘 사용
 > * K-means clustering
+>   * 주어진 데이터를 k개의 클러스터로 분할하는 알고리즘
 > * DBSCAN(Density-Based Spatial Clustering of Application with Noise)
 >   * 노이즈가 있는 대규모 데이터에 적용할 수 있는 밀도 기반의 클러스터링 알고리즘
 >   * 데이터 포인트 P를 중심으로 eps 반경 내에 min_samples 이상의 데이터 포인트가 존재하면 클러스터로 인식하고, P는 중심점이 됨
 >   * 클러스터의 개수를 미리 지정할 필요가 없으며, noise를 효과적으로 제외할 수 있다는 장점
 >   * 밀도가 다른 양상을 보일 때 군집 분석을 잘 못함
+> * TfidfVectorizer
+>   * ngram을 사용하여 tfidf vector로 변환
+> ```
+> from sklearn.feature_extraction.text import TfidfVectorizer
+> from sklearn.cluster import DBSCAN
+>
+> tfidf_vectorizer = TfidfVectorizer(min_df = 3, ngram_range=(1,5))
+> tfidf_vectorizer.fit(docs)
+> vector = tfidf_vectorizer.transform(docs).toarray()
+> vector = np.array(vector)
+> model = DBSCAN(eps=0.5, min_samples=3, metric = "cosine") 
+> result = model.fit_predict(vector) # Computes clusters from a data and predict labels.
+> ``` 
 > ### 3) 키워드 추출
 > * 문서 내용을 요약하는 기술
 > * 추출 요약(Extractive Summarization)
@@ -142,32 +207,57 @@
 > * Sentiment(감성) vs Emotion(감정)
 >   * Emotion - complex psychological state such as happiness, anger, jealousy, grief, etc.
 >   * Sentiment - mental attitude that is created through the existence of the emotion.
+> ```
+> from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+> 
+> analyser = SentimentIntensityAnalyzer()
+> sentence= 'Every bit of Top Gun Maverick is realistic, moving, and thrilling!'
+> score=analyser.polarity_scores(sentence) 
+> # output : {'neg': 0.154, 'neu': 0.513, 'pos': 0.333, 'compound': 0.4199}
+> # compound결과가 0.05보다 크면 긍정, -0.05보다 작으면 부정
+> ```
 
 ## 4. 워드 임베딩
 > ### 0) 개요
 > * Word Representation
 >   * Bag of Word : A vector with one 1 and a lot of zeors, 전통적인 방법
 >   * Distributed Semantics
+>     * Distributional Hypothesis(분포가설) : 같은 문맥의 단어, 즉 비슷한 위치에 나오는 단어는 비슷한 의미를 가짐
 >   * 문맥정보(Context)를 사용한 단어 표현
 >     * co-occurrence matrix
 >     * 단어-문서 행렬(Term-Document matrix)
->       * 벡터가 빗스하면 두 단어가 유사, 벡터가 비슷하면 두 문서가 유사
+>       * 벡터가 비슷하면 두 단어가 유사 & 두 문서가 유사
 >     * 단어-단어 행렬(Term-Term matrix, Word-Word co-occurrence matrix)
->       * 단어가 늘어날수록 차원이 커지기에 저장공간이 많이 필요하며, 희소 벡터이다.
-> * Word Embedding
+>       * 단어가 늘어날수록 차원이 커지기에 저장공간이 많이 필요하며, 희소한 벡터이다.
+> * **Word Embedding**
 >   * 중요한 정보만 남기고 적은 차원에서 단어를 표현
 >   * 단어를 d차원의 실수벡터로 표현(usually 50<=d<=300)
 >   * Predictive-Based
 > ### 1) **word2vec**
-> * Continuous Bag-Of-Word - predict a word given its bag-of-words context
->   * 구조?!?!
-> * Skip-gram - predict a context word (position-independent) from the center word
->   * 구조?!?!
+> * Continuous Bag-Of-Word - Predict a word given its bag-of-words context
+>   * 주변 단어(context word)를 입력으로 받아 중심 단어(center word)를 예측하는 방법
+>   * 슬라이딩 윈도우 방식으로 학습을 위한 데이터셋 구축
+>   * 구조
+>     * Input layer(V:단어 집합 크기), Projection layer(M:각 단어의 임베딩 벡터 차원, 여러 입력벡터 결과의 평균), Output layer(V, one-hot vector)
+>     * CBOW는 주변 단어로 중심 단어를 더 정확하게 예측하기 위해 계속해서 가중치 벡터인 W(VxM), W'(MxV)를 학습해가는 구조
+>     * lookup table
+> * Skip-gram - Predict a context word (position-independent) from the center word
+>   * 중심 단어에서 주변 단어를 예측
+>   * Hidden Layer Weight Matrix(가중치 행렬) == Word Vector Lookup Table(단어 벡터의 lookup table)
+> * gensim
+>   * 텍스트를 벡터로 변환하는 데 필요한 함수 제공
+>  ```
+>  import gensim
+>
+> model = gensim.models.Word2Vec.load(~)
+> model.wv['sentence'] # output
+> model.wv.most_similar(positive=["word 1-1", "word 2-1"], negative=["word 2-2"], topn=1) # output : "word 1-2"
+>  ```
 > ### 2) Word Analogy
 > * Distributed Representation
 > * word2vec 평가
->   * Task-based evaluation
->   * Intrinsic evaluation
+>   * Task-based evaluation - 좋은 단어 벡터를 사용하면 NLP task 성능을 개선
+>   * Intrinsic evaluation - 단어 간 유사성에 대한 모델의 판단과 human 판단을 비교
 > * word2vec for Data Augmentation
 > * word2vec for recommendation
 
