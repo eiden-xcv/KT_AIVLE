@@ -170,3 +170,14 @@
 >   * Intrinsic evaluation
 > * word2vec for Data Augmentation
 > * word2vec for recommendation
+
+## 5. CNN 기반 자연어 처리
+> ### 1) CNN 기반 텍스트 분류
+> * 과정
+>   * 1. 문장의 지역 정보를 보존하면서 각 문장 성분의 등장 정보를 학습에 반영하는 구조
+>   * 2. 학습할 때 각 필터 크기를 조절하면서 언어의 특징 값을 추출하게 되는데, 기존의 N-gram 방식과 유사
+>   * 3. max pooling 후 fully connected layer을 이용해 classification
+> * 감성 분석(Sentiment Analysis) or 극성 분석(Polarity Detection)
+
+
+perplexity
