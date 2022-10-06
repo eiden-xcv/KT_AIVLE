@@ -268,6 +268,77 @@
 >   * 2. 학습할 때 각 필터 크기를 조절하면서 언어의 특징 값을 추출하게 되는데, 기존의 N-gram 방식과 유사
 >   * 3. max pooling 후 fully connected layer을 이용해 classification
 > * 감성 분석(Sentiment Analysis) or 극성 분석(Polarity Detection)
+>   * NSMC(Naver Sentiment Movie Corpus) Dataset
+> ### 2) pytorch
+> 
 
+## 6. RNN 기반 자연어 처리
+> ### 1) RNN(Recurrent Nerual Network) 개요
+> * 특징
+>   * 히든 노드가 방향을 가진 엣지로 연결되어 순환구조를 이루는 신경망 모델
+>   * 음성, 텍스트 등 순차적으로 등장하는 데이터 처리에 적합한 모델
+>   * 하나의 파라미터 쌍(weights, bias)을 각 시간대 데이터 처리에 반복 사용
+>   * 시퀀스 길이에 관계없이 input과 output을 받아들일 수 있는 네트워크 구조여서 다양한 문제에 적용가능하다는 장점
+>   * h_t = f_W(h_t-1, x_t) { h_t:new state, h_t-1:old state, x_t:input vector at some time step, f_W:some function with parameters W }
+> * 구조
+>   * input x_t -> hidden state h_t with activation function (<-h_t-1) -> ouptut y_t
+>   * 활성화 함수
+>     * 하이퍼볼릭 탄젠트 함수
+>       * 실수 범위의 입력값 -> (-1, 1) 사이의 출력값
+>       * 기울기가 양수, 음수 모두 나올 수 있기에 시그모이드 함수보다 학습 효율성이 뛰어남
+>       * 시그모이드 함수보다 출력값의 범위가 넓기에 출력값의 변화폭이 큼. 따라서 기울기 소멸 현상이 더 적음
+> * 품사태깅(POS Tagging)
+>   * 같은 단어여도 문장 내 순서에 따라 품사가 달라짐
+>   * 학습과정
+>     * 정답값과 모델의 예측값을 비교하여 두 값의 차이를 줄여나가는 과정
+>     * W_hh, W_xh, b의 값을 최적화
+> * 기본 RNN 문제점
+>   * 긴 시퀀스를 가진 입력이 들어올 경우 성능이 저조해짐
+>   * 특정 시간대에 형성된 정보를 먼 시간대로 전달하기 어려움
+>   * gradient vanishing & exploding이 발생하여 모델이 최적화되지 않음
+> * **LSTM(Long Short-Term Memory)**
+>   * 특징
+>     * gradient vanishing & exploding 현상 해소
+>     * 정보의 장거리 전달이 가능하여 기본 RNN에 비해 우수한 문제 처리 능력
+>     * hidden state에 cell state를 추가, forget gate, input gate를 이용하여 이전 정보를 버리거나 유지
+> * Gates
+>   * 생성된 시그모이드 값이 0에 가까울수록 입력값을 무시, 1에 가까울수록 입력값을 활용
+> * 연산기호
+>   * Plus junction & Times junction  
+> * 구조
+>   * output gate
+>     *
+>   * forget gate
+>     *
+>   * 새로운 기억 셀
+>     *  
+>   * input gate
+> * Bi-directional LSTM
+>   * 하나의 출력값을 예측하기 위해 기본적으로 두 개의 메모리 셀을 사용하며, 첫번째 셀은 앞 시점의 은닉 상태를 계산하고 두번째 셀은 뒤 시점의 은닉 상태를 계산함
+> ### 2) 언어 모델
+> * 앞 단어(문장의 일부)를 보고 다음에 출현할 단어를 예측하는 모델
+> * Statistical LM(N-gram LM) & Neural LM
+>   * Statistical LM의 문제점
+>     * Data Sparsity & Storage
+>   * RNN LM
+> ### 3) Sequence-to-Sequence
+> * seq2seq
+>   * 시퀀스 입력 데이터에 대해 적절한 시퀀스 출력을 학습하기 위한 모델
+>   * 두개의 RNN을 이용해 모델링(Encoder-Decoder 모델)
+>   * 인코더는 입력 문장의 모든 단어들을 순차적으로 입력받은 뒤에 모든 단어 정보들을 압축하여 하나의 벡터로 만듦 -> Context Vector
+>   * 디코더는 Context Vector를 받아 단어를 하나씩 순차적으로 출력
+>   * 단점 : 하나의 고정된 크기의 벡터에 모든 정보를 압축하니 정보 손실과 RNN의 고질적 문제인 기울기 소실이 발생
+> * 신경망 기계번역(Neural Machine Translation, NMT)
+>   * seq2seq의 단점은 context vector가 일종의 bottlenet이 되어 긴 문장에서 long-term dependency가 문제 발생하기에 긴 문장을 번역할 경우 성능 하락
+>   * 입력문장 내 특정 단어의 정보를 더 참조할 수 있도록 처리하기 위해, 입력문장 내에 현재 출력될 단어와 관련된 부분에 가중치를 부여하는 기법인 Attention 기법으로 성능 개선
+> ### 4) **Attention**
+> * 기법
+>   * 시퀀스 데이터 모델에서 단어 간 거리에 무관하게 입력, 출력 간의 의존성을 보존해주는 기법
+>   * 디코더에서 t번째 단어를 예측하기 위한 Attention value를 계산
+>   * Attetion 값은 Query와 Key, Value에 의해 Attention(Q, K, V) 계산
+> * 개요
+>   * Attention score / Attention distribution / Attetion Value / Attention concatenate / tanh
+> * 기법
+>   * Bahnadau Attention & Luong Attention
 
 perplexity
