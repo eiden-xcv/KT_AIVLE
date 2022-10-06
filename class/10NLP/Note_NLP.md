@@ -385,6 +385,7 @@
 > * Bi-directional LSTM
 >   * 하나의 출력값을 예측하기 위해 기본적으로 두 개의 메모리 셀을 사용하며, 첫번째 셀은 앞 시점의 은닉 상태를 계산하고 두번째 셀은 뒤 시점의 은닉 상태를 계산함
 > ```
+> # 0. RNN 정의하기
 > class RNN_Text(nn.Module):
 >   def __init__(self, embed_num, class_num):
 >     super(RNN_Text, self).__init__()
