@@ -305,14 +305,19 @@
 >   * 생성된 시그모이드 값이 0에 가까울수록 입력값을 무시, 1에 가까울수록 입력값을 활용
 > * 연산기호
 >   * Plus junction & Times junction  
-> * 구조
->   * output gate
->     *
->   * forget gate
->     *
->   * 새로운 기억 셀
->     *  
->   * input gate
+> * 구성
+>   * LSTM의 기본 구성요소는 은닉층을 의미하는 Memory Cell
+>   * 각 메모리 셀에 적절한 가중치를 유지하는 순환 에지가 있는데, 이 순환 에지의 출력을 cell state라고 함.
+>   * t-1의 cell state C_t-1은 어떤 가중치와도 직접 곱해지지 않고 변경되어 t의 cell state C_t를 얻음
+>   * LSTM에는 3종류의 gate
+>     * forget gate
+>       * 메모리 셀이 무한정 성ㅈ아하지 않도록 셀 상태를 다시 설정함
+>       * 통과할 정보와 억제할 정보를 결정
+>     * input gate
+>       * 입력게이트 i_t와 입력 노드 g_t는 셀 상태를 업데이트하는 역할을 담당
+>     * output gate
+>       * 은닉 유닛의 출력값을 업데이트함
+>   * <img src="https://user-images.githubusercontent.com/110445149/194232989-fbed7f92-f4ae-4f7c-8171-36f551bc43d7.JPG" height="300" width="500"></img>
 > * Bi-directional LSTM
 >   * 하나의 출력값을 예측하기 위해 기본적으로 두 개의 메모리 셀을 사용하며, 첫번째 셀은 앞 시점의 은닉 상태를 계산하고 두번째 셀은 뒤 시점의 은닉 상태를 계산함
 > ### 2) 언어 모델
@@ -340,5 +345,21 @@
 >   * Attention score / Attention distribution / Attetion Value / Attention concatenate / tanh
 > * 기법
 >   * Bahnadau Attention & Luong Attention
+
+## 7. 챗봇
+> * Retrieval-based vs Generative bots
+> * 챗봇 시스템의 요소 기술
+>   * Natural Language Understanding, Natural Language Generation, Dialog Management, Context Management, Common Sense Reasoning, Offensive Speech Filtering
+> * 의도 분석(Intent Analysis)
+>   * 기계학습 및 딥러닝 기반 의도 분석
+>     * CNN, RNN, BERT 등 활용, 결국 document classification임
+>   * 패턴매칭 기반 의도 분석
+>     * 정규 표현식으로 구문을 기술, 입력 텍스트에 나타나는 특정한 규칙을 가진 시퀀스 매칭
+> * Dialog Manager
+>   * 대화 정책 운영, 대화 상태 트랙킹
+
+
+
+
 
 perplexity
