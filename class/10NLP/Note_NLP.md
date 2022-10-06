@@ -269,8 +269,72 @@
 >   * 3. max pooling 후 fully connected layer을 이용해 classification
 > * 감성 분석(Sentiment Analysis) or 극성 분석(Polarity Detection)
 >   * NSMC(Naver Sentiment Movie Corpus) Dataset
-> ### 2) pytorch
+> ```
+> # 0. CNN 정의하기
+> class CNN_Text(nn.Module):
+>   def __init__(self, embed_num, class_num):
+>     super(CNN_Text, self).__init__()    # nn.Module 클래스 초기화
+>     
+>     V = embed_num # 사전의 크기
+>     D = 100       # embed_dimension
+>     C = class_num # 분류하고자는 클래스 수
+>     Co = 50       # output channel 수 (filter 수)
+>     Ks = [2,3,4]  # 커널의 크기
+>     
+>     self.embed = nn.Embedding(V, D)     # 사전에 있는 모든 단어 벡터에 random 초기값
+>     self.convs1 = nn.ModuleList([nn.Conv2d(1, Co, (K, 100)) for K in Ks])   # nn.Conv2d(in_channel, out_channel, kernersize)
+>     self.dropout = nn.Dropout(0.2)       
+>     
+>     self.fc1 - nn.Linear(len(Ks) * Co, C)
+>   
+>   def forward(self, x):
+>     x = self.embed(x)   # (N, W, D) : (미니배치, 문장 최대길이, 단어벡터 차원)
+>     x = x.unsqueeze(1)  # (N x Ci x W x D), Conv2d 연산하려면 입력채널 수 추가해야함
+>     
+>     x = [F.relu(conv(x)).squeeze(3) for conv in self.convs1]  # 마지막 차원은 1이며, max_pool1d는 3D 입력을 받음
+>     x = [F.max_pool1d(i, i.size(2)).squeeze(2) for i in x]    # max pooling 후 마지막 차원은 1
+>     x = torch.cat(x,1)
+>     x = self.dropout(x)
+>     logit = self.fc1(x)
+>     
+>     return logit
+> # 1. 학습시키기
+> cnn = CNN_Text(len(text_field.vocab), 2)
+> optimizer = torch.optim.Adam(cnn.parameters())
+> cnn.train()
 > 
+> for epoch in range(20):
+>   totalloss=0
+>   
+>   for batch in train_iter:
+>     optimizer.zero_grad()
+>     
+>     txt = batch.text
+>     label = batch.label
+>     pred = cnn(txt)
+>     
+>     loss = F.cross_entropy(pred. label)
+>     totalloss += loss.data
+>     
+>     loss.backward()   # backward 연산
+>     optimizer.step()  # 파라미터 업데이트
+> # 2. 평가하기
+> cnn.eval()
+> 
+> for batch in test_iter:
+>   txt = batch.text
+>   label = batch.label
+>   y_test.append(label.data[0])
+>   
+>   pred = cnn(txt)
+>   _ , ans = torch.max(pred, dim=1)
+>   prediction.append(ans.data[0])
+>   
+>   if ans.data[0] == label.data[0]:
+>     correct+=1
+>   else:
+>     incorrect+=1
+> ```
 
 ## 6. RNN 기반 자연어 처리
 > ### 1) RNN(Recurrent Nerual Network) 개요
@@ -311,15 +375,81 @@
 >   * t-1의 cell state C_t-1은 어떤 가중치와도 직접 곱해지지 않고 변경되어 t의 cell state C_t를 얻음
 >   * LSTM에는 3종류의 gate
 >     * forget gate
->       * 메모리 셀이 무한정 성ㅈ아하지 않도록 셀 상태를 다시 설정함
+>       * 메모리 셀이 무한정 성장하지 않도록 셀 상태를 다시 설정함
 >       * 통과할 정보와 억제할 정보를 결정
 >     * input gate
->       * 입력게이트 i_t와 입력 노드 g_t는 셀 상태를 업데이트하는 역할을 담당
+>       * 입력게이트 i_t와 입력 노드 g_t는 셀 상태를 업데이트하는 역할을 담당 -> cell update
 >     * output gate
->       * 은닉 유닛의 출력값을 업데이트함
+>       * 은닉 유닛의 출력값을 업데이트함 -> hidden state update
 >   * <img src="https://user-images.githubusercontent.com/110445149/194232989-fbed7f92-f4ae-4f7c-8171-36f551bc43d7.JPG" height="300" width="500"></img>
 > * Bi-directional LSTM
 >   * 하나의 출력값을 예측하기 위해 기본적으로 두 개의 메모리 셀을 사용하며, 첫번째 셀은 앞 시점의 은닉 상태를 계산하고 두번째 셀은 뒤 시점의 은닉 상태를 계산함
+> ```
+> class RNN_Text(nn.Module):
+>   def __init__(self, embed_num, class_num):
+>     super(RNN_Text, self).__init__()
+>     
+>     V = embed_num # 사전의 크기
+>     D = 100       # embed_dimension
+>     C = class_num # 분류하고자는 클래스 수
+>     H = 256       # 히든 사이즈
+>     
+>     self.embed = nn.Embedding(V, D)                 # 사전에 있는 모든 단어 벡터에 random 초기값
+>     self.rnn = nn.LSTM(D, H, bidirectional = True)  # bidirectional이므로 벡터의 크기는 2 * H
+>     
+>     self.out = nn.Linear(H * 2, C)
+>     
+>   def forward(self, x):
+>     x = self.embed(x)   # (N, W, D) : (미니배치, 문장 최대길이, 단어벡터 차원)
+>     # input x : torch.Size([30, 100, 100]) [시퀀스 길이, 배치 사이즈, Dimension]
+>     x, ( _ , __ ) = self.rnn(x, (self.h, self.c)) 
+>     # output x : torch.Size([30, 100, 512]) [시퀀스 길이, 배치 사이즈, 2 * 256]
+>     # 최종 hidden layer로 linear module 실행
+>     logit = self.out(x[-1])
+>     
+>     return logit
+>   def inithidden(self, b): # b : batch size
+>     self.h = torch.randn(2, b, 256)
+>     self.c = torch.randn(2, b, 256)
+> # 1. 학습시키기
+> rnn = RNN_Text(len(text_field.vocab), 2)
+> optimizer = torch.optim.Adam(rnn.parameters())
+> rnn.train()
+> 
+> for epoch in range(20):
+>   totalloss=0
+>   
+>   for batch in train_iter:
+>     optimizer.zero_grad()
+>     
+>     txt = batch.text
+>     label = batch.label
+>     rnn.inithidden(txt.size(1))  # batch size 전달
+>     pred = rnn(txt)
+>     
+>     loss = F.cross_entropy(pred. label)
+>     totalloss += loss.data
+>     
+>     loss.backward()   # backward 연산
+>     optimizer.step()  # 파라미터 업데이트
+> # 2. 평가하기
+> rnn.eval()
+> 
+> for batch in test_iter:
+>   txt = batch.text
+>   label = batch.label
+>   y_test.append(label.data[0])
+>   
+>   rnn.inithidden(txt.size(1))
+>   pred = rnn(txt)
+>   _ , ans = torch.max(pred, dim=1)
+>   prediction.append(ans.data[0])
+>   
+>   if ans.data[0] == label.data[0]:
+>     correct+=1
+>   else:
+>     incorrect+=1
+> ```
 > ### 2) 언어 모델
 > * 앞 단어(문장의 일부)를 보고 다음에 출현할 단어를 예측하는 모델
 > * Statistical LM(N-gram LM) & Neural LM
@@ -362,4 +492,4 @@
 
 
 
-perplexity
+* perplexity : 언어 모델의 성능을 평가하는 척도
