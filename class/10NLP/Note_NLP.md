@@ -528,3 +528,9 @@
 >     * Fine-tuninig : 다양한 task를 수행하기 위해 BERT의 pre-trained 모델 위에 Linear 레이어를 올림
   
 ## 10. Question Answering
+> * Question 유형
+>   * Factoid questions
+>   * Long-form questions
+> * QA 시스템의 타입
+>   * Information retrieval-based QA
+>   * Knowledge-based QA
