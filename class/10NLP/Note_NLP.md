@@ -457,6 +457,7 @@
 >   * Statistical LM의 문제점
 >     * Data Sparsity & Storage
 >   * RNN LM
+> * perplexity : 언어 모델의 성능을 평가하는 척도
 > ### 3) Sequence-to-Sequence
 > * seq2seq
 >   * 시퀀스 입력 데이터에 대해 적절한 시퀀스 출력을 학습하기 위한 모델
@@ -489,8 +490,41 @@
 > * Dialog Manager
 >   * 대화 정책 운영, 대화 상태 트랙킹
 
+## 8. Transformer
+> ### 1) 구조
+> * Motivation
+>   * RNN 단점을 개선한 모델
+>   * RNN의 Long-term dependency 문제를 Attention을 통해 해결
+>   * RNN은 학습 시, t번재 hidden state를 얻기 위해서는 t-1번째 hiddent state가 필요함. 즉 순차적으로 계산해야하므로 병렬처리를 할 수 없고 계산 속도가 느림
+> * Architecture
+> <img src="https://user-images.githubusercontent.com/110445149/194444904-b96c4fcf-3543-4d66-8cee-0fd2ac4786b9.JPG" height="300" width="500"></img>
+>   * Encoder
+>     * 동일한 구조를 갖는 N개 layer로 구성
+>     * 각 layer는 두 개의 sub-layer로 구성 
+>       * Multi-Head Self-Attention
+>       * Feed Forward Network
+>     * Positional Encoding - 단어의 위치 정보를 인코딩
+>   * Decoder
+>     * 동일한 구조를 갖는 N개 layer로 구성
+>     * 각 layer는 두 개의 sub-layer로 구성 
+>       * (Masked) Multi-Head Self-Attention - masking을 통해 현재 단어보다 이후에 있는 단어에 대해 attention을 주지 못하도록 함
+>       * Encoder-Decoder Attention
+>       * Feed Foward Network
+> ### 2) Self-Attention
+> * Scaled Dot-Product Attention
+>   * 현재의 단어(Query)가 어떤 단어와 관련성이 있는지 알기 위해 한 문장 내 모든 단어(Key)들과 dot-product 연산
+>   * query 단어와 key 단어를 dot-product한 뒤 softmax 연산
+>     * softmax를 거친 값을 value에 곱하면 query와 유사한 단어일수록, 중요한 단어일수록 더 높은 값을 가짐
+>   * Scaling을 위해 Dimension의 루트 값으로 나눔 
+>     * dimension이 커질수록 dot-prodcut 값이 커지는 것을 방지
 
-
-
-
-* perplexity : 언어 모델의 성능을 평가하는 척도
+## 9. BERT(Bi-directional Encoder Representations from Transformer)
+> * 개요
+>   * 2018년에 구글에서 발표한 새로운 방식의 언어 학습 모델
+>   * NLP에서도 전이학습이 가능하게 된 중요한 발전
+>   * 자연어처리에 필요한 언어 지식을 비지도 학습을 통해 대부분 습득할 수 있다는 것을 전제
+>   * Pre-trained + Fine-tuning 
+>     * Pre-training : 방대한 양의 텍스트로부터 언어의 패턴을 학습하여 문법적, 의미적, 문장 간의 관계성을 인코딩을 함
+>     * Fine-tuninig : 다양한 task를 수행하기 위해 BERT의 pre-trained 모델 위에 Linear 레이어를 올림
+  
+## 10. Question Answering
