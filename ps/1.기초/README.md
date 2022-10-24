@@ -20,7 +20,7 @@ n = int(input()) / float(intput())
 ```
 2. 공백으로 구분된 문자를 리스트로 받기
 ```
-arr = input().split
+arr = input().split()
 ```
 3. 공백으로 구분된 숫자를 정수로 변환하여 변수에 저장
 ```
