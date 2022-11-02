@@ -108,7 +108,7 @@
 >     * VPC의 IP 대역을 적절한 단위로 분할 사용
 >     * 각 Subnet도 VPC와 마찬가지로 CIDR을 이용해 IP 범위를 지정
 >     * 각 Subnet의 대역은 VPC의 대역에 존재해야하며, 중복 불가
->     * 본래 Subnetting의 주요 목적 중 하나는 Broadcasting 영역 분리이지만, AWS VPC는 Broadcast/Multicast 지원하지 안흥ㅁ
+>     * 본래 Subnetting의 주요 목적 중 하나는 Broadcasting 영역 분리이지만, AWS VPC는 Broadcast/Multicast 지원하지 않음
 >     * Subnet 별로 경로를 제어하고, 원하는 트래픽만 Subent 별로 받을 수 있도록 네트워크 레벨에서 격리시키는 것이 목적
 >     * Internet Gateway
 >       * VPC는 기본 외부 통신 단절이기에, 외부 통신하려면 Internet Gateway를 통해야만 함
@@ -122,7 +122,33 @@
 >       * VPC 생성 시, 자동으로 Main Routing Table 생성
 >       * Subnet은 하나의 Routing Table과 연결될 수 있음
 >       * Main Routing Table은 삭제 
-
+>   * AWS Storage Service
+>     * Block Storage
+>       * 사용자의 데이터가 Local Disk 또는 SAN Storage 상의 Volume에 Block 단위로 저장 및 Access하는 스토리지 유형
+>       * Amazon EBS(Elasctic Block Store)
+>     * File Storage
+>       * 파일 시스템으로 구성된 저장소를 Network 기반 Protocol을 사용하여 파일 단위로 Access하는 스토리지 유형(NAS)
+>       * Amazon EFS(Elastic File System), FSx 
+>     * Object Storage
+>       * Encapsulate된 데이터 및 속성, 메타데이터, 오브젝트 ID를 저장하는 가상의 컨테이너
+>       * API 기반의 데이터 접근 & 메타데이터 또는 정책에 기반한 운영 
+>       * Amazon S3(Simple Storage Service), Glacier
+>   * EBS(Elastic Block Store)
+>     * 개념
+>       * AWS에서 제공하는 Block Storage 서비스
+>       * 사용이 쉽고 확장 가능한 고성능 블록 스토리지 서비스로 EC2용으로 설계
+>     * 특징
+>       * EC2 인스턴스를 위한 비휘발성 블록 스토리지
+>       * 가상디스크 = Volume(볼륨)
+>       * API 기반 볼륨 생성, 연결, 삭제
+>       * 다양한 타입 지원
+>       * 네트워크를 통한 연결
+>         * 인스턴스 간 연결 및 해제 언제든 가능
+>         * 특수한 경우를 제외하고, EBS Volume은 동시에 하나의 Instance 연결 가능
+>       * 온라인 변경
+>         * 디스크 추가 및 Scale up
+>       * EBS 불륨과 인스턴스는 같은 Availability Zone에 있는 경우 연결 가능
+>       * 인스턴스와 볼륨 연결 시 데이터 전송 속도가 중요하므로, 동일 네트워크상의 Availability Zone에 있어야 데이터 처리 속도 보장
 
 
 
