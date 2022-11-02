@@ -149,6 +149,43 @@
 >         * 디스크 추가 및 Scale up
 >       * EBS 불륨과 인스턴스는 같은 Availability Zone에 있는 경우 연결 가능
 >       * 인스턴스와 볼륨 연결 시 데이터 전송 속도가 중요하므로, 동일 네트워크상의 Availability Zone에 있어야 데이터 처리 속도 보장
+>     * Volume Type 선택 시 중요 고려 지표
+>       * Size - 데이터 저장 용량
+>       * IOPS(Input/Output Per Seconds) - 데이터를 얼마나 빠르게 읽고 쓸 수 있는지에 대한 대표적인 성능 지표
+>       * Throughput - 초당 얼마만큼의 데이터를 처리 가능한지에 대한 성능 지표
+>       * Cost - 클라우드 사용 시 가장 중요하게 고려되야 하는 점이 바로 비용
+>     * Volume Type
+>       * SSD 기반 볼륨 : io2 / io2 Block Express / io1 / gp3 / gp2
+>       * HDD 기반 볼륨 : st1 / sc1
+>     * EBS Volume Snapshot
+>       * EBS Volume을 특정 시점 기준으로 복사하여 백업하는 기능
+>       * 스냅샷은 실제로는 S3에 저장
+>       * 스냅샷은 마지막 스냅샷 이후 변경분만 저장되는 증분식 백업
+>       * 활용
+>         * EBS Volume을 Availabiliy Zone을 넘어서 복사 가능
+>         * 스냅샷을 다른 Region으로 복제하면, 동일 Volume을 Region 단위로 복사하여 넘기는 것도 가능
+>   * AMI(Amazon Machine Image)
+>     * 인스턴스를 배포 가능한 탬플릿
+>     * OS + System 서버 + Application 와 같이 묶여있는 형태
+>   * S3(Simple Storage Service)
+>     * 개념
+>       * AW에서 제공하는 Object Storage 서비스
+>       * 언제 어디서나 원하는 양의 데이터를 저장, 검색할 수 있는 객체 기반 스토리지 서비스
+>     * 특징
+>       * Object 스토리지 서비스
+>       * 웹 서비스 기반 인터페이스 제공(REST API 기반 데이터 생성/수정/삭제)
+>       * 고가용성, 무제한 용량 제곧
+>       * 초기 저장 용량 확보 불필요, 강력한 보안 기능
+>     * S3 Bucket
+>       * Object를 저장하는 컨테이너로, Object는 하나의 Bucket에 속해야 함
+>       * Bucket에 저장할 수 있는 Object는 무제한
+>     * S3 Object & Key
+>       * Object는 S3에 저장되는 기본 개체로, 하나 최대 크기는 5TB
+>       * Object는 데이터와 메타데이터로 구성되어 있음
+>         * 메타데이터 : Object를 설명하는 이름-값 쌍
+>         * 기본 메타데이터 및 Content-Type 같은 HTTP 메타데이터 포함
+>       * Key 및 Version ID를 통해 버킷 내 고유 식별
+>       * Key는 Bucket 내 Object에 대한 고유한 식별자
 
 
 
