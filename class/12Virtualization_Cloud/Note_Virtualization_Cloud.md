@@ -297,7 +297,7 @@
 >   * 경로
 >     * url 방식으로 관리하고 태그를 붙일 수 있음
 >     * 형식
->       * <Namespace>/<ImageName>:<Tag> == 저장소/이름:Tag(version)
+>       * (Namespace)/(ImageName):(Tag) == 저장소/이름:Tag(version)
 > * Docker HUB
 >   * 수많은 컨테이너 이미지들을 서버에 저장하고 관리
 >   * 공개 이미지를 무료로 관리
@@ -327,3 +327,4 @@
 >     * Container Runtime - 컨테이너를 실행하고 노드에서 컨테이너 이미지를 관리
 >     * kubelet - 각 Node의 에이전트
 >     * kube-proxy(k-proxy) - 쿠버네티스 클러스터의 각 노드마다 실행되고 있으면서, 각 노드 간의 통신을 담당
+
