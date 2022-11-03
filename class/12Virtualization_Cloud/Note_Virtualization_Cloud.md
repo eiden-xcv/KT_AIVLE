@@ -114,7 +114,7 @@
 >       * VPC는 기본 외부 통신 단절이기에, 외부 통신하려면 Internet Gateway를 통해야만 함
 >   * 3. Routing 설정
 >     * Subnet의 트래픽 경로 설정, Route 설정을 통해 Subnet의 통신 방향을 결정할 수 있음
->     * Subnet 생성시 고려사항
+>     * Subnet 생성 시 고려사항
 >       * Subnet의 CIDR은 생성 후 변경 불가
 >       * Subnet의 IP 대역 중 예약된 IP 존재
 >         * Subnet CIDR 영역 내 모든 IP를 사용 가능한 것이 아님
@@ -187,9 +187,74 @@
 >       * Key 및 Version ID를 통해 버킷 내 고유 식별
 >       * Key는 Bucket 내 Object에 대한 고유한 식별자
 
-
-
-
-
-
-
+## 3. AWS 고가용성 구현
+> * 가용성
+>   * 워크로드를 사용할 수 있는 시간의 비율로, 서비스 가용성이라고도 함
+> * 고가용성(High Availability)
+>   * 높은 가용성으로, 지속적으로 구현한 시스템이 정상적으로 운영이 되는 성질
+>   * 장애 또는 고장이 나더라도 복구를 해서 서비스를 지속할 수 있는 능력
+> ### 1) Region & Availability Zone
+> * AWS는 Region과 Availability Zone으로 이루어져있음(Region안에 여러 AZ가 있음)
+> * Region
+>   * 전 세계에서 데이터센털르 클러스터링 하는 물리적 위치
+>   * Resource는 Region내 AZ 단위로 배포
+> * Availability Zone
+>   * Region 내 물리적으로 분리된 전력 네트워킹 장치가 분리된 영역
+>   * 보통 AZ 별 데이터센터 분리된 구조
+> * 구성
+>   * Region은 보통 2~3개의 AZ로 구성
+>   * 동일 Region 내 AZ는 전용 광 네트워크로 구성되어 매우 낮은 지연 속도와 높은 처리 처리량 보장
+>   * AZ간 모든 데이터 트래픽은 기본 암호화
+> * AZ 분산 배치
+>   * 동일 역할을 수행하는 인스턴스의 경우, AZ를 분산 배치하여 서비스 가용성을 높이는 것이 좋음
+> * AZ & VPC
+>   * Region - VPC와 맵핑
+>   * AZ - Subnet과 맵핑
+>   * Instance 생성 시 VPC와 Subnet을 선택하여 배포
+> * VPC 구성
+>   * Public Subnet & Private Subnet
+>     * VPC 구성 시, 목적에 따라 Subnet을 구분하여 생성
+>       * Public(외부 통신용) & Private(Public과 Private간 연동용)
+>     * 외부 통신 시 NAT Gateway를 통한 단방향 허용
+>   * AZ별 Subnet 구성
+>     * VPC 구성 시, AZ에 따라 Subnet 구성
+>       * 각각의 Subnet을 AZ 수 만큼 생성
+>       * 총 Subnet 수 = AZ Count * 용도별 Subnet
+> * ELB(Elastic Load Balancer)
+>   * Load Balancer
+>     * 인입되는 트래픽을 특정 알고리즘 기반으로 다수의 서버로 분산 시켜주는 장비
+>   * 특징
+>     * Region 내 인스턴스 및 다양한 서비스로 트래픽 분배 서비스
+>     * 다수의 AZ로 트래픽 분배
+>     * HTTP/S 웹 기반 트래픽, TCP/S 프로토콜 기반
+>     * Backend 인스턴스에 대한 Health Check 수행
+>     * 고가용성 기반 L4/L7 서비스
+>     * AZ 분산 및 Traffic 증가 시 자동 Scale-out 기능 지원
+>   * ELB 4 Type
+>     * ALB / NLB / GLB / CLB
+>       * NLB - L4 Load Balancer, TCP/UDP
+>       * ALB - L7 Load Balancer, HTTP/S
+>   * Scale-out
+>     * 트래픽 증가 시, 서비스에 투입되는 서버를 증설하여 각 서버가 처리하는 부하를 낮추는 방식
+>     * Web basedt 서비스의 경우 많이 사용하는 구성으로 Session이나 Data 처리 영역 없이 Stateless한 서버에서 주로 사용
+>   * Scale-in
+>     * 트래픽 감소 시, 배포된 서버를 제거하는 방식
+>     * 낭비되는 리소스를 줄임으로 비용 최적화 목적
+>   * ELB 알고리즘
+>     * 어떤 규칙으로 트래픽을 인스턴스로 분배할 것인가
+>     * Round Robin / Hashing / Weighted RR / Least Connection / Weighted LC
+>   * ELB 헬스체크 기능
+>     * 주기적으로 서버가 정상 상태인지 확인하고 정상상태가 아닌 서버에게는 트래픽을 전달하지 않게하는 기능
+>   * ELB AZ 분산배치
+>     * 활성화된 AZ에는 LB node가 자동으로 생성되어 배치
+>     * 기본적으로 해당 AZ에 배치된 타겟(Instance)는 해당 AZ의 LB node가 트래픽을 처리
+> * ASG(Auto Scaling Group)
+>   * Scaling을 자동으로 해줌
+>   * Auto Scaling 대상
+>     * Launch Template
+>       * 인스턴스를 배포하기 위한 정보들의 묶음
+>       * AMI, Instance Type, Keypair, Security Group, Network와 같은 Instance에 대한 정보
+>       * IAM Role, Userdata, Tags 등 추가 정보를 미리 Template로 정의 가능
+>       * 사용자는 해당 Template을 그대로 인스턴스로 배포하는데 
+>   * 자동 설정 정책 설정
+>     * ASG : Desired Capacity, Min/Max Size, Target Group 등 자동 확장에 대한 정의
