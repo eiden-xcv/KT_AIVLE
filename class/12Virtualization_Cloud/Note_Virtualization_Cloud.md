@@ -275,11 +275,13 @@
 |이미지 사이즈|크다|작다|
 |환경 관리|각 VM마다 OS 패치 필요|호스트 OS만 패치|
 |데이터 관리|VM 내부 또는 연결된 스토리지에 저장|컨테이너 내부의 데이터는 컨테이너 종료 시 소멸, 필요시 스토리지를 이용하여 저장|
+
 > * Monolithic vs Micro Service
 >   * Monolithic Architecture
 >     * 고용량 고성능의 단일 서버로 구성
 >   * MicroService Architecture
 >     * Monolithic Architecture와 비교하여 작은 서버들의 집합체로 구성
+> ### 1) Docker
 > * Docker
 >   * 컨테이너 엔진, 컨테이너 기반의 오픈소스 가상화 플랫폼
 >   * 도커는 도커허브라는 공개된 저장소 서버를 통해, 컨테이너 자료들을 관리
@@ -297,3 +299,31 @@
 >     * 형식
 >       * <Namespace>/<ImageName>:<Tag> == 저장소/이름:Tag(version)
 > * Docker HUB
+>   * 수많은 컨테이너 이미지들을 서버에 저장하고 관리
+>   * 공개 이미지를 무료로 관리
+> * 컨테이너 오케스트레이터
+>   * 컨테이너 오케스트레이션을 해주는 도구
+>   * Kubernetes, Docker Swarm, AWS ECS...
+>   * 컨테이너 오케스트레이션
+>     * 다수의 컨테이너를, 다수의 시스템에서, 각각의 목적에 따라, 배포/복제/장애복구 등 총괄적으로 관리하는 것
+>     * 기능 - 스케쥴링 / 자동확장 및 축소 / 장애복구 / 로깅 및 모니터링 / 검색 및 통신 / 업데이트 및 롤백
+>     * 배포위치 - 베어 메탈 / 가상머신/ 온프레미스 / 클라우드
+> ### 2) Kubernetes
+> * Kubernetes
+>   * 컨테이너형 애플리케이션의 배포, 확장, 관리를 자동화하는 오픈 소스 시스템
+>   * 장점
+>     * 높은 확장성, 원활한 이동성(이식성)
+>     * 퍼블릭/프라이빗/하이브리드/멀티 클라우드, 로컬 또는 원격 가상머신, 베어메탈과 같은 여러 환경에 구축 가능
+>     * 오픈 소스 도구의 장점, 플러그가 가능한 모듈 형식
+> * 아키텍처   
+> <img src="https://user-images.githubusercontent.com/110445149/199664785-da3a8bce-c7c9-419b-82ed-bfbc2b4589c9.JPG" height="300" width="500"></img>   
+>   * Cluster = Master Node(control plane) + Worker Node
+>   * Master Node
+>     * API Server(api) - API를 사용할 수 있게 해주는 프로세스, 각 구성요소 간 통신
+>     * Scheduler(sched) - Pod의 생성 명령이 있을 경우 어떤 Node에 배포할 지 결정
+>     * Controller Managers(c-m) - 클러스터의 상태를 조절하는 컨트롤러들의 생성 및 배포
+>     * etcd - 모든 클러스터의 구성 데이터를 저장하는 저장소
+>   *  Worker Node
+>     * Container Runtime - 컨테이너를 실행하고 노드에서 컨테이너 이미지를 관리
+>     * kubelet - 각 Node의 에이전트
+>     * kube-proxy(k-proxy) - 쿠버네티스 클러스터의 각 노드마다 실행되고 있으면서, 각 노드 간의 통신을 담당
