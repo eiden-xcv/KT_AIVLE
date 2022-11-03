@@ -258,3 +258,42 @@
 >       * 사용자는 해당 Template을 그대로 인스턴스로 배포하는데 
 >   * 자동 설정 정책 설정
 >     * ASG : Desired Capacity, Min/Max Size, Target Group 등 자동 확장에 대한 정의
+
+## 4. 쿠버네티스 개요 및 주요 아키텍쳐
+> * 컨테이너
+>   * OS 가상화 기술
+>   * 프로세스 격리
+>   * 리눅스 커널 공유
+> * 가상머신과의 차이 - Guest OS의 유무
+>   * 가상머신 - Infrastructure - Hypervisor - (Guest OS - APP)s
+>   * 컨테이너 - Infrastructure - OS - Container Engine - APPs
+
+|구분|가상머신|컨테이너|
+|:---:|:---:|:---:|
+|Guest OS|Windows, Linux ... | x |
+|시작시간|길다|짧다|
+|이미지 사이즈|크다|작다|
+|환경 관리|각 VM마다 OS 패치 필요|호스트 OS만 패치|
+|데이터 관리|VM 내부 또는 연결된 스토리지에 저장|컨테이너 내부의 데이터는 컨테이너 종료 시 소멸, 필요시 스토리지를 이용하여 저장|
+> * Monolithic vs Micro Service
+>   * Monolithic Architecture
+>     * 고용량 고성능의 단일 서버로 구성
+>   * MicroService Architecture
+>     * Monolithic Architecture와 비교하여 작은 서버들의 집합체로 구성
+> * Docker
+>   * 컨테이너 엔진, 컨테이너 기반의 오픈소스 가상화 플랫폼
+>   * 도커는 도커허브라는 공개된 저장소 서버를 통해, 컨테이너 자료들을 관리
+>   * 컨테이너를 생성하고 실행하기 위해서는 Dockerfile과 Image가 필요
+> * Dockerfile
+>   * 컨테이너 이미지를 생성하기 위한 레시피 파일
+>   * 이 파일에 이미지 생성과정을 무넙에 따라 작성하여 저장
+> * Docker Image
+>   * 서비스 운영에 필욯나 프로그램, 소스코드, 라이브러리 등을 묶는 형태
+>   * 도커 이미지는 Dokcerfile을 사용하여 생성할 수 있음(Build)
+>   * 도커 이미지를 사용하여 다수의 Container를 실행할 수 있음(Run)
+>   * Dockerfile -build-> Image -run-> Container
+>   * 경로
+>     * url 방식으로 관리하고 태그를 붙일 수 있음
+>     * 형식
+>       * <Namespace>/<ImageName>:<Tag> == 저장소/이름:Tag(version)
+> * Docker HUB
