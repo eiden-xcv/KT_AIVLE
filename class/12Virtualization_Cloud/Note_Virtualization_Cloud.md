@@ -345,3 +345,78 @@
 >   3. Master와 Worker 연동
 >   * 환경 안내
 >     * AWS의 Cloud9 서비스 & AWS의 EC2 인스턴스 서비스
+
+## 6. 쿠버네티스 클러스터 배포, 통신, 볼륨관리
+> * Kubernetes Object
+>   * 가장 기본적인 구성단위로, 상태를 관리하는 역할
+>   * 가장 기본적인 오브젝트
+>     * Pod, Service, Volume, Namespace
+>   * 오브젝트의 Spec, Status 필드
+>     * Spec : 정의된 상태 / Status : 현재 상태
+> * Kubernetes Controller
+>   * 클러스터의 상태를 관찰하고, 필요한 경우 오브젝트를 생성, 변경을 요청하는 역할
+>   * 각 컨트롤러는 현재 상태를 정의된 상태에 가깝게 유지하려는 특징
+>     * Deployment, Replicaset, Daemonset, Job, CronJob ...
+>   * Controller Cycle
+>     * 관찰(Current State) -> 상태 변동(Current State != Desired State) -> 조치 (Current State <- Desired State)
+>   * Auto Healing & Auto Scaling & Update & Rollback & Job
+> * YAML 구조
+>   * apiVersion : 연결할 API server의 버전
+>   * kind : 리소스의 유형
+>   * metadata : 리소스가 기본 정보를 갖고 있는 필드로, name, label, namespace 등
+>   * spec : 배포되는 리소스의 원하는 상태
+> * kubectl
+>   * Kubernetes에 명령을 내리는 CLI
+>   * 오브젝와 컨트롤러를 생성, 수정, 삭제
+>   * 명령 구조
+>     * kubectl [COMMAND] [TYPE] [NAME] [FLAGS]]
+> * Pod
+>   * Kubernetes의 가장 작은, 최소 단위 Object
+>   * 하나 이상의 컨테이너 그룹, 네트워크와 볼륨을 공유
+> * Template
+>   * Pod를 생성하기 위한 명세
+>   * Deployment, ReplicaSet과 같은 Controller의 yaml 내용에 포함
+>   * Template에는 Pod 세부사항을 경정 
+> * Kubernetes Object - Namespace
+>   * 단일 클러스트 내 리소스 그룹 격리를 위한 오브젝트
+>   * 사용자가 여러 팀으로 구성하는 경우, 프로젝트를 진행함에 있어 환경을 분리해야하는 경우 사용
+> * Kubernetes Controller - ReplicaSet
+>   * ReplicaSet은 Pod의 개수를 유지
+>   * yaml을 작성할 때 replica 개수를 지정하면 그 개수에 따라 유지
+> * Kubernetes Controller - Deployment
+>   * ReplicaSet을 관리하며 애플리케이션의 배포를 더욱 세밀하게 관리(Pod의 개수도 유지)
+>   * 초기 배포 이후에 버전 업데이트, 이전 버전으로도 Rollback도 가능
+> * Deployment Update
+>   * 운영중인 서비스의 업데이트 시 재배포를 관리
+>   * 2가지 재배포 방식
+>     * Recreate : 현재 운영중인 Pod들을 삭제하고, 업데이트 된 Pod들을 생성, Downtime이 발생하기에 실시간으로 사용해야한다면 권장되지 않음
+>     * Rolling Update : 먼저 업데이트된 Pod를 하나 생성하고 구버전의 Pod를 삭제하여, Downtime없이 업데이트 가능
+> * Deployment Rollback
+>   * Deployment 이전버전의 ReplicaSet을 10개까지 저장
+>   * 저장된 이전 버전의 ReplicaSet을 활용하여 Rollback
+> * Kubernetes Object - Service
+>   * Pod에 접근하기 위해 사용하는 Object, 고정된 주소를 이용하여 접근 가능
+>   * Kubernetes 외부 또는 내부에서 Pod에 접근할 때 필요
+>   * Pod에 실행중인 애플리케이션을 네트워크 서비스로 노출시키는 Object
+>   * 유형
+>     * ClusterIP(default) : Service가 기본적으로 갖고있는 ClusterIP를 활용하는 방식
+>     * NodePort : 모든 Node에 Port를 할당하여 접근하는 방식
+>     * Load Balancer : Load Balancer Plugin을 설치하여 접근하는 방식
+> * Label : Pod와 같은 Object에 첨부된 키와 값 쌍
+> * Selector : 특정 Label값을 찾아 해당하는 Object만 관리할 수 있게 연결
+> * annotation : Object를 식별하고 선택하는 데에는 사용되지 않으나 참조할 만한 내용들을 Laebl처럼 첨부
+> * Kubernetes DNS
+>   * Kubernetes는 Pod와 Service에 DNS 레코드를 생성
+>   * IP대신, 이 DNS를 활용하여 접근 가능
+> * Volume
+>   * Pod 컨테이너에서 접근할 수 있는 디렉터리
+>   * 유형
+>     * EmptyDir : Pod 생성될때 함께 생성되고, 삭제될때 함께 삭제되는 임시 Volume
+>     * HostPath : 호스트 노드의 경로를 Pod에 마운트하여 함께 사용하는 유형의 Volume
+>     * PV/PVC
+>       * PV(Persistent Volume) 
+>         * Volume 자체를 의미, 클러스터 내부에서 Object처럼 관리 가능, Pod와는 별도로 관리
+>         * 클라우드 서비스에서 제공해주는 Volume 서비스를 이용할 수도 있고, 사설에 직접 구축되어있는 스토리지를 사용가능
+>         * Pod에 직접 연결하지 않고 PVC를 통해 사용
+>       * PVC(Persistent Volume Claim)
+>         * 사용자가 PV에 하는 요청, Pod와 PV의 중간 다리역할
