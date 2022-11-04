@@ -323,8 +323,25 @@
 >     * Scheduler(sched) - Pod의 생성 명령이 있을 경우 어떤 Node에 배포할 지 결정
 >     * Controller Managers(c-m) - 클러스터의 상태를 조절하는 컨트롤러들의 생성 및 배포
 >     * etcd - 모든 클러스터의 구성 데이터를 저장하는 저장소
->   *  Worker Node
->     * Container Runtime - 컨테이너를 실행하고 노드에서 컨테이너 이미지를 관리
+>   * Worker Node
+>     * Container Runtime - 컨테이너(Pod)를 실행하고 노드에서 컨테이너 이미지를 관리
 >     * kubelet - 각 Node의 에이전트
 >     * kube-proxy(k-proxy) - 쿠버네티스 클러스터의 각 노드마다 실행되고 있으면서, 각 노드 간의 통신을 담당
+>   * Addons
+>     * Kubernetes에서 추가적으로 설치하여 Kubernetes의 기능을 확장시킬수 있는 도구
+>     * DNS, Dashboard, Monitoring, Logging ...
 
+## 5. 쿠버네티스 클러스터 배포
+> * 배포유형
+>   * All-in-One Single-Node Installation
+>   * Single-Node etcd, Single-Master and Multi-Worker Installation
+>   * Single-Node etcd, Multi-Master and Multi-Worker Installation
+>   * Mulit-Node etcd, Multi-Master and Multi-Worker Installation
+> * 설치도구
+>   * kubeadm / kubespray / kops
+> * Kubernetes 배포 순서
+>   1. Container Runtime 설치
+>   2. Kubernetes 설치
+>   3. Master와 Worker 연동
+>   * 환경 안내
+>     * AWS의 Cloud9 서비스 & AWS의 EC2 인스턴스 서비스
