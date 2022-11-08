@@ -97,5 +97,77 @@
 >   * 즉, outerFunc는 실행된 이후 콜스택(실행 컨텍스트 스택)에서 제거
 >   * outerFunc의 변수 x 또한 더이상 유효하지 않게 되어 변수 x에 접근할 수 있는 방법은 달리 없어 보이나, 코드의 실행 결과는 변수 x의 값인 10임 
 >   * 이처럼 자신을 포함하고 있는 외부함수보다 내부함수가 더 오래 유지되는 경우, 
->   * 외부 함수 밖에서 내부함수가 호출되더라도 외부함수의 지역 변수에 접근할 수 있는데 이러한 함수를 **클로저(Closure)** 라고 부른다.
+>   * 외부 함수 밖에서 내부함수가 호출되더라도 외부함수의 지역 변수에 접근할 수 있는데 이러한 함수를 **클로저(Closure)** 라고 부름
 > * [참고]https://poiemaweb.com/js-closure
+
+## 4.자바스크립트 객체
+> ### 1) 객체
+> * 객체 
+>   * 자바스크립트 객체는 키-값 쌍의 집합
+>   * 키와 값의 쌍 하나를 속성(Property), 키에 대한 값이 함수인 경우 메서드(Method)라 부름.
+> * 객체 생성
+>   * 생성자 함수를 이용한 객체 생성
+>     * obj = new Object(); p1.key1=value1;
+>   * 객체 리터럴을 이용한 객체 생성
+>     * obj = { key1 : vlaue1 };
+> ### 2) 배열
+> * 배열 생성
+>   * 생성자 함수를 이용한 배열 생성
+>     * arr = new Array();
+>   * 리터럴방식을 이용한 배열 생성
+>     * arr = [ 100, 200, 300 ]; arr.push(400);
+> ### 3) JSON
+> * JSON
+>   * 처음에 JSON은 자바스크립트가 객체를 표기하는 표기법을 의미하는 용어
+>   * 현재는 네트워크상에서 데이터를 교환하는 경량 데이터 전송 표준의 의미로 사용
+> * JSON 문자열 -**JSON.parse()**-> JavaScript 객체 -**JSON.stringify()**-> JSON 문자열
+>   * JSON.parse(jsontext (,receiver))
+>     * jsontext - 필수입력값, JSON 문자열
+>     * receiver - 옵션값, 각 필드에 대해 이 함수가 호출됨. 함수로 전달하는 파리미터는 key, value 값이며 리턴값은 변환된 자바스크립트 객체의 속성값
+>   * JSON.stringify(object, (,replacer))
+>     * object - 필수입력값, JSON 문자열로 변환하려는 자바스크립트 객체
+>     * replacer - 옵션값, 객체의 속성 이름/값이 파라미터가 되며 리턴값은 JSON 문자열 필드의 값 
+> ### 4) 속성, 메서드, this
+> * this
+>   * 함수가 호출된(소유자) 객체를 가리킴
+>   * this의 대상을 지정하고 싶을 때, apply() or call() 사용
+>     * func.apply(obj, [arg1, arg2])
+>     * func.call(obj, arg1, arg2)
+> ### 5) 생성자 함수
+> ### 6) Prototype
+> * JavaScript는 클래스라는 개념이 없으며, 기존의 객체를 복사하여 새로운 객체를 생성하는 프로토타입 기반 언어
+> * [참고]https://www.nextree.co.kr/p7323/
+
+## 5. 내장 객체
+> ### 0) JavaScript 객체
+> * DOM
+>   * document, ...
+> * BOM
+>   * Screen, Location, History, Navigator
+> * 내장객체
+>   * String, Number, Date, Math, Array, ...
+> ### 1) String 객체
+> ### 2) Number 객체
+> ### 3) Date 객체
+> ### 4) Math 객체
+> ### 5) Array 객체
+> * splice() - 데이터 추가/삭제
+> * filter() - 규칙에 따라 특정 값 추출
+> * map() - 값을 규칙에 따라 변경
+> * reduce() - 전체를 대상으로 규칙에 따라 하나의 값 추출
+> * forEach() - 전체를 대상으로 규칙만 적용
+> ### 6) BOM/DOM
+> * DOM
+>   * Method
+>     * getElementById() - Returns the element that has the ID attribute with the specified value
+>     * getElementsByClassName() - Returns an HTMLCollection containing all elements with the specified class name
+>     * getElementsByName()	- Returns an live NodeList containing all elements with the specified name
+>     * getElementsByTagName() - Returns an HTMLCollection containing all elements with the specified tag name
+> * 이벤트 
+> * [참고]https://www.w3schools.com/jsref/default.asp
+
+##  6. Vue.js
+> ### 1) Vue.js 기초
+> ### 2) Vue.js 인스턴스
+> ### 3) 이벤트 처리
+> ### 4) axios를 이용한 서버 통신
