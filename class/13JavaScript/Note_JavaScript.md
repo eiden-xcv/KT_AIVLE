@@ -168,6 +168,7 @@
 
 ##  6. Vue.js
 > ### 1) Vue.js 기초
+>  * Data - Vue - Display
 > ### 2) Vue.js 인스턴스
 > ### 3) 이벤트 처리
 > ### 4) axios를 이용한 서버 통신
