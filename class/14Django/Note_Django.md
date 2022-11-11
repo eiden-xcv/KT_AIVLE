@@ -49,3 +49,11 @@
 >   * 현재 개발 중인 Django 프로젝트의 개발 과정에서 필요한 작업을 실행시켜주는 커멘트 유틸리티
 
 절차 : 프로젝트 생성 -> 앱생성 -> 앱등록
+
+## 3. Django Model
+절차 : DB 설정 -> Model
+ORM
+migrate :
+  makemigrate : class -> sql & migrate : sql -> db
+models.Model == Table
+p1=Post() -> p1.save() == INSERT
