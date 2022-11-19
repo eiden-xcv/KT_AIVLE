@@ -36,24 +36,80 @@
 >     * DB 데이터 처리를 담당하며 model.py 파이썬 스크립트 구현
 >   * Template
 >     * 사용자들이 서비스를 요청할 수 있는 화면 또는 서비스가 처리된 결과 화면 처리를 담당하며 HTML 파일로 구현
-> * 장고 처리 구조   
+> * Django 처리 구조   
+>   * (Django HTTP Handler) 요청정보 -> (urls) URL 확인 -> (views) 서비스 처리 -> (models) DB처리 -> (templates) 탬플릿으로 응답정보 생성 or ()직접 응답정보 생성 -> (Django HTTP Handler) 응답정보 
 > <img src="https://user-images.githubusercontent.com/110445149/201237751-bec0a1b9-99c2-43ab-9dd8-4e0c3ee61b63.JPG" height="300" width="300"></img>
 
 ## 2. Django Project
 > ### 1) Django Project & APP
 > * Project
->   * Django에서 웹 사이트 또는 웹 애플리케이션 프로젝트라 부름
+>   * Django에서 웹 사이트 또는 웹 애플리케이션을 프로젝트라 부름
 > * App
 >   * 웹 사이트에는 사용자의 서비스를 처리하는데 제공하는 기능을 앱이라 부름
+> * Django 프로젝트 생성
+>   * ``` django-admin startproject <project_name>``` 을 통해 프로젝트를 생성
+>   * 초기 프로젝트는 manage.py 와 환경설정 폴더(프로젝트명과 동일) 아래 asgi.py, settings.py, urls.py, wsgi.py, __init__.py 가 생성됨.
+>   * 이후 앱 생성 및 앱 등록 절차를 진행
 > * manage.py
 >   * 현재 개발 중인 Django 프로젝트의 개발 과정에서 필요한 작업을 실행시켜주는 커멘트 유틸리티
-
-절차 : 프로젝트 생성 -> 앱생성 -> 앱등록
+>   * 사용법 :  ``` python manage.py <command> [options]```
+> * Django 앱 생성 및 등록
+>   * ``` python manage.py startapp <app_name> ``` 을 통해 앱 생성
+>   * 앱 아래 생성되는 파일
+>     * models.py : 현재 앱에서 사용하는 모델에 대해 구현하는 파일
+>     * views.py : 현재 앱의 서비스를 기능을 구현하는 파일
+>     * 그 외 admin.py, apps.py, tests.py, __init__.py 파일과 migrations 폴더가 생성
+>   * 앱 등록은 프로젝트 환경설정 폴더에 INSTALLED_APPS에 등록하면 됨
+> * URL과 View 매핑
+>  * 프로젝트 URL 관리는 settings.py의 ROOT_URLCONF인 urls.py의 urlpatterns에서 함
+>  * ```path(URL, View)```를 urlpatterns에 등록함으로써 URL과 View가 매핑됨
+>  * 직접적으로 View를 등록해도 되지만, 각 앱 아래 urls.py를 통해 관리하기 위해 ```path(URL, include('app_name.urls')``을 함
+>   * path 변수 선언
+>     * URL 문자열 일부를 뷰함수의 인자로 전달하기 위해 선언하는 변수
+>     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 <int:no와 같이 <DEFAULT_CONVERTERS의 키:변수명>을 통해 형변환 가능
 
 ## 3. Django Model
-절차 : DB 설정 -> Model
-ORM
-migrate :
-  makemigrate : class -> sql & migrate : sql -> db
-models.Model == Table
-p1=Post() -> p1.save() == INSERT
+> * ORM
+>   * ORM은 Object Relational Mapping의 약자로 객체와 데이터베이스의 관계를 매핑해주는 도구
+>   * 즉, 프로그래밍언어의 객체와 관계형 데이터베이스의 데이터를 자동으로 매핑해주는 도구
+>   * MVC 패턴에서 모델을 기술하는 도구이며, 객체와 모델 사이의 관계를 기술하는 도구
+>   * 장점
+>     * 직접적인 코드를 통해 가독성을 높이고, 비지니스 로직 집중함으로써 생산성을 높일 수 있음
+>     * 재사용 및 유지보수 편리성 증가 
+>     * DBMS에 대한 종속성 저하
+>   * 단점
+>     * ORM으로만 복잡한 서비스를 구현하기 어려움
+> ### 1) Model 환경설정
+> * DB 환경설정
+>   * settings.py의 DATABASES
+> ### 2) Model 생성
+> * 앱 아래 models.py에 정의를 하며 django.db.models의 Model 클래스를 상속함
+> * Migration
+>   * 1단계(Model -> 파일) : 마이그레이션 파일 작성 == Class -> SQL
+>     * ``` python manage.py makemigrations <app_name> ```
+>   * 2단계(파일 -> DB) : 마이그레이션 파일의 내용을 DB에 반영 == SQL -> DB
+>     * ``` python manage.py migrate <app_name> ```
+> ### 3) Model 사용
+> * 관리자 계정 만들기
+>    * ``` python manage.py createsuperuser ```
+> * admin 페이지 등록
+>   * 앱 아래 admin.py에서 모델 등록 by ``` admin.site.register(<model_name>) ```
+>   * 모델 인스턴스 작업 가능
+> * __str__ 메서드
+>   * 모델 인스턴스 출력시 특정 내용을 출력하고자 할 때 오버라이딩하는 메서드
+
+## 4. Django Template
+* Template
+*   Client의 요청에 따라 View 함수에서 응답하는 HTML파일
+> ### 1) Template 환경설정
+> * settings.py의 TEMPLATES 
+> * Template의 검색위치는 등록된 앱 순서대로 앱 아래 templates 폴더, 없으면 TEMPLATES의 'DIR'
+> ### 2) Template 응답
+> * render
+>   * Template 페이지인 HTML파일을 응답할 때 render 함수 사용
+>   * ``` render(HttpReqeust, Template, [context]) ```
+> * context
+>   * View 함수에서 Template으로 전달하는 데이터로, key:value 형식으로 여러 개의 데이터를 요소로 갖는 딕셔너리
+> * path의 중복을 막기위해 앱 아래 templates\<app_name> 아래 template 파일을 저장
+> ### 3) Template 필터
+> ### 4) Template 상속
