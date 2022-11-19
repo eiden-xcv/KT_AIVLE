@@ -63,10 +63,10 @@
 > * URL과 View 매핑
 >  * 프로젝트 URL 관리는 settings.py의 ROOT_URLCONF인 urls.py의 urlpatterns에서 함
 >  * ```path(URL, View)```를 urlpatterns에 등록함으로써 URL과 View가 매핑됨
->  * 직접적으로 View를 등록해도 되지만, 각 앱 아래 urls.py를 통해 관리하기 위해 ```path(URL, include('app_name.urls')``을 함
+>  * 직접적으로 View를 등록해도 되지만, 각 앱 아래 urls.py를 통해 관리하기 위해 ```path(URL, include('app_name.urls')```을 함
 >   * path 변수 선언
 >     * URL 문자열 일부를 뷰함수의 인자로 전달하기 위해 선언하는 변수
->     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 <int:no와 같이 <DEFAULT_CONVERTERS의 키:변수명>을 통해 형변환 가능
+>     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 < int:no >와 같이 <DEFAULT_CONVERTERS의 키:변수명>을 통해 형변환 가능
 
 ## 3. Django Model
 > * ORM
@@ -99,8 +99,8 @@
 >   * 모델 인스턴스 출력시 특정 내용을 출력하고자 할 때 오버라이딩하는 메서드
 
 ## 4. Django Template
-* Template
-*   Client의 요청에 따라 View 함수에서 응답하는 HTML파일
+> * Template
+> *   Client의 요청에 따라 View 함수에서 응답하는 HTML파일
 > ### 1) Template 환경설정
 > * settings.py의 TEMPLATES 
 > * Template의 검색위치는 등록된 앱 순서대로 앱 아래 templates 폴더, 없으면 TEMPLATES의 'DIR'
@@ -111,5 +111,7 @@
 > * context
 >   * View 함수에서 Template으로 전달하는 데이터로, key:value 형식으로 여러 개의 데이터를 요소로 갖는 딕셔너리
 > * path의 중복을 막기위해 앱 아래 templates\<app_name> 아래 template 파일을 저장
-> ### 3) Template 필터
-> ### 4) Template 상속
+> ### 3) Template 태그
+> * 
+> ### 4) Template 필터
+> ### 5) Template 상속
