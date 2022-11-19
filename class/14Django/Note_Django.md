@@ -37,7 +37,7 @@
 >   * Template
 >     * 사용자들이 서비스를 요청할 수 있는 화면 또는 서비스가 처리된 결과 화면 처리를 담당하며 HTML 파일로 구현
 > * Django 처리 구조   
->   * (Django HTTP Handler) 요청정보 -> (urls) URL 확인 -> (views) 서비스 처리 -> (models) DB처리 -> (templates) 탬플릿으로 응답정보 생성 or ()직접 응답정보 생성 -> (Django HTTP Handler) 응답정보 
+>   * (Django HTTP Handler) 요청정보 -> (urls) URL 확인 -> (views) 서비스 처리 -> (models) DB처리 -> (templates) 탬플릿으로 응답정보 생성 or ()직접 응답정보 생성 -> (Django HTTP Handler) 응답정보    
 > <img src="https://user-images.githubusercontent.com/110445149/201237751-bec0a1b9-99c2-43ab-9dd8-4e0c3ee61b63.JPG" height="300" width="300"></img>
 
 ## 2. Django Project
@@ -48,7 +48,7 @@
 >   * 웹 사이트에는 사용자의 서비스를 처리하는데 제공하는 기능을 앱이라 부름
 > * Django 프로젝트 생성
 >   * ``` django-admin startproject <project_name>``` 을 통해 프로젝트를 생성
->   * 초기 프로젝트는 manage.py 와 환경설정 폴더(프로젝트명과 동일) 아래 asgi.py, settings.py, urls.py, wsgi.py, __init__.py 가 생성됨.
+>   * 초기 프로젝트는 manage.py 와 환경설정 폴더(프로젝트명과 동일) 아래 asgi.py, settings.py, urls.py, wsgi.py, \_\_init\_\_.py 가 생성됨.
 >   * 이후 앱 생성 및 앱 등록 절차를 진행
 > * manage.py
 >   * 현재 개발 중인 Django 프로젝트의 개발 과정에서 필요한 작업을 실행시켜주는 커멘트 유틸리티
@@ -58,7 +58,7 @@
 >   * 앱 아래 생성되는 파일
 >     * models.py : 현재 앱에서 사용하는 모델에 대해 구현하는 파일
 >     * views.py : 현재 앱의 서비스를 기능을 구현하는 파일
->     * 그 외 admin.py, apps.py, tests.py, __init__.py 파일과 migrations 폴더가 생성
+>     * 그 외 admin.py, apps.py, tests.py, \_\_init\_\_.py 파일과 migrations 폴더가 생성
 >   * 앱 등록은 프로젝트 환경설정 폴더에 INSTALLED_APPS에 등록하면 됨
 > * URL과 View 매핑
 >  * 프로젝트 URL 관리는 settings.py의 ROOT_URLCONF인 urls.py의 urlpatterns에서 함
@@ -66,7 +66,7 @@
 >  * 직접적으로 View를 등록해도 되지만, 각 앱 아래 urls.py를 통해 관리하기 위해 ```path(URL, include('app_name.urls')```을 함
 >   * path 변수 선언
 >     * URL 문자열 일부를 뷰함수의 인자로 전달하기 위해 선언하는 변수
->     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 < int:no >와 같이 <DEFAULT_CONVERTERS의 키:변수명>을 통해 형변환 가능
+>     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 \<int:no\>와 같이 <DEFAULT_CONVERTERS의 키:변수명>을 통해 형변환 가능
 
 ## 3. Django Model
 > * ORM
@@ -95,7 +95,7 @@
 > * admin 페이지 등록
 >   * 앱 아래 admin.py에서 모델 등록 by ``` admin.site.register(<model_name>) ```
 >   * 모델 인스턴스 작업 가능
-> * __str__ 메서드
+> * \_\_str\_\_ 메서드
 >   * 모델 인스턴스 출력시 특정 내용을 출력하고자 할 때 오버라이딩하는 메서드
 
 ## 4. Django Template
@@ -110,8 +110,36 @@
 >   * ``` render(HttpReqeust, Template, [context]) ```
 > * context
 >   * View 함수에서 Template으로 전달하는 데이터로, key:value 형식으로 여러 개의 데이터를 요소로 갖는 딕셔너리
-> * path의 중복을 막기위해 앱 아래 templates\<app_name> 아래 template 파일을 저장
+> * path의 중복을 막기위해 앱 아래 templates\\<app_name> 아래 template 파일을 저장
 > ### 3) Template 태그
-> * 
+> * for
+>   * ``` {% for %}  {% endfor%}```
+> * if
+>   * {% if %}  {% elif %}  {% else %} {% endif %} 
 > ### 4) Template 필터
+> * 필터
+>   * ``` {{ 값 | 필터 : 인자 | 필터 }}``` 
+>   * Template에서 {{ }}문법은 {{ }}안의 값을 출력하는 명령문
+>   * 이때 값을 출력할 때 그대로 출력하는 것이 아니라 가공을 해서 출력을 할 수 있도록 함
+>   * 즉, 필터란 출력 전 전처리 작업을 하는 함수
+>   * 파이프라인을 통해 다수의 필터 함수 적용 가능
+>   * linebreaks, truncatechars/truncatechars_html, truncatewords/truncatewords_html, date&time, timesince, timeuntil
 > ### 5) Template 상속
+> * 부모 Template
+>   * 공동 코드 구현 : ``` {% block "이름" %} {% endblock %} ```
+> * 자식 Template
+>   * 상단에 부모 Template을 상속받음 ``` {% extends "부모Template 경로" %} ```
+>   * 부모 Template에게 전달할 블록 지정 ``` {% block "이름" %} {% endblock "이름" %} ```
+
+## 5. Django Model 활용
+> ### 1) Django Model
+> ### 2) Model Field
+> ### 3) Model Field 옵션
+> ### 4) 관계 설정
+> ### 5) 관계 이름
+## 6. Django ORM
+> ### 1) Manager & Query
+> ### 2) 조회
+> ### 3) 추가
+> ### 4) 수정
+> ### 5) 삭제
