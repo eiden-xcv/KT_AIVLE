@@ -115,7 +115,7 @@
 > * for
 >   * ``` {% for %}  {% endfor%}```
 > * if
->   * {% if %}  {% elif %}  {% else %} {% endif %} 
+>   * ```{% if %}  {% elif %}  {% else %} {% endif %}``` 
 > ### 4) Template 필터
 > * 필터
 >   * ``` {{ 값 | 필터 : 인자 | 필터 }}``` 
@@ -133,8 +133,59 @@
 
 ## 5. Django Model 활용
 > ### 1) Model Field
->
+> * 문자열
+>   * CharField
+>     * SQL문으로 변환 시 데이터 타입이 VARCHAR로 지정
+>     * 가변길이 문자열이 저장되기에 최대 길이 값인 max_length를 지정해야함
+>   * TextField 
+>     * SQL문으로 변환 시 데이터 타입이 TEXT로 지정
+>     * 길이제한이 없는 문장열 저장 시 사용
+>   * SlugField
+>     * 친화적인 URL을 만들기 위한 문자,숫자,밑줄,하이픈으로 구성된 짧은 문자열
+>   * EmailField
+>     * SQL문으로 변환 시 데이터 타입이 VARCHAR(254)로 지정
+>     * 입력된 문자열은 Email 형식
+>   * URLField
+>     * SQL문으로 변환 시 데이터 타입이 VARCHAR(200)로 지정
+>     * 입력된 문자열은 IP4/IP6 또는 도메인 이름의 형식
+>   * UUIDField
+>     * SQL문으로 변환 시 데이터 타입이 VARCHAR(32)로 지정
+>     * 32개의 16진수를 (8)-(4)-(4)-(4)-(12)와 같이 하이픈으로 5개 그룹을 구분한 형식(UUID 형식)
+>   * GenericIPAddressField
+>     * SQL문으로 변환 시 데이터 타입이 VARCHAR(39)로 지정
+>     * IP4 혹은 IP6 형식
+> * 날짜/시간
+>   * DateField, DateTimeField, TimeField
+> * Null/Boolean
+>   * BooleanField, NullBooleanField
+> * 숫자
+>   * (Small/Big)AutoField, (Positive)(Small/Big)IntegerField, FloatField
+>   * AutoField
+>     * SQL문으로 변환 시 데이터 타입이 Integer로 지정
+>     * 필드 값이 초기값 1부터 시작해서 새로운 레코드가 삽입될 때마다 1씩 증가된 값이 자동으로 저장
+>     * 일반적으로 모델 클래스에서 선언해서 사용하기보다는 migration 작업 시 자동으로 추가되어 사용
+>     * 모델 클래스 선언 시 primary key가 지정된 필드가 없는 경우 migration 작업 시 자동 생성
+>     * SmallAutoField는 1~32767, BigAutoField는 1~1~ 9223372036854775807 범위의 값을 가짐
+> * 파일  
+>   * BinaryField
+>     * 파일의 원본(binary) 데이터를 저장하는 필드
+>     * bytes, bytearray, memorview 인스턴스로 표현
+>     * DB에 파일을 저장하는 것임으로 사용시 주의
+>   * FileField
+>     * 사용자의 파일 업로드를 지원하기 위한 필드
+>     * settings.MEDIA_ROOT 값으로 지정된 폴더에 업로드된 파일을 저장
+>   * ImageField
+>     * FileField를 상속받으며 업로드된 파일이 유효한 이미지 파일인지 유효성 체크함
+>   * FilePathField
+>     * 사용자가 업로드한 파일이 아니라 이미 파일 시스템에 있는 파일을 다루기 위해 사용
+>     * FilePathField 생성 시 path 옵션에 사용할 파일이 있는 폴더를 반드시 지정해야 함
 > ### 2) Model Field 옵션
+> * Field 제약조건
+>   * null, blank, default, unique, unique_for_date, primary_key, choices, validators
+> * DB 정보
+>   * db_column, db_index
+> * Form 정보
+>   * editable, error_message, help_text, verbose_name
 > ### 3) 관계 설정
 > ### 4) 관계 이름
 
