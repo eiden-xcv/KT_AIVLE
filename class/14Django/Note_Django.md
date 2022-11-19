@@ -153,7 +153,7 @@
 >     * 32개의 16진수를 (8)-(4)-(4)-(4)-(12)와 같이 하이픈으로 5개 그룹을 구분한 형식(UUID 형식)
 >   * GenericIPAddressField
 >     * SQL문으로 변환 시 데이터 타입이 VARCHAR(39)로 지정
->     * IP4 혹은 IP6 형식
+>     * IPv4 혹은 IPv6 형식
 > * 날짜/시간
 >   * DateField, DateTimeField, TimeField
 > * Null/Boolean
@@ -187,16 +187,79 @@
 > * Form 정보
 >   * editable, error_message, help_text, verbose_name
 > ### 3) 관계 설정
+> * 데이터가 중복되지 않도록 분리된 모델들의 데이터를 사용할 때는 관계(Relationship) 설정을 통해 연결해서 사용하며 모델 간의 관계는 업무 규칙에 따라 설정
+> * 종류
+>   * 1:M 관계
+>     * ForeignKey 클래스
+>       * models.ForeignKey(to, on_delete, \*\*options)
+>       * to에 1:M 관계에서 1측에 해당하는 모델명을 지정
+>       * on_delete : 참조하는 인스턴스가 삭제되었을 때 처리하는 방식을 지정하는 변수로, 필수 옵션!!
+>   * 1:1 관계
+>     * OneToOneField 클래스
+>       * models.OneToOneField(to, on_delete, \*\*options)
+>       * to에 1:1 관계를 모델명을 지정
+>       * on_delete : 참조하는 인스턴스가 삭제되었을 때 처리하는 방식을 지정하는 변수로, 필수 옵션!! 
+>   * M:M 관계
+>     * ManyToManyField
+>       * models.ManyToManyField(to, \*\*options)
+>       * to에 M:M 관계를 모델명을 지정
 > ### 4) 관계 이름
+> * 종류
+>   * 1:M 관계
+>     * **1측 인스턴스명.M측 모델명 소문자_set**
+>   * 1:1 관계
+>     * **1측 인스턴스명.1측 모델명 소문자**
+>   * M:M 관계
+>     * ManyToManyField가 설정된 모델의 인스턴스를 통해 접근할 때는 **인스턴스명.필드명**
+>     * ManyToManyField가 설정되지 않은 모델의 인스턴스를 통해 접근할 때는 **인스턴스명.M측 모델명 소문자_set**
+> * 사용자 정의 관계 이름
+>   * 위와 같은 관계이름 대신 직접 related_name을 통해 이름 설정 가능
+>   * ex) ForeignKey(Post, on_delete=models.CASCADE, **related_name**='comments')
 
 ## 6. Django ORM
 > ### 1) Manager & Query
+> * 모델명.objects.메서드()
+> * models.Model 모듈 안에 objects=models.Manager()와 같이 정의되어 있으며, 이 Manager() 클래스는 ORM 처리하는 역할을 함
+> * QuerySet
+>   * QuerySet을 반환하는 함수
+>     * all(), filter(), exclude(), annotate(), order_by(), reverse(), distinct(), values(), values_list(), date(), datetimes(), none(), union(), intersetcion(), difference(), select_related(), prefetch_related(), extra(), defer(), only(), using(), select_for_update(), raw()
+>   * QuerySet을 반환하지 않는 함수
+>     * get(), count(), create(), get_or_create(), update_or_create(), bulk_create(), bulk_update(), in_bulk(), iterator(), latest(), earliest(), first(), last(), aggregate(), exists(), update(), delete(), as_manager(), explain()
 > ### 2) 조회
+> * all() - 모델명.objects.all()
+> * order_by() - 모델명.objects.order_by('필드명') or QuerySet객체명.order_by('필드명')
+>   * Meta 내부 클래스의 ordering을 활용하면 자동적으로 정렬을 시킬 수 있음
+>   ```
+>     class 모델명(models.Model):
+>       class Meta:
+>         ordering=['필드명']
+>   ```
+> * filter() - 모델명.objects.filter(조건) or QuerySet객체명.filter(조건)
+> * exclude() - 모델명.objects.exclude(조건) or QuerySet객체명.exclude(조건)
+>   * 조건
+>     * '필드명'\_\_'lookup명' = 값
+>     * lookup명 - exact, contains, in, gt, gte, lt, lte, startswith, endswith, range, year, month, day
+>   * 다중 조건
+>     * AND(&)
+>       * & 연산자 사용 / 인자로 지정 / QuerySet 대상으로 작업 / **Q 메소드 사용**(from django.db.models import Q)
+>     * OR(|)
+>       * | 연산자 사용 / **Q 메소드 사용**(from django.db.models import Q)
+> * get() - 모델명.objects.get(조건) or QuerySet객체명.get(조건)
+>   * 하나의 값만 return 가능하기에 주로 Primary Key 값으로 조회
+> * first() / last() - 모델명.objects.first() / QuerySet객체명.last()
+> * count() - 모델명.objects.count() or QuerySet객체명.count()
+> * exist() - QuerySet객체명.exists()
 > ### 3) 추가
+> * Model 인스턴스의 save()
+> * Manager의 create()
 > ### 4) 수정
+> * Model 인스턴스의 save()
+> * QuerySet의 update()
 > ### 5) 삭제
+> * Model 인스턴스의 delete()
+> * QuerySet의 delete()
 
-## 7. Django admin App
+## 7. Django admin App 
 > ### 1) admin App
 > ### 2) Model 등록
 > ### 3) 커스터마이징
