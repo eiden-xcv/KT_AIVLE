@@ -132,14 +132,42 @@
 >   * 부모 Template에게 전달할 블록 지정 ``` {% block "이름" %} {% endblock "이름" %} ```
 
 ## 5. Django Model 활용
-> ### 1) Django Model
-> ### 2) Model Field
-> ### 3) Model Field 옵션
-> ### 4) 관계 설정
-> ### 5) 관계 이름
+> ### 1) Model Field
+>
+> ### 2) Model Field 옵션
+> ### 3) 관계 설정
+> ### 4) 관계 이름
+
 ## 6. Django ORM
 > ### 1) Manager & Query
 > ### 2) 조회
 > ### 3) 추가
 > ### 4) 수정
 > ### 5) 삭제
+
+## 7. Django admin App
+> ### 1) admin App
+> ### 2) Model 등록
+> ### 3) 커스터마이징
+
+## 8. Django Form
+> ### 1) HTML Form
+> ### 2) CSRF
+> ### 3) HttpRequest
+> ### 4) Django Form
+> ### 5) URL Reverse
+> ### 6) ModelForm
+> ### 7) 유효성 검사
+
+## 9. Django View
+> ### 1) 기본 View
+> ### 2) Generic View
+
+## 10. Django File
+> ### 1) Static 파일
+> ### 2) Media 파일
+
+## 11. Django RESTful API
+> ### 1) RESTful API 개요
+> ### 2) Django REST Framework
+> ### 3) RESTful API 
