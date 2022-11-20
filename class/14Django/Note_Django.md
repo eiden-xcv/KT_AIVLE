@@ -5,9 +5,9 @@
 > * 구조   
 > <img src="https://user-images.githubusercontent.com/110445149/201236353-8bfda915-590b-4e4e-8233-bf89a8dad46c.JPG" height="250" width="500"></img>
 > ### 2) HTTP 프로토콜의 이해
-> 1. 웹 브라우저는 웹서버에 원하는 서비스 요청
-> 2. 웹서버는 웹 브라우저가 요청한 파일을 찾아서 웹클라이언트에 응답하거나 요청한 파일을 수행시키고 그 결과를 브라우저에 응답
-> 3. 웹 브라우저는 웹서버로부터의 응답 결과를 출력
+>   1. 웹 브라우저는 웹서버에 원하는 서비스 요청
+>   2. 웹서버는 웹 브라우저가 요청한 파일을 찾아서 웹클라이언트에 응답하거나 요청한 파일을 수행시키고 그 결과를 브라우저에 응답
+>   3. 웹 브라우저는 웹서버로부터의 응답 결과를 출력
 > * HTTP 요청정보
 >   * 헤더 - 요청방식(GET/POST/PUT/DELETE/PATCH) + URI + HTTP 버전
 > * HTTP 응답정보
@@ -30,11 +30,11 @@
 > ### 4) Django 서비스 구축
 > * MVT 디자인 패턴 (Model - View - Template)   
 > <img src="https://user-images.githubusercontent.com/110445149/201237503-df78dd76-efff-4c7e-bd08-66240fb2e29a.JPG" height="300" width="200"></img>
->   * View 
->     * 사용자의 요청에 대한 서비스 처리를 담당하며 view.py 파이썬 스크립트에 구현
->   * Model 
->     * DB 데이터 처리를 담당하며 model.py 파이썬 스크립트 구현
->   * Template
->     * 사용자들이 서비스를 요청할 수 있는 화면 또는 서비스가 처리된 결과 화면 처리를 담당하며 HTML 파일로 구현
+> * View 
+>   * 사용자의 요청에 대한 서비스 처리를 담당하며 view.py 파이썬 스크립트에 구현
+> * Model 
+>   * DB 데이터 처리를 담당하며 model.py 파이썬 스크립트 구현
+> * Template
+>   * 사용자들이 서비스를 요청할 수 있는 화면 또는 서비스가 처리된 결과 화면 처리를 담당하며 HTML 파일로 구현
 > * Django 처리 구조   
 > <img src="https://user-images.githubusercontent.com/110445149/201237751-bec0a1b9-99c2-43ab-9dd8-4e0c3ee61b63.JPG" height="300" width="300"></img>
