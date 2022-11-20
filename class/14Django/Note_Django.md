@@ -366,7 +366,7 @@
 >     * **resolve_url, redirect를 통한 활용**
 >     * CBV에서 활용(?)
 > ### 6) ModelForm   
-> <img src="https://user-images.githubusercontent.com/110445149/202879317-c8370241-7615-45b3-b42e-a1f0e9368201.JPG" height="300" width="500"></img>   
+> <img src="https://user-images.githubusercontent.com/110445149/202879317-c8370241-7615-45b3-b42e-a1f0e9368201.JPG" height="300" width="600"></img>   
 > * ModelForm 선언
 > ```
 > class 클래스명(forms.ModelForm):
@@ -390,7 +390,10 @@
 >   * views.py에 클래스로 정의
 > ### 2) Generic View
 > * Classy Class-Based View [참고](https://ccbv.co.uk/)
->   *
+>   * Display View
+>     * ListView - 지정된 모델의 모든 인스턴스 목록을 보여주는 View
+>     * DetailView - 선택한 모델 인스턴스의 자세한 내용을 보여주는 View
+
 ## 10. Django File
 > ### 1) Static 파일
 > ### 2) Media 파일
