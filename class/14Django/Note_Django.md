@@ -389,7 +389,7 @@
 > * 클래스 기반 View
 >   * views.py에 클래스로 정의
 > ### 2) Generic View
-> * Classy Class-Based View [참고](https://ccbv.co.uk/)
+> * Classy Class-Based View
 >   *
 ## 10. Django File
 > ### 1) Static 파일
@@ -398,4 +398,6 @@
 ## 11. Django RESTful API
 > ### 1) RESTful API 개요
 > ### 2) Django REST Framework
-> ### 3) RESTful API 
+> ### 3) RESTful API
+
+
