@@ -266,17 +266,131 @@
 
 ## 8. Django Form
 > ### 1) HTML Form
+> * 헤더(요청방식+URI+HTTP 버전) + 바디
+> * GET 방식
+>   * 요청정보 헤더에 담겨 전달되는 방식
+>   * 전달되는 질의 문자열이 노출되며, 길이에 제한이 있음
+> * POST 방식
+>   * 요청정보 바디에 담겨 전달되는 방식
+>   * 전달되는 질의 문자열이 노출되지 않으며, 길이에 제한이 없음
 > ### 2) CSRF
+> * CSRF(Cross Site Request Forgery)
+>   * 웹사이트 취약점 공격의 하나로, 사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위(수정, 삭제, 등록)를 특정 웹사이트에게 요청하게 하는 공격   
+> <img src="https://user-images.githubusercontent.com/110445149/202876256-3ee5a8ee-bb8a-4f34-8a4b-b98e12da25a0.JPG" height="300" width="400"></img>   
+>   * setting.py의 MIDDLEWARE에 'django.middleware.csrf.CsrfViewMiddelware'가 자동적으로 등록되어 있음
+>   * template에 {% csrf_token %} token 등록
 > ### 3) HttpRequest
+> * 요청정보와 응답정보   
+> <img src="https://user-images.githubusercontent.com/110445149/202876405-6bcb144e-4ab7-46f6-ade5-0e16bae978cf.JPG" height="400" width="300"></img>   
+> * HttpRequest 속성
+>   * headers - 요청 정보의 헤더에 포함된 정보
+>   * body - 요청 정보의 바디에 포함된 정보
+>   * path - 요청된 페이지의 경로 정보
+>   * method - 요청방식정보 ex) GET, POST
+>   * GET - GET 방식으로 전달된 질의 문자열 정보
+>   * POST - POST 방식으로 전달된 질의 문자열 정보
+>   * FILES - 업로드된 파일 정보
+>     * 파일 업로드 시, \<form\>에 enctype="multipart/form-data" 속성 반드시 삽입
+>   * scheme, session, site, user 등
 > ### 4) Django Form
+> * 장고 Form 기능   
+> <img src="https://user-images.githubusercontent.com/110445149/202876812-cb68f8bd-c880-4bd5-ac0a-2d73c80cf83d.JPG" height="300" width="250"></img>      
+>   * GET 방식의 입력 페이지 응답을 위한 구현
+>     * 장고 Form 클래스를 선언하고 필드 속성으로 입력 폼을 처리
+>   * POST 방식의 서비스 처리 응답을 위한 구현
+>     1. HttpRequest.POST 값을 장고 Form 객체에 바인딩
+>     2. 장고 Form의 is_valid() 메소드를 호출하여 유효성 검사
+>     3-1. is_valid() 반환값이 False이면 유효성 검사 실패로 판단하고, 오류 메시지와 함께 입력 페이지를 응답
+>     3-2. is_valid() 반환값이 True이면 유효성 검사 성공으로 판단하고, 입력값들을 cleaned_data 변수에 저장하며, 이를 기반으로 서비스 처리를 진행
+> ```
+> from django import forms
+> 
+> class 클래스명(forms.Form):
+>   # Form 필드
+>   # 유효성 검사
+> ```
+> * Django Form Field
+>   * forms.Form 상속하여 사용
+>   * 종류
+>     * BooleanField, CharField, ChoiceField, DataField, EmailFiedl, FileField, ImageField, IntegerField ...
+>   * Django의 Form Field를 HTML Form 태그로 변환할 때, Django Form에서 제공하는 메소드를 사용
+>     * as_p() : HTML Form 태그를 \<p\>태그로 분리
+>     * as_ul() : HTML Form 태그를 \<li\>태그로 분리
+>     * as_table() : HTML Form 태그를 \<tr\>태그로 분리
 > ### 5) URL Reverse
-> ### 6) ModelForm
-> ### 7) 유효성 검사
+> * url이 변경되더라도 변경된 url을 추적하기 위한 방법
+> * app의 urls.py에서 path의 name='path_name' 속성 설정
+> * 이 때 settings.py의 INSTALLED_APPS에서 path의 name 속성을 순서대로 찾는데, 앱 사이 중복된 path_name으로 잘못된 접근을 막고자 각 app의 urls.py에 app_name 변수를 등록
+> * URL Reverse를 실행하는 함수
+>   * reverse()
+>     * 리턴값 : string
+>     * path 변수가 지정된 경우 args or kwargs를 통해 인자 전달
+>     ```
+>     reverse('app_name:path_name')
+>     reverse('app_name:path_name', args=[값1, 값2, ...])
+>     reverse('app_name:path_name', kwargs={키1:값1, 키2:값2, ...})
+>     ```
+>   * resolve_url() 
+>     * 리턴값 : string
+>     * 내부적으로 reverse()를 사용하며, 사용이 편함
+>     * path 변수가 지정된 경우 args or kwargs를 통해 인자 전달
+>     ```
+>     resolve_url('app_name:path_name')
+>     resolve_url('app_name:path_name', 값1, 값2, ...)
+>     resolve_url('app_name:path_name', 키1=값1, 키2=값2, ...)
+>     ```
+>   * redirect()
+>     * 리턴값 : HttpResponseRedirect(다른 페이지로 이동시켜주는 응답객체)
+>     * 내부적으로 reverse_url()을 사용
+>     * view 함수 내에서 특정 URL로 이동하고자 할 때 사용(HttpResponse)
+>     * 주소 직접 지정 가능
+>     * 인수로 모델 인스턴스 가능 -> 모델 객체의 get_absolute_url 메소드가 자동으로 호출됨
+>     ```
+>     redirect('URL')
+>     redirect('app_name:path_name')
+>     redirect('app_name:path_name', 값1, 값2, ...)
+>     redirect('app_name:path_name', 키1=값1, 키2=값2, ...)
+>     ```
+>   * url template tag
+>     * 내부적으로 reverse() 사용
+>     ``` 
+>     {% url 'app_name:path_name' %}
+>     {% url 'app_name:path_name' 값1 값2 %}
+>     ```
+> * 모델 클래스 내 get_absolute_url 멤버 함수
+>   * 어떠한 모델에 대해 detail View를 만들게 되면 get_absolute_url() 멤버함수를 무조건 선언!
+>   * resolve_url(모델 인스턴스), redirect(모델 인스턴스)를 통해 모델 인스턴스의 get_absolute_url() 함수를 자동으로 호출
+>   * 먼저 get_absolute_url 함수의 존재 여부를 확인하여, 존재하면 호출하여 그 리턴값으로 URL사용
+>   * 활용법
+>     * url template tag로 활용
+>     * **resolve_url, redirect를 통한 활용**
+>     * CBV에서 활용(?)
+> ### 6) ModelForm   
+> <img src="https://user-images.githubusercontent.com/110445149/202879317-c8370241-7615-45b3-b42e-a1f0e9368201.JPG" height="300" width="500"></img>   
+> * ModelForm 선언
+> ```
+> class 클래스명(forms.ModelForm):
+>   class Meta:
+>     model=모델명
+>     field=[필드명1, 필드명2, ...] 또는 '\_\_all\_\_'
+> ```
+> * DB에 새로운 레코드를 추가하는 방법
+>   1. 모델 인스턴스를 생성 후 save() 메소드 호출
+>   2. 모델명.objects.create(필드값) 메소드 호출
+>   3. **ModelForm의 save() 메소드 호출**
+> * 인스턴스를 바탕으로 ModelForm 호출하는 방법
+>   * instance='인스턴스명' 속성 설정
+>   * ``` form=PostModelForm(request.POST, instance=post) ```
 
 ## 9. Django View
 > ### 1) 기본 View
+> * 함수 기반 View
+>   * views.py에 함수로 정의
+> * 클래스 기반 View
+>   * views.py에 클래스로 정의
 > ### 2) Generic View
-
+> * Classy Class-Based View [참고](https://ccbv.co.uk/)
+>   *
 ## 10. Django File
 > ### 1) Static 파일
 > ### 2) Media 파일
