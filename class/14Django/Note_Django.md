@@ -216,53 +216,8 @@
 >   * 위와 같은 관계이름 대신 직접 related_name을 통해 이름 설정 가능
 >   * ex) ForeignKey(Post, on_delete=models.CASCADE, **related_name**='comments')
 
-## 6. Django ORM
-> ### 1) Manager & Query
-> * 모델명.objects.메서드()
-> * models.Model 모듈 안에 objects=models.Manager()와 같이 정의되어 있으며, 이 Manager() 클래스는 ORM 처리하는 역할을 함
-> * QuerySet
->   * QuerySet을 반환하는 함수
->     * all(), filter(), exclude(), annotate(), order_by(), reverse(), distinct(), values(), values_list(), date(), datetimes(), none(), union(), intersetcion(), difference(), select_related(), prefetch_related(), extra(), defer(), only(), using(), select_for_update(), raw()
->   * QuerySet을 반환하지 않는 함수
->     * get(), count(), create(), get_or_create(), update_or_create(), bulk_create(), bulk_update(), in_bulk(), iterator(), latest(), earliest(), first(), last(), aggregate(), exists(), update(), delete(), as_manager(), explain()
-> ### 2) 조회
-> * all() - 모델명.objects.all()
-> * order_by() - 모델명.objects.order_by('필드명') or QuerySet객체명.order_by('필드명')
->   * Meta 내부 클래스의 ordering을 활용하면 자동적으로 정렬을 시킬 수 있음
->   ```
->     class 모델명(models.Model):
->       class Meta:
->         ordering=['필드명']
->   ```
-> * filter() - 모델명.objects.filter(조건) or QuerySet객체명.filter(조건)
-> * exclude() - 모델명.objects.exclude(조건) or QuerySet객체명.exclude(조건)
->   * 조건
->     * '필드명'\_\_'lookup명' = 값
->     * lookup명 - exact, contains, in, gt, gte, lt, lte, startswith, endswith, range, year, month, day
->   * 다중 조건
->     * AND(&)
->       * & 연산자 사용 / 인자로 지정 / QuerySet 대상으로 작업 / **Q 메소드 사용**(from django.db.models import Q)
->     * OR(|)
->       * | 연산자 사용 / **Q 메소드 사용**(from django.db.models import Q)
-> * get() - 모델명.objects.get(조건) or QuerySet객체명.get(조건)
->   * 하나의 값만 return 가능하기에 주로 Primary Key 값으로 조회
-> * first() / last() - 모델명.objects.first() / QuerySet객체명.last()
-> * count() - 모델명.objects.count() or QuerySet객체명.count()
-> * exist() - QuerySet객체명.exists()
-> ### 3) 추가
-> * Model 인스턴스의 save()
-> * Manager의 create()
-> ### 4) 수정
-> * Model 인스턴스의 save()
-> * QuerySet의 update()
-> ### 5) 삭제
-> * Model 인스턴스의 delete()
-> * QuerySet의 delete()
 
-## 7. Django admin App 
-> ### 1) admin App
-> ### 2) Model 등록
-> ### 3) 커스터마이징
+
 
 
 
