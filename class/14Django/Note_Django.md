@@ -27,15 +27,3 @@
 >   * Template : 사용자의 인터페이스 처리
 >   * Form : 사용자의 입력 데이터 처리
 >   * Static 파일, Media 파일, Message framework, Send Email, Admin앱, Auth앱, Session앱 등
-> ### 4) Django 서비스 구축
-> * MVT 디자인 패턴 (Model - View - Template)   
-> <img src="https://user-images.githubusercontent.com/110445149/201237503-df78dd76-efff-4c7e-bd08-66240fb2e29a.JPG" height="300" width="200"></img>
->   * View 
->     * 사용자의 요청에 대한 서비스 처리를 담당하며 view.py 파이썬 스크립트에 구현
->   * Model 
->     * DB 데이터 처리를 담당하며 model.py 파이썬 스크립트 구현
->   * Template
->     * 사용자들이 서비스를 요청할 수 있는 화면 또는 서비스가 처리된 결과 화면 처리를 담당하며 HTML 파일로 구현
-> * Django 처리 구조   
->   * (Django HTTP Handler) 요청정보 -> (urls) URL 확인 -> (views) 서비스 처리 -> (models) DB처리 -> (templates) 탬플릿으로 응답정보 생성 or ()직접 응답정보 생성 -> (Django HTTP Handler) 응답정보    
-> <img src="https://user-images.githubusercontent.com/110445149/201237751-bec0a1b9-99c2-43ab-9dd8-4e0c3ee61b63.JPG" height="300" width="300"></img>
