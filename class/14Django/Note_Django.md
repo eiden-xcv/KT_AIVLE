@@ -66,7 +66,7 @@
 >  * 직접적으로 View를 등록해도 되지만, 각 앱 아래 urls.py를 통해 관리하기 위해 ```path(URL, include('app_name.urls')```을 함
 >   * path 변수 선언
 >     * URL 문자열 일부를 뷰함수의 인자로 전달하기 위해 선언하는 변수
->     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 \<int:no\>와 같이 <DEFAULT_CONVERTERS의 키:변수명>을 통해 형변환 가능
+>     * 선언된 변수는 default로 문자열 타입이기에 django.urls.converters 모듈을 활용하여 \<int:no\>와 같이 \<DEFAULT_CONVERTERS의 키:변수명\>을 통해 형변환 가능
 
 ## 3. Django Model
 > * ORM
