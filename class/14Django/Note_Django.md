@@ -110,7 +110,7 @@
 >   * ``` render(HttpReqeust, Template, [context]) ```
 > * context
 >   * View 함수에서 Template으로 전달하는 데이터로, key:value 형식으로 여러 개의 데이터를 요소로 갖는 딕셔너리
-> * path의 중복을 막기위해 앱 아래 templates\\<app_name> 아래 template 파일을 저장
+> * path의 중복을 막기위해 앱 아래 templates\\<app_name\> 아래 template 파일을 저장
 > ### 3) Template 태그
 > * for
 >   * ``` {% for %}  {% endfor%}```
