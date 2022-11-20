@@ -468,8 +468,8 @@
 >     * 이해하기 쉽고 사용하기 쉬운 REST API를 만드는 것
 >     * RESTful한 API를 구현하는 근본적인 목적은 일관적인 컨벤션을 통한 API의 이해도 및 호환성을 높이는 것
 >     * 성능이 중요하다면 굳이 RESTful한 API를 구현할 필요는 없음
-
 > ### 2) Django REST Framework
 > ### 3) RESTful API
+
 
 
