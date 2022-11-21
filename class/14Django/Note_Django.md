@@ -437,7 +437,7 @@
 >   * settings.py의 STATIC_URL='/static/'
 >   * 개발시 static 파일 접근 & 서비스시 static 파일 접근 시 static 파일의 URL
 > ### 2) Media 파일
-> * MEDIA_ROOT - 설정에 의해 업로드된 파일들이 저아도니느 곳
+> * MEDIA_ROOT - 설정에 의해 업로드된 파일들이 저장되는 곳
 > * MEDIA_URL
 
 ## 11. Django RESTful API
