@@ -52,7 +52,25 @@
 >   * 이후 앱 생성 및 앱 등록 절차를 진행
 > * manage.py
 >   * 현재 개발 중인 Django 프로젝트의 개발 과정에서 필요한 작업을 실행시켜주는 커멘트 유틸리티
+>   * 즉, 프로젝트 관리 명령어 모음
 >   * 사용법 :  ``` python manage.py <command> [options]```
+>   * 주요 command
+>     * startapp - 앱 생성
+>     * runserver - 서버 실행
+>     * createsuperuesr - 관리자 생성
+>     * makemigrations app - app의 모델 변경사항 체크
+>     * migrate - 변경사항을 DB에 반영
+>     * shell - 쉘을 통해 데이터를 확인
+>     * collectstatic - static 파일을 한 곳에 모음
+> * settings.py
+>   * 프로젝트 환경설정 파일
+>   * 주요 환경 변수
+>     * DEBUG - 디버그 모드 설정
+>     * INSTALLED_APPS  - pip로 설치한 앱 또는 본인이 만든 app 추가
+>     * MIDDLEWARE_CLASSES - request와 response 사이의 주요 기능 레이어
+>     * TEMPLATES - django template 관련 설정, 실제 뷰(html, 변수)
+>     * DATABASES - 데이터베이스 엔진의 연결 설정
+>     * 정적 파일의 URL(cass, js, image 등)
 > * Django 앱 생성 및 등록
 >   * ``` python manage.py startapp <app_name> ``` 을 통해 앱 생성
 >   * 앱 아래 생성되는 파일
